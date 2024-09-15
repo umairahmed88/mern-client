@@ -10,7 +10,7 @@ import GoogleAuth from "../../components/GoogleAuth";
 const Signin = () => {
 	const { loading, error, message } = useSelector((state) => state.auth);
 	const [formData, setFormData] = useState({});
-	const [visible, setVisible] = useState(true);
+	const [visible, setVisible] = useState(false);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
@@ -59,7 +59,10 @@ const Signin = () => {
 							id='password'
 							onChange={handleChange}
 						/>
-						<div onClick={(e) => setVisible(!visible)} className=''>
+						<div
+							onClick={(e) => setVisible(!visible)}
+							className=' cursor-pointer'
+						>
 							{visible ? <EyeOutlined /> : <EyeInvisibleOutlined />}
 						</div>
 					</div>
