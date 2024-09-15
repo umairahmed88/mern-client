@@ -15,7 +15,7 @@ import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import GoogleAuth from "../../components/GoogleAuth";
 
 const Signup = () => {
-	const { loading, message } = useSelector((state) => state.auth);
+	const { loading, message, error } = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
 	const [formData, setFormData] = useState({});
 	const [file, setFile] = useState(null);
