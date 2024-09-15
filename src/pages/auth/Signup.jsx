@@ -15,7 +15,7 @@ import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import GoogleAuth from "../../components/GoogleAuth";
 
 const Signup = () => {
-	const { loading } = useSelector((state) => state.auth);
+	const { loading, message } = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
 	const [formData, setFormData] = useState({});
 	const [file, setFile] = useState(null);
@@ -182,6 +182,8 @@ const Signup = () => {
 						{loading ? "Signing up..." : "SignUp"}
 					</button>
 					<GoogleAuth />
+					{error && <p className=' text-red-700'>{error}</p>}
+					{message && <p className=' text-green-600 text-center'>{message}</p>}
 				</form>
 			</div>
 			<div className=' flex gap-2'>
