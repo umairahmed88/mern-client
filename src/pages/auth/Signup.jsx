@@ -22,7 +22,7 @@ const Signup = () => {
 	const [uploading, setUploading] = useState(false);
 	const [fileUploadError, setFileUploadError] = useState(false);
 	const [filePerc, setFilePerc] = useState(0);
-	const [visible, setVisible] = useState(true);
+	const [visible, setVisible] = useState(false);
 
 	useEffect(() => {
 		if (file) {
@@ -120,7 +120,10 @@ const Signup = () => {
 							id='password'
 							onChange={handleChange}
 						/>
-						<div onClick={(e) => setVisible(!visible)} className=''>
+						<div
+							onClick={(e) => setVisible(!visible)}
+							className=' cursor-pointer'
+						>
 							{visible ? <EyeOutlined /> : <EyeInvisibleOutlined />}
 						</div>
 					</div>
@@ -132,9 +135,6 @@ const Signup = () => {
 							id='password'
 							onChange={handleChange}
 						/>
-						<div onClick={(e) => setVisible(!visible)} className=''>
-							{visible ? <EyeOutlined /> : <EyeInvisibleOutlined />}
-						</div>
 					</div>
 					<div className='border-2 flex p-2 flex-col'>
 						<p className='text-center'>Select a profile image</p>

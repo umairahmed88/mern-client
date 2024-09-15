@@ -131,8 +131,12 @@ const Profile = () => {
 					email: <span className='font-bold'>{email}</span>
 				</p>
 			</div>
+			<hr />
 			{currentUser && (
 				<div className=' my-5'>
+					<h1 className=' my-3 font-bold text-xl text-center'>
+						Update Profile
+					</h1>
 					<form className=' flex flex-col gap-3' onSubmit={handleSubmit}>
 						<div className=' flex justify-center '>
 							<input
