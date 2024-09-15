@@ -132,7 +132,7 @@ const Signup = () => {
 							type={visible ? "text" : "password"}
 							placeholder='Confirm Password'
 							className='border-none outline-none  w-[95%]'
-							id='password'
+							id='confirmPassword'
 							onChange={handleChange}
 						/>
 					</div>
