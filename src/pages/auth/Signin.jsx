@@ -8,7 +8,7 @@ import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import GoogleAuth from "../../components/GoogleAuth";
 
 const Signin = () => {
-	const { loading, error, message } = useSelector((state) => state.auth);
+	const { loading, error } = useSelector((state) => state.auth);
 	const [formData, setFormData] = useState({});
 	const [visible, setVisible] = useState(false);
 	const dispatch = useDispatch();
@@ -28,7 +28,7 @@ const Signin = () => {
 		try {
 			const res = await dispatch(signin(formData)).unwrap();
 			if (res) {
-				toast.success(message);
+				toast.success("signed in.");
 				navigate("/profile");
 			}
 		} catch (err) {
