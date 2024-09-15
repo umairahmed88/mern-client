@@ -7,11 +7,13 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import Profile from "./pages/auth/Profile";
 import PrivateRoute from "./components/PrivateRoutes";
+import VerifyEmail from "./components/VerifyEmail";
 
 const routes = [
 	{ path: "/", element: <Home /> },
 	{ path: "/signup", element: <Signup /> },
 	{ path: "/signin", element: <Signin /> },
+	{ path: "/verify-email", element: <VerifyEmail /> },
 	// { path: "/profile", element: <Profile /> },
 	// { path: "/", element: <Home /> },
 ];
