@@ -17,7 +17,13 @@ import GoogleAuth from "../../components/GoogleAuth";
 const Signup = () => {
 	const { loading, message, error } = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
-	const [formData, setFormData] = useState({});
+	const [formData, setFormData] = useState({
+		username: "",
+		email: "",
+		password: "",
+		confirmPassword: "",
+		avatar: "",
+	});
 	const [file, setFile] = useState(null);
 	const [uploading, setUploading] = useState(false);
 	const [fileUploadError, setFileUploadError] = useState(false);
@@ -49,7 +55,6 @@ const Signup = () => {
 			(error) => {
 				setFileUploadError(true);
 				setUploading(false);
-				setUploading(false);
 				toast.error("Error uploading image.");
 			},
 			async () => {
@@ -78,6 +83,12 @@ const Signup = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+
+		if (file && filePerc < 100) {
+			toast.error("Please wait for the image to finish uploading.");
+			return;
+		}
+
 		try {
 			const res = await dispatch(signup(formData)).unwrap();
 			if (res.data) {
@@ -176,7 +187,7 @@ const Signup = () => {
 						)}
 					</div>
 					<button
-						disabled={uploading || loading}
+						disabled={uploading || loading || (file && filePerc < 100)}
 						className='rounded-lg bg-zinc-600 p-3 font-bold hover:opacity-90 disabled:opacity-80'
 					>
 						{loading ? "Signing up..." : "SignUp"}
