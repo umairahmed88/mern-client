@@ -17,13 +17,7 @@ import GoogleAuth from "../../components/GoogleAuth";
 const Signup = () => {
 	const { loading, message, error } = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
-	const [formData, setFormData] = useState({
-		username: "",
-		email: "",
-		password: "",
-		confirmPassword: "",
-		avatar: "",
-	});
+	const [formData, setFormData] = useState({});
 	const [file, setFile] = useState(null);
 	const [uploading, setUploading] = useState(false);
 	const [fileUploadError, setFileUploadError] = useState(false);
@@ -87,8 +81,6 @@ const Signup = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		console.log("Form submitted with data:", formData);
-
 		try {
 			const res = await dispatch(signup(formData)).unwrap();
 
@@ -97,13 +89,7 @@ const Signup = () => {
 					"Signup successful! Please check your email for verification."
 				);
 
-				setFormData({
-					username: "",
-					email: "",
-					password: "",
-					confirmPassword: "",
-					avatar: "",
-				});
+				setFormData("");
 			}
 		} catch (err) {
 			toast.error(err.message || "Signup failed");
@@ -111,28 +97,6 @@ const Signup = () => {
 			console.error("Error during signup:", err);
 		}
 	};
-
-	useEffect(() => {
-		if (message) {
-			toast.success(message);
-			setFormData({
-				username: "",
-				email: "",
-				password: "",
-				confirmPassword: "",
-				avatar: "",
-			});
-		}
-
-		if (error) {
-			toast.error(error);
-		}
-
-		return () => {
-			dispatch(clearMessage());
-			dispatch(clearError());
-		};
-	}, [message, error, dispatch]);
 
 	if (loading) return <p>Loading...</p>;
 
@@ -204,7 +168,7 @@ const Signup = () => {
 								)}
 							</p>
 						</div>
-						{formData.avatar && (
+						{formData.avatar > 0 && (
 							<div className=' flex justify-between'>
 								<img
 									src={formData.avatar}
