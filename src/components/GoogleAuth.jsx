@@ -21,7 +21,7 @@ const GoogleAuth = () => {
 
 			if (res) {
 				toast.success(res.message);
-				navigate("/profile");
+				navigate("/signup");
 			}
 		} catch (err) {
 			console.error(err);
