@@ -91,14 +91,42 @@ const Signup = () => {
 
 		try {
 			const res = await dispatch(signup(formData)).unwrap();
-			if (res.data) {
+			if (res) {
 				toast.success("Signup successful");
+				setFormData({
+					username: "",
+					email: "",
+					password: "",
+					confirmPassword: "",
+					avatar: "",
+				});
 			}
-			setFormData("");
 		} catch (err) {
 			toast.error(err);
 		}
 	};
+
+	useEffect(() => {
+		if (message) {
+			toast.success(message);
+			setFormData({
+				username: "",
+				email: "",
+				password: "",
+				confirmPassword: "",
+				avatar: "",
+			});
+		}
+
+		if (error) {
+			toast.error(error);
+		}
+
+		return () => {
+			dispatch(clearMessage());
+			dispatch(clearError());
+		};
+	}, [message, error, dispatch, navigate]);
 
 	if (loading) return <p>Loading...</p>;
 
