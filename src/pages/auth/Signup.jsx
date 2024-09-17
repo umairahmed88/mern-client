@@ -128,6 +128,7 @@ const Signup = () => {
 							className='border-none outline-none  w-[95%]'
 							id='password'
 							onChange={handleChange}
+							required
 						/>
 						<div
 							onClick={(e) => setVisible(!visible)}
@@ -143,6 +144,7 @@ const Signup = () => {
 							className='border-none outline-none  w-[95%]'
 							id='confirmPassword'
 							onChange={handleChange}
+							required
 						/>
 					</div>
 					<div className='border-2 flex p-2 flex-col'>

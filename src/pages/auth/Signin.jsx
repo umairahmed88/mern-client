@@ -68,7 +68,7 @@ const Signin = () => {
 							{visible ? <EyeOutlined /> : <EyeInvisibleOutlined />}
 						</div>
 					</div>
-					<button className=' up p-3 bg-zinc-600 rounded-lg hover:opacity-90'>
+					<button className=' up p-3 bg-zinc-600 rounded-lg hover:opacity-90 disabled:opacity-75'>
 						Signin
 					</button>
 					<GoogleAuth />
