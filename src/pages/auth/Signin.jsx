@@ -50,6 +50,7 @@ const Signin = () => {
 						className=' p-3 rounded-lg border-2'
 						id='email'
 						onChange={handleChange}
+						required
 					/>
 					<div className=' p-3 rounded-lg border-2 flex justify-between'>
 						<input
@@ -58,6 +59,7 @@ const Signin = () => {
 							className='border-none outline-none w-[95%]'
 							id='password'
 							onChange={handleChange}
+							required
 						/>
 						<div
 							onClick={(e) => setVisible(!visible)}
