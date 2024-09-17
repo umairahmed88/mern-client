@@ -168,7 +168,7 @@ const Signup = () => {
 								)}
 							</p>
 						</div>
-						{formData?.avatar && (
+						{formData.avatar && (
 							<div className=' flex justify-between'>
 								<img
 									src={formData.avatar}
