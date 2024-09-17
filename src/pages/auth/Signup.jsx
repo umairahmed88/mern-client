@@ -58,11 +58,11 @@ const Signup = () => {
 				toast.error("Error uploading image.");
 			},
 			async () => {
-				await getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
-					setFormData({ ...formData, avatar: downloadUrl });
-					setUploading(false);
-					toast.success("Image uploaded.");
-				});
+				const downloadUrl = await getDownloadURL(uploadTask.snapshot.ref);
+				setFormData((prevData) => ({ ...prevData, avatar: downloadUrl }));
+
+				setUploading(false);
+				toast.success("Image uploaded.");
 			}
 		);
 	};
@@ -84,15 +84,26 @@ const Signup = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		if (file && filePerc < 100) {
-			toast.error("Please wait for the image to finish uploading.");
+		console.log("Form submitted with data:", formData);
+
+		// Prevent form submission if avatar upload is incomplete
+		if (!formData.avatar) {
+			toast.error("Please upload an avatar.");
 			return;
 		}
 
 		try {
 			const res = await dispatch(signup(formData)).unwrap();
+
 			if (res) {
-				toast.success("Signup successful");
+				toast.success(
+					"Signup successful! Please check your email for verification."
+				);
+
+				// Log form data after successful submission
+				console.log("Form data after submission:", formData);
+
+				// Clear the form data AFTER submission
 				setFormData({
 					username: "",
 					email: "",
@@ -102,7 +113,10 @@ const Signup = () => {
 				});
 			}
 		} catch (err) {
-			toast.error(err);
+			toast.error(err.message || "Signup failed");
+
+			// Log error for debugging
+			console.error("Error during signup:", err);
 		}
 	};
 
