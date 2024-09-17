@@ -72,6 +72,9 @@ const Signup = () => {
 			...formData,
 			avatar: "",
 		});
+
+		setFile(null);
+		setFilePerc(0);
 	};
 
 	const handleChange = (e) => {
@@ -100,10 +103,6 @@ const Signup = () => {
 					"Signup successful! Please check your email for verification."
 				);
 
-				// Log form data after successful submission
-				console.log("Form data after submission:", formData);
-
-				// Clear the form data AFTER submission
 				setFormData({
 					username: "",
 					email: "",
@@ -115,7 +114,6 @@ const Signup = () => {
 		} catch (err) {
 			toast.error(err.message || "Signup failed");
 
-			// Log error for debugging
 			console.error("Error during signup:", err);
 		}
 	};
@@ -212,7 +210,7 @@ const Signup = () => {
 								)}
 							</p>
 						</div>
-						{file && (
+						{formData.avatar && (
 							<div className=' flex justify-between'>
 								<img
 									src={formData.avatar}
