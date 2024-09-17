@@ -126,7 +126,7 @@ const Signup = () => {
 			dispatch(clearMessage());
 			dispatch(clearError());
 		};
-	}, [message, error, dispatch, navigate]);
+	}, [message, error, dispatch]);
 
 	if (loading) return <p>Loading...</p>;
 
