@@ -9,7 +9,7 @@ import GoogleAuth from "../../components/GoogleAuth";
 
 const Signin = () => {
 	const { loading, error } = useSelector((state) => state.auth);
-	const [formData, setFormData] = useState({});
+	const [formData, setFormData] = useState("");
 	const [visible, setVisible] = useState(false);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -46,19 +46,19 @@ const Signin = () => {
 				<form className=' flex flex-col gap-3' onSubmit={handleSubmit}>
 					<input
 						type='email'
-						// placeholder='Email'
-						// className=' p-3 rounded-lg border-2'
-						// id='email'
-						// onChange={handleChange}
+						placeholder='Email'
+						className=' p-3 rounded-lg border-2'
+						id='email'
+						onChange={handleChange}
 						required
 					/>
 					<div className=' p-3 rounded-lg border-2 flex justify-between'>
 						<input
 							type={visible ? "text" : "password"}
-							// placeholder='Password'
-							// className='border-none outline-none w-[95%]'
-							// id='password'
-							// onChange={handleChange}
+							placeholder='Password'
+							className='border-none outline-none w-[95%]'
+							id='password'
+							onChange={handleChange}
 							required
 						/>
 						<div
