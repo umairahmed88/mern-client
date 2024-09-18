@@ -9,7 +9,7 @@ import GoogleAuth from "../../components/GoogleAuth";
 
 const Signin = () => {
 	const { loading, error } = useSelector((state) => state.auth);
-	const [formData, setFormData] = useState("");
+	const [formData, setFormData] = useState({});
 	const [visible, setVisible] = useState(false);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -48,8 +48,8 @@ const Signin = () => {
 						type='email'
 						placeholder='Email'
 						className=' p-3 rounded-lg border-2'
+						onChange={handleSubmit}
 						id='email'
-						onChange={handleChange}
 						required
 					/>
 					<div className=' p-3 rounded-lg border-2 flex justify-between'>
