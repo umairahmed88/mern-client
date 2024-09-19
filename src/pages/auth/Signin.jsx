@@ -48,7 +48,7 @@ const Signin = () => {
 						type='email'
 						placeholder='Email'
 						className=' p-3 rounded-lg border-2'
-						onChange={handleSubmit}
+						onChange={handleChange}
 						id='email'
 						required
 					/>
