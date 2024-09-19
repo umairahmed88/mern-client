@@ -16,6 +16,7 @@ import {
 } from "../../redux/auth/authSlices";
 import { useClearState } from "../../utils/useClearState";
 import { useNavigate } from "react-router-dom";
+import ConfirmationModal from "../../components/Modal";
 
 const Profile = () => {
 	const { currentUser, loading, message, error } = useSelector(
@@ -28,6 +29,7 @@ const Profile = () => {
 	const [file, setFile] = useState(null);
 	const [fileUploadError, setFileUploadError] = useState(false);
 	const [filePerc, setFilePerc] = useState(0);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	useClearState(dispatch, clearMessage, clearError);
 
@@ -109,7 +111,9 @@ const Profile = () => {
 		}
 	};
 
-	console.log(currentUser);
+	const toggleModal = () => {
+		setIsModalOpen((prev) => !prev);
+	};
 
 	if (loading) return <p>Loading...</p>;
 
@@ -182,11 +186,21 @@ const Profile = () => {
 			)}
 			<div className=' flex justify-end'>
 				<button
-					onClick={handleSignout}
+					onClick={toggleModal}
 					className=' bg-red-700 p-3 text-white rounded-lg hover:opacity-90 disabled:opacity-80'
 				>
 					Signout
 				</button>
+				<ConfirmationModal
+					isOpen={isModalOpen}
+					title='Confirm Signout'
+					message='Are you sure you want to signout?'
+					onClose={toggleModal}
+					onConfirm={() => {
+						toggleModal();
+						handleSignout();
+					}}
+				/>
 			</div>
 		</div>
 	);
