@@ -84,13 +84,22 @@ const Profile = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
+			const isEmailUpdated = formData.email && formData.email !== email;
+
 			const res = await dispatch(
 				updateUser({
 					id,
 					userData: formData,
 				})
 			).unwrap();
+
 			if (res) {
+				if (isEmailUpdated) {
+					toast.success(res.message);
+					await dispatch(signout()).unwrap();
+					navigate("/signin");
+				}
+
 				toast.success(message);
 			}
 		} catch (err) {
