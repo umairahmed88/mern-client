@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 import { signout } from "../redux/auth/authSlices";
-import jwtDecode from "jwt-decode";
+import { default as jwtDecode } from "jwt-decode";
 
 export default function PrivateRoute() {
 	const { currentUser } = useSelector((state) => state.auth);
