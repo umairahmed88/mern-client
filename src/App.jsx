@@ -8,12 +8,19 @@ import { ToastContainer } from "react-toastify";
 import Profile from "./pages/auth/Profile";
 import PrivateRoute from "./components/PrivateRoutes";
 import VerifyEmail from "./components/VerifyEmail";
+import AllProducts from "./pages/products/AllProducts";
+import ProductDetails from "./pages/products/ProductDetails";
+import UpdateProduct from "./pages/products/UpdateProduct";
 
 const routes = [
 	{ path: "/", element: <Home /> },
 	{ path: "/signup", element: <Signup /> },
 	{ path: "/signin", element: <Signin /> },
 	{ path: "/verify-email", element: <VerifyEmail /> },
+	{ path: "/products", element: <AllProducts /> },
+	{ path: "/product-details/:id", element: <ProductDetails /> },
+	{ path: "/update-product/:id", element: <UpdateProduct /> },
+
 	// { path: "/profile", element: <Profile /> },
 	// { path: "/", element: <Home /> },
 ];
