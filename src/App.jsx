@@ -11,6 +11,7 @@ import VerifyEmail from "./components/VerifyEmail";
 import AllProducts from "./pages/products/AllProducts";
 import ProductDetails from "./pages/products/ProductDetails";
 import UpdateProduct from "./pages/products/UpdateProduct";
+import CreateProduct from "./pages/products/CreateProduct";
 
 const routes = [
 	{ path: "/", element: <Home /> },
@@ -18,6 +19,7 @@ const routes = [
 	{ path: "/signin", element: <Signin /> },
 	{ path: "/verify-email", element: <VerifyEmail /> },
 	{ path: "/products", element: <AllProducts /> },
+	{ path: "/create-product", element: <CreateProduct /> },
 	{ path: "/product-details/:id", element: <ProductDetails /> },
 	{ path: "/update-product/:id", element: <UpdateProduct /> },
 
