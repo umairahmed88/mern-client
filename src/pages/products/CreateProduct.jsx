@@ -9,6 +9,7 @@ import {
 	uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../../firebase";
+import { toast } from "react-toastify";
 
 const CreateProduct = () => {
 	const { loading, error, message } = useSelector((state) => state.product);
@@ -86,6 +87,7 @@ const CreateProduct = () => {
 			const res = dispatch(createProduct(formData)).unwrap();
 
 			if (res) {
+				toast.success("Product created");
 				navigate("/products");
 			}
 		} catch (err) {
@@ -153,7 +155,7 @@ const CreateProduct = () => {
 					</div>
 					{formData.imageUrls.length > 0 &&
 						formData.imageUrls.map((url, i) => (
-							<div className='' key={url}>
+							<div className=' flex justify-between' key={url}>
 								<img
 									src={url}
 									alt='product'
@@ -161,7 +163,7 @@ const CreateProduct = () => {
 								/>
 								<button
 									onClick={() => handleRemoveImage(i)}
-									className=' text-red-700 p-3 rounded-lg uppercase hover:opacity-75'
+									className=' text-red-700 p-3 uppercase hover:opacity-75'
 								>
 									Delete
 								</button>
