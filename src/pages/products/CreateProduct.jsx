@@ -87,10 +87,11 @@ const CreateProduct = () => {
 			const res = dispatch(createProduct(formData)).unwrap();
 
 			if (res) {
-				toast.success("Product created");
+				toast.success(message);
 				navigate("/products");
 			}
 		} catch (err) {
+			toast.error(err);
 			console.error(err);
 		}
 	};

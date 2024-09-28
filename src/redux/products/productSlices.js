@@ -29,6 +29,28 @@ export const createProduct = createAsyncThunk(
 	}
 );
 
+export const fetchProduct = createAsyncThunk(
+	'product/fetchProduct',
+	async(id, {getState, rejectWithValue}) => {
+		try{
+			const token = getState().auth.currentUser.sanitizedUser.token
+			const response = await axios.get(`${API_URL}/get-one-product/${id}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+					"Content-Type": "application/json",
+				},
+
+
+			})
+			console.log(response.data)
+			return response.data
+		}catch(err) {
+			return rejectWithValue(err.response ? err.response.data : err.message);
+
+		}
+	}
+)
+
 const productSlice = createSlice({
 	name: "products",
 	initialState: {
@@ -69,7 +91,20 @@ const productSlice = createSlice({
 			.addCase(createProduct.rejected, (state, action) => {
 				state.loading = false;
 				state.error = action.payload.message;
-			});
+			})			.addCase(fetchProduct.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+				state.message = null;
+			})
+			.addCase(fetchProduct.fulfilled, (state, action) => {
+				state.loading = false;
+				state.product =action.payload || action.payload.product
+				state.message = action.payload.message;
+			})
+			.addCase(fetchProduct.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload.message;
+			});;
 	},
 });
 
