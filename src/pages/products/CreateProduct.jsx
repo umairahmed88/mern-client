@@ -11,7 +11,7 @@ import {
 import { app } from "../../firebase";
 
 const CreateProduct = () => {
-	const { loading } = useSelector((state) => state.product);
+	const { loading, error, message } = useSelector((state) => state.product);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [formData, setFormData] = useState({
@@ -145,6 +145,7 @@ const CreateProduct = () => {
 						/>
 						<button
 							disabled={uploading}
+							onClick={handleImageSubmit}
 							className=' p-2 rounded-lg border-2 border-black disabled:opacity-75'
 						>
 							{uploading ? "Uploading..." : "Upload"}
@@ -172,6 +173,8 @@ const CreateProduct = () => {
 					>
 						{loading ? "Creating..." : "Create Product"}
 					</button>
+					{error && <p>{error}</p>}
+					{message && <p>{message}</p>}
 				</form>
 			</div>
 			{/* <div className=''>Loading...</div> */}
