@@ -4,7 +4,7 @@ import { REHYDRATE } from "redux-persist/es/constants";
 import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
 
-const API_URL = "/api/v1/products";
+const API_URL = "https://mern-api-ua.vercel.app/api/v1/products";
 
 export const createProduct = createAsyncThunk(
 	"product/createProduct",

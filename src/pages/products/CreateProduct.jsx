@@ -177,7 +177,6 @@ const CreateProduct = () => {
 					{message && <p>{message}</p>}
 				</form>
 			</div>
-			{/* <div className=''>Loading...</div> */}
 		</div>
 	);
 };
