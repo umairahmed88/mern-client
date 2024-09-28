@@ -160,7 +160,7 @@ const CreateProduct = () => {
 									className='w-20 h-20 object-contain rounded-lg'
 								/>
 								<button
-									onClick={handleRemoveImage(i)}
+									onClick={() => handleRemoveImage(i)}
 									className=' text-red-700 p-3 rounded-lg uppercase hover:opacity-75'
 								>
 									Delete
