@@ -6,6 +6,13 @@ import {
 	fetchProduct,
 	updateProduct,
 } from "../../redux/products/productSlices";
+import {
+	getDownloadURL,
+	getStorage,
+	ref,
+	uploadBytesResumable,
+} from "firebase/storage";
+import { app } from "../../firebase";
 
 const UpdateProduct = () => {
 	const {
@@ -17,6 +24,7 @@ const UpdateProduct = () => {
 	const { id } = useParams();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const [formData, setFormData] = useState({});
 	const [files, setFiles] = useState([]);
 	const [uploading, setUploading] = useState(false);
 	const [imageUploadError, setImageUploadError] = useState(false);
@@ -38,7 +46,69 @@ const UpdateProduct = () => {
 		}
 	}, [product]);
 
-	const [formData, setFormData] = useState({});
+	const handleImageSubmit = (e) => {
+		if (
+			files.length > 0 &&
+			files.length + (formData.imageUrls || []).length < 7
+		) {
+			setUploading(true);
+			setImageUploadError(false);
+			const promises = [];
+
+			for (let i = 0; i < files.length; i++) {
+				if (files[i].size < 50000 && files[i].type.startsWith("image/")) {
+					promises.push(storeImage(files[i]));
+				} else {
+					setImageUploadError("File too large or invalid file type");
+				}
+			}
+
+			Promise.all(promises)
+				.then((urls) => {
+					setFormData({
+						...formData,
+						imageUrls: formData.imageUrls.concat(urls),
+					});
+					setImageUploadError(false);
+					setUploading(false);
+					setFiles([]);
+				})
+				.catch((err) => {
+					setImageUploadError("Image upload error");
+					toast.error(err);
+					setUploading(false);
+				});
+		} else {
+			setImageUploadError("You can upload 6 images per product.");
+			toast.error("You can upload 6 images per product.");
+			setUploading(false);
+		}
+	};
+
+	const storeImage = async (file) => {
+		return new Promise((resolve, reject) => {
+			const storage = getStorage(app);
+			const fileName = new Date().getTime() + file.name;
+			const storageRef = ref(storage, fileName);
+			const uploadTask = uploadBytesResumable(storageRef, file);
+
+			uploadTask.on(
+				"state_changed",
+				(snapshot) => {
+					const progress =
+						(snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+				},
+				(err) => {
+					reject(err);
+				},
+				async () => {
+					await getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
+						resolve(downloadUrl);
+					});
+				}
+			);
+		});
+	};
 
 	const handleChange = (e) => {
 		setFormData({
@@ -98,9 +168,40 @@ const UpdateProduct = () => {
 						defaultValue={formData?.quantity || product?.quantity}
 						className='p-3 border-2 rounded-lg'
 					/>
-					<div className='p-3 border-2 rounded-lg'>
-						<input type='file' id='name' onChange={handleChange} className='' />
+					<div className='p-3 border-2 rounded-lg flex justify-between'>
+						<input
+							type='file'
+							id='images'
+							onChange={(e) => setFiles(e.target.files)}
+							className=''
+							multiple
+						/>
+						<button
+							onClick={handleImageSubmit}
+							className=' bg-zinc-600 p-3 rounded-lg text-white hover:opacity-90 disabled:opacity-90'
+						>
+							{uploading ? "Uploading..." : "Upload"}
+						</button>
 					</div>
+					{formData?.imageUrls?.length > 0 &&
+						formData?.imageUrls?.map((url, i) => (
+							<div
+								className=' flex justify-between items-center p-2 shadow-md border-2'
+								key={url}
+							>
+								<img
+									src={url}
+									alt={formData?.name || product?.name}
+									className=' h-24 w-24 object-contain'
+								/>
+								<button
+									onClick={() => handleRemoveImage(i)}
+									className='text-red-700 p-3 uppercase hover:opacity-75'
+								>
+									Delete
+								</button>
+							</div>
+						))}
 					<button
 						disabled={loading}
 						className='p-3 rounded-lg hover:opacity-90 bg-zinc-600 text-white disabled:opacity-75'
