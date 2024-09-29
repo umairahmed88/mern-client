@@ -126,7 +126,7 @@ const UpdateProduct = () => {
 
 			if (res) {
 				toast.success(message);
-				navigate("/products");
+				// navigate("/products");
 			}
 		} catch (err) {
 			toast.error(err);
