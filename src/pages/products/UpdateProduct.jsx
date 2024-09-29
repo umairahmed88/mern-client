@@ -174,6 +174,7 @@ const UpdateProduct = () => {
 							id='images'
 							onChange={(e) => setFiles(e.target.files)}
 							className=''
+							accept='image/*'
 							multiple
 						/>
 						<button
