@@ -1,7 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllProducts } from "../../redux/products/productSlices";
+import {
+	clearError,
+	clearMessage,
+	deleteAllProducts,
+	deleteProduct,
+	fetchAllProducts,
+} from "../../redux/products/productSlices";
 import { Link } from "react-router-dom";
+import ConfirmationModal from "../../components/Modal";
+import { useClearState } from "../../utils/useClearState";
 
 const AllProducts = () => {
 	const {
@@ -11,6 +19,9 @@ const AllProducts = () => {
 		message,
 	} = useSelector((state) => state.product);
 	const dispatch = useDispatch();
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
+	useClearState(dispatch, clearMessage, clearError);
 
 	console.log(products);
 
@@ -23,6 +34,18 @@ const AllProducts = () => {
 				});
 		}
 	}, [dispatch, products.length]);
+
+	const handleDelete = (id) => {
+		dispatch(deleteProduct(id)).unwrap();
+	};
+
+	const handleDeleteAllProduct = () => {
+		dispatch(deleteAllProducts()).unwrap();
+	};
+
+	const toggleModal = () => {
+		setIsModalOpen((prev) => !prev);
+	};
 
 	if (loading) return <div>Loading...</div>;
 
@@ -84,6 +107,26 @@ const AllProducts = () => {
 							</div>
 						</div>
 					))}
+				</div>
+			)}
+			{products.length > 0 && (
+				<div className=' m-2 flex justify-end'>
+					<button
+						onClick={toggleModal}
+						className=' bg-red-700 text-white p-3 hover:opacity-90 rounded-lg'
+					>
+						Delete All Products
+					</button>
+					<ConfirmationModal
+						isOpen={isModalOpen}
+						title='Confirm Signout'
+						message='Are you sure you want to delete all products?'
+						onClose={toggleModal}
+						onConfirm={() => {
+							toggleModal();
+							handleDeleteAllProduct();
+						}}
+					/>
 				</div>
 			)}
 		</div>

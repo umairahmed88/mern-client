@@ -31,7 +31,7 @@ export const createProduct = createAsyncThunk(
 
 export const fetchAllProducts = createAsyncThunk(
 	"product/fetchAllProducts",
-	async (_, { getState, rejectWithValue }) => {
+	async (_, { rejectWithValue }) => {
 		try {
 			const response = await axios.get(`${API_URL}/get-all-products`, {
 				headers: {
@@ -48,12 +48,10 @@ export const fetchAllProducts = createAsyncThunk(
 
 export const fetchProduct = createAsyncThunk(
 	"product/fetchProduct",
-	async (id, { getState, rejectWithValue }) => {
+	async (id, { rejectWithValue }) => {
 		try {
-			const token = getState().auth.currentUser.sanitizedUser.token;
 			const response = await axios.get(`${API_URL}/get-one-product/${id}`, {
 				headers: {
-					Authorization: `Bearer ${token}`,
 					"Content-Type": "application/json",
 				},
 			});
@@ -80,6 +78,44 @@ export const updateProduct = createAsyncThunk(
 					},
 				}
 			);
+			console.log(response.data);
+			return response.data;
+		} catch (err) {
+			return rejectWithValue(err.response ? err.response.data : err.message);
+		}
+	}
+);
+
+export const deleteProduct = createAsyncThunk(
+	"product/deleteProduct",
+	async (id, { getState, rejectWithValue }) => {
+		try {
+			const token = getState().auth.currentUser.sanitizedUser.token;
+			const response = await axios.delete(`${API_URL}/delete-product/${id}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+					"Content-Type": "application/json",
+				},
+			});
+			console.log(response.data);
+			return response.data;
+		} catch (err) {
+			return rejectWithValue(err.response ? err.response.data : err.message);
+		}
+	}
+);
+
+export const deleteAllProducts = createAsyncThunk(
+	"product/deleteAllProducts",
+	async (id, { getState, rejectWithValue }) => {
+		try {
+			const token = getState().auth.currentUser.sanitizedUser.token;
+			const response = await axios.delete(`${API_URL}/delete-all-products`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+					"Content-Type": "application/json",
+				},
+			});
 			console.log(response.data);
 			return response.data;
 		} catch (err) {
@@ -123,11 +159,11 @@ const productSlice = createSlice({
 			.addCase(createProduct.fulfilled, (state, action) => {
 				state.loading = false;
 				state.products.push(action.payload);
-				state.message = action.payload.message;
+				state.message = action.payload?.message;
 			})
 			.addCase(createProduct.rejected, (state, action) => {
 				state.loading = false;
-				state.error = action.payload.message;
+				state.error = action.payload?.message;
 			})
 			.addCase(updateProduct.pending, (state) => {
 				state.loading = true;
@@ -143,11 +179,11 @@ const productSlice = createSlice({
 				if (index !== -1) {
 					state.products[index] = updatedProduct;
 				}
-				state.message = action.payload.message;
+				state.message = action.payload?.message;
 			})
 			.addCase(updateProduct.rejected, (state, action) => {
 				state.loading = false;
-				state.error = action.payload.message;
+				state.error = action.payload?.message;
 			})
 			.addCase(fetchProduct.pending, (state) => {
 				state.loading = true;
@@ -157,11 +193,11 @@ const productSlice = createSlice({
 			.addCase(fetchProduct.fulfilled, (state, action) => {
 				state.loading = false;
 				state.product = action.payload || action.payload.product;
-				state.message = action.payload.message;
+				state.message = action.payload?.message;
 			})
 			.addCase(fetchProduct.rejected, (state, action) => {
 				state.loading = false;
-				state.error = action.payload.message;
+				state.error = action.payload?.message;
 			})
 			.addCase(fetchAllProducts.pending, (state) => {
 				state.loading = true;
@@ -171,11 +207,41 @@ const productSlice = createSlice({
 			.addCase(fetchAllProducts.fulfilled, (state, action) => {
 				state.loading = false;
 				state.products = action.payload.products;
-				state.message = action.payload.message;
+				state.message = action.payload?.message;
 			})
 			.addCase(fetchAllProducts.rejected, (state, action) => {
 				state.loading = false;
-				state.error = action.payload.message;
+				state.error = action.payload?.message;
+			})
+			.addCase(deleteProduct.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+				state.message = null;
+			})
+			.addCase(deleteProduct.fulfilled, (state, action) => {
+				state.loading = false;
+				state.products = state.products.filter(
+					(product) => product._id === action.meta.arg
+				);
+				state.message = action.payload?.message;
+			})
+			.addCase(deleteProduct.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload?.message;
+			})
+			.addCase(deleteAllProducts.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+				state.message = null;
+			})
+			.addCase(deleteAllProducts.fulfilled, (state, action) => {
+				state.loading = false;
+				state.products = [];
+				state.message = action.payload?.message;
+			})
+			.addCase(deleteAllProducts.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload?.message;
 			});
 	},
 });

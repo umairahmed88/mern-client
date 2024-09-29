@@ -119,14 +119,20 @@ const UpdateProduct = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+
+		if (!formData.imageUrls || formData.imageUrls.length === 0) {
+			toast.error("At least one image is required for the product.");
+			return;
+		}
+
 		try {
 			const res = await dispatch(
 				updateProduct({ id, updateData: formData })
 			).unwrap();
 
 			if (res) {
-				toast.success(message);
-				// navigate("/products");
+				toast.success(res.message);
+				navigate("/products");
 			}
 		} catch (err) {
 			toast.error(err);
@@ -144,7 +150,9 @@ const UpdateProduct = () => {
 
 	return (
 		<div className='max-w-2xl mx-auto'>
-			<h1 className=' text-2xl font-bold m-3 text-center'>Update Product</h1>
+			<h1 className=' text-2xl font-bold m-3 text-center'>{`Update ${
+				product?.name || formData?.name
+			}`}</h1>
 			<div className=''>
 				<form onSubmit={handleSubmit} className='flex flex-col gap-3'>
 					<input
