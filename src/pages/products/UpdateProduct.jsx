@@ -21,11 +21,9 @@ const UpdateProduct = () => {
 	const [uploading, setUploading] = useState(false);
 	const [imageUploadError, setImageUploadError] = useState(false);
 
-	console.log(id);
-
 	useEffect(() => {
 		if (id) {
-			dispatch(fetchProduct(id));
+			dispatch(fetchProduct(id)).unwrap();
 		}
 	}, [dispatch, id]);
 
@@ -83,21 +81,21 @@ const UpdateProduct = () => {
 						type='text'
 						id='name'
 						onChange={handleChange}
-						defaultValue={formData.name || product.name}
+						defaultValue={formData?.name || product?.name}
 						className='p-3 border-2 rounded-lg'
 					/>
 					<input
 						type='number'
 						id='price'
 						onChange={handleChange}
-						defaultValue={formData.price || product.price}
+						defaultValue={formData?.price || product?.price}
 						className='p-3 border-2 rounded-lg'
 					/>
 					<input
 						type='number'
 						id='quantity'
 						onChange={handleChange}
-						defaultValue={formData.quantity || product.quantity}
+						defaultValue={formData?.quantity || product?.quantity}
 						className='p-3 border-2 rounded-lg'
 					/>
 					<div className='p-3 border-2 rounded-lg'>
