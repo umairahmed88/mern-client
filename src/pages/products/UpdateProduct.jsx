@@ -1,21 +1,44 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { fetchProduct } from "../../redux/products/productSlices";
-
+import {
+	fetchProduct,
+	updateProduct,
+} from "../../redux/products/productSlices";
 
 const UpdateProduct = () => {
-	const { product, loading } = useSelector((state) => state.product);
+	const {
+		product = {},
+		loading,
+		message,
+		error,
+	} = useSelector((state) => state.product);
 	const { id } = useParams();
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const [files, setFiles] = useState([]);
+	const [uploading, setUploading] = useState(false);
+	const [imageUploadError, setImageUploadError] = useState(false);
 
 	console.log(id);
 
 	useEffect(() => {
-		if(id){
-		dispatch(fetchProduct(id))
-	}}, [dispatch, id]);
+		if (id) {
+			dispatch(fetchProduct(id));
+		}
+	}, [dispatch, id]);
+
+	useEffect(() => {
+		if (product) {
+			setFormData({
+				name: product.name,
+				price: product.price,
+				quantity: product.quantity,
+				imageUrls: product.imageUrls,
+			});
+		}
+	}, [product]);
 
 	const [formData, setFormData] = useState({});
 
@@ -26,12 +49,27 @@ const UpdateProduct = () => {
 		});
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
+			const res = await dispatch(
+				updateProduct({ id, updateData: formData })
+			).unwrap();
+
+			if (res) {
+				toast.success(message);
+				navigate("/products");
+			}
 		} catch (err) {
 			toast.error(err);
 		}
+	};
+
+	const handleRemoveImage = (index) => {
+		setFormData({
+			...formData,
+			imageUrls: formData.imageUrls.filter((_, i) => i !== index),
+		});
 	};
 
 	if (loading) return <div className=''>Loading...</div>;
@@ -45,18 +83,21 @@ const UpdateProduct = () => {
 						type='text'
 						id='name'
 						onChange={handleChange}
+						defaultValue={formData.name || product.name}
 						className='p-3 border-2 rounded-lg'
 					/>
 					<input
-						type='text'
-						id='name'
+						type='number'
+						id='price'
 						onChange={handleChange}
+						defaultValue={formData.price || product.price}
 						className='p-3 border-2 rounded-lg'
 					/>
 					<input
-						type='text'
-						id='name'
+						type='number'
+						id='quantity'
 						onChange={handleChange}
+						defaultValue={formData.quantity || product.quantity}
 						className='p-3 border-2 rounded-lg'
 					/>
 					<div className='p-3 border-2 rounded-lg'>
