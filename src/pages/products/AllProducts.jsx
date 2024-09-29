@@ -12,6 +12,8 @@ const AllProducts = () => {
 	} = useSelector((state) => state.product);
 	const dispatch = useDispatch();
 
+	console.log(products);
+
 	useEffect(() => {
 		if (!products.length) {
 			dispatch(fetchAllProducts())

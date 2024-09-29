@@ -56,7 +56,7 @@ const UpdateProduct = () => {
 			const promises = [];
 
 			for (let i = 0; i < files.length; i++) {
-				if (files[i].size < 50000 && files[i].type.startsWith("image/")) {
+				if (files[i].size < 5000000 && files[i].type.startsWith("image/")) {
 					promises.push(storeImage(files[i]));
 				} else {
 					setImageUploadError("File too large or invalid file type");
@@ -102,8 +102,8 @@ const UpdateProduct = () => {
 					reject(err);
 				},
 				async () => {
-					await getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
-						resolve(downloadUrl);
+					await getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+						resolve(downloadURL);
 					});
 				}
 			);
