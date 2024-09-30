@@ -20,6 +20,8 @@ const AllProducts = () => {
 	} = useSelector((state) => state.product);
 	const dispatch = useDispatch();
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isProductModalOpen, setIsProductModalOpen] = useState(false); // State for individual product delete modal
+	const [selectedProductId, setSelectedProductId] = useState(null); // Store product id to delete
 
 	useClearState(dispatch, clearMessage, clearError);
 
@@ -45,6 +47,11 @@ const AllProducts = () => {
 
 	const toggleModal = () => {
 		setIsModalOpen((prev) => !prev);
+	};
+
+	const toggleProductModal = (id) => {
+		setSelectedProductId(id);
+		setIsProductModalOpen((prev) => !prev);
 	};
 
 	if (loading) return <div>Loading...</div>;
@@ -91,7 +98,7 @@ const AllProducts = () => {
 											Details
 										</Link>
 										<button
-											onClick={() => handleDelete(product._id)}
+											onClick={() => toggleProductModal(product._id)}
 											className='bg-red-600 px-2 py-1 rounded-lg text-white'
 										>
 											Delete
@@ -129,6 +136,19 @@ const AllProducts = () => {
 					/>
 				</div>
 			)}
+			<ConfirmationModal
+				isOpen={isProductModalOpen}
+				title='Confirm Delete Product'
+				message={`Are you sure you want to delete the product "${
+					products.find((product) => product._id === selectedProductId)?.name
+				}"?`}
+				onClose={toggleProductModal}
+				onConfirm={() => {
+					handleDelete(selectedProductId);
+					setSelectedProductId(null);
+					toggleProductModal();
+				}}
+			/>
 		</div>
 	);
 };
