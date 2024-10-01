@@ -57,13 +57,17 @@ export const googleAuth = createAsyncThunk(
 
 export const forgotPassword = createAsyncThunk(
 	"auth/forgotPassword",
-	async (_, { rejectWithValue }) => {
+	async ({ email }, { rejectWithValue }) => {
 		try {
-			const response = await axios.post(`${API_URL}/forgot-password`, {
-				headers: {
-					"Content-Type": "application/json",
-				},
-			});
+			const response = await axios.post(
+				`${API_URL}/forgot-password`,
+				{ email },
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
 			console.log(response.data);
 			return response.data;
 		} catch (err) {
