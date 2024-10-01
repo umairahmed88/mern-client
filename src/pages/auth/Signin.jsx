@@ -6,6 +6,7 @@ import { clearError, clearMessage, signin } from "../../redux/auth/authSlices";
 import { toast } from "react-toastify";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import GoogleAuth from "../../components/GoogleAuth";
+import ForgotPassword from "../../components/ForgotPassword";
 
 const Signin = () => {
 	const { loading, error } = useSelector((state) => state.auth);
@@ -70,12 +71,13 @@ const Signin = () => {
 					</div>
 					<button
 						disabled={loading}
-						className=' up p-3 bg-zinc-600 rounded-lg hover:opacity-90 disabled:opacity-75'
+						className=' up p-3 bg-zinc-600 text-white rounded-lg hover:opacity-90 disabled:opacity-75'
 					>
 						Signin
 					</button>
 					<GoogleAuth />
 				</form>
+				<ForgotPassword />
 			</div>
 			<div className=' flex gap-2 p-2'>
 				<p>Do not have account? </p>

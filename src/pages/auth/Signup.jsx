@@ -13,6 +13,7 @@ import {
 import { app } from "../../firebase";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import GoogleAuth from "../../components/GoogleAuth";
+import ForgotPassword from "../../components/ForgotPassword";
 
 const Signup = () => {
 	const { loading, message, error } = useSelector((state) => state.auth);
@@ -88,11 +89,12 @@ const Signup = () => {
 				toast.success(
 					"Signup successful! Please check your email for verification."
 				);
+				toast.success(message);
 
 				setFormData("");
 			}
 		} catch (err) {
-			toast.error(err.message || "Signup failed");
+			toast.error(error);
 
 			console.error("Error during signup:", err);
 		}
@@ -193,9 +195,9 @@ const Signup = () => {
 						{loading ? "Signing up..." : "SignUp"}
 					</button>
 					<GoogleAuth />
-					{error && <p className=' text-red-700'>{error}</p>}
-					{message && <p className=' text-green-600 text-center'>{message}</p>}
+					{/* {error && <p className=' text-red-700'>{error}</p>} */}
 				</form>
+				<ForgotPassword />
 			</div>
 			<div className=' flex gap-2'>
 				<p>Already Signup ?</p>

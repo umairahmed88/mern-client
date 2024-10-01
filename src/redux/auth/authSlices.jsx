@@ -55,6 +55,23 @@ export const googleAuth = createAsyncThunk(
 	}
 );
 
+export const forgotPassword = createAsyncThunk(
+	"auth/forgotPassword",
+	async (_, { rejectWithValue }) => {
+		try {
+			const response = await axios.post(`${API_URL}/forgot-password`, {
+				headers: {
+					"Content-Type": "application",
+				},
+			});
+			console.log(response.data);
+			return response.data;
+		} catch (err) {
+			return rejectWithValue(err.response ? err.response.data : err.message);
+		}
+	}
+);
+
 export const updateUser = createAsyncThunk(
 	"auth/updateUser",
 	async ({ id, userData }, { getState, rejectWithValue }) => {
@@ -155,6 +172,21 @@ const authSlice = createSlice({
 				state.loading = false;
 				state.error =
 					action.payload?.message || "An error occurred while signing in";
+			})
+			.addCase(forgotPassword.pending, (state) => {
+				state.loading = true;
+				state.message = null;
+				state.error = null;
+			})
+			.addCase(forgotPassword.fulfilled, (state, action) => {
+				state.loading = false;
+				state.message = action.payload.message;
+			})
+			.addCase(forgotPassword.rejected, (state, action) => {
+				state.loading = false;
+				state.error =
+					action.payload?.message ||
+					"An error occurred while reset the password";
 			})
 			.addCase(googleAuth.pending, (state) => {
 				state.loading = true;
