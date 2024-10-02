@@ -31,7 +31,7 @@ const Profile = () => {
 	const [filePerc, setFilePerc] = useState(0);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	useClearState(dispatch, clearMessage, clearError);
+	useClearState(dispatch, clearMessage, clearError, error, message);
 
 	const { avatar, username, email, id } = currentUser?.sanitizedUser || {};
 

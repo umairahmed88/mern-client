@@ -9,13 +9,13 @@ import GoogleAuth from "../../components/GoogleAuth";
 import ForgotPassword from "../../components/ForgotPassword";
 
 const Signin = () => {
-	const { loading, error } = useSelector((state) => state.auth);
+	const { loading, error, message } = useSelector((state) => state.auth);
 	const [formData, setFormData] = useState({});
 	const [visible, setVisible] = useState(false);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	useClearState(dispatch, clearMessage, clearError);
+	useClearState(dispatch, clearMessage, clearError, error, message);
 
 	const handleChange = (e) => {
 		setFormData({

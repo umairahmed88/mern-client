@@ -2,20 +2,26 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { resetPassword } from "../../redux/auth/authSlices";
+import {
+	clearError,
+	clearMessage,
+	resetPassword,
+} from "../../redux/auth/authSlices";
+import { useClearState } from "../../utils/useClearState";
 
 const ResetPassword = () => {
+	const { message, error } = useSelector((state) => state.auth);
 	const [newPassword, setNewPassword] = useState("");
 	const [confirmNewPassword, setConfirmNewPassword] = useState("");
 	const [loading, setLoading] = useState(false);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	// Extract token from URL
 	const query = new URLSearchParams(useLocation().search);
 	const token = query.get("token");
 
-	// Handle form submission
+	useClearState(dispatch, clearMessage, clearError, error, message);
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -26,14 +32,12 @@ const ResetPassword = () => {
 
 		try {
 			setLoading(true);
-			// Dispatch reset password action
 			const res = await dispatch(
 				resetPassword({ token, newPassword, confirmNewPassword })
 			).unwrap();
 
-			// Success response
 			toast.success(res.message);
-			navigate("/signin"); // Redirect to login page after successful reset
+			navigate("/signin");
 		} catch (err) {
 			toast.error(err?.message || "Error resetting password");
 		} finally {

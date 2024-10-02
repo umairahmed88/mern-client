@@ -25,13 +25,13 @@ const Signup = () => {
 	const [filePerc, setFilePerc] = useState(0);
 	const [visible, setVisible] = useState(false);
 
+	useClearState(dispatch, clearMessage, clearError, error, message);
+
 	useEffect(() => {
 		if (file) {
 			handleUploadFile(file);
 		}
 	}, [file]);
-
-	useClearState(dispatch, clearMessage, clearError);
 
 	const handleUploadFile = (file) => {
 		setUploading(true);
@@ -195,7 +195,6 @@ const Signup = () => {
 						{loading ? "Signing up..." : "SignUp"}
 					</button>
 					<GoogleAuth />
-					{/* {error && <p className=' text-red-700'>{error}</p>} */}
 				</form>
 				<ForgotPassword />
 			</div>
