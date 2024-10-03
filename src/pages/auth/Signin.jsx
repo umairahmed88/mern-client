@@ -29,12 +29,10 @@ const Signin = () => {
 		try {
 			const res = await dispatch(signin(formData)).unwrap();
 			if (res) {
-				toast.success("signed in.");
 				navigate("/profile");
 			}
 		} catch (err) {
 			toast.error(err);
-			toast.error(error);
 		}
 	};
 
