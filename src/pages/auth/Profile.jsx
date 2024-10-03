@@ -112,7 +112,6 @@ const Profile = () => {
 			const res = await dispatch(signout()).unwrap();
 
 			if (res) {
-				toast.success("You have signed out");
 				navigate("/signin");
 			}
 		} catch (err) {

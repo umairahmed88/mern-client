@@ -25,7 +25,7 @@ const GoogleAuth = () => {
 			}
 		} catch (err) {
 			console.error(err);
-			toast.error("Error signing with google");
+			// toast.error("Error signing with google");
 		}
 	};
 

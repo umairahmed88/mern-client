@@ -238,8 +238,7 @@ const authSlice = createSlice({
 			})
 			.addCase(googleAuth.rejected, (state, action) => {
 				state.loading = false;
-				state.error =
-					action.payload?.message || "An error occurred while signing in";
+				state.error = action.payload?.message;
 			})
 			.addCase(updateUser.pending, (state) => {
 				state.loading = true;
