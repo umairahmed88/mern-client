@@ -22,8 +22,6 @@ const ForgotPassword = () => {
 		try {
 			const res = await dispatch(forgotPassword({ email })).unwrap();
 
-			toast.success(res.message);
-
 			setIsOpen(false);
 		} catch (err) {
 			toast.error(
