@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { toast } from "react-toastify"; // Ensure toast is imported
+import { toast } from "react-toastify";
 
 export const useClearState = (
 	dispatch,
@@ -8,33 +8,32 @@ export const useClearState = (
 	error,
 	message
 ) => {
-	// To track the previous message or error
 	const prevMessage = useRef(null);
 	const prevError = useRef(null);
 
 	useEffect(() => {
-		// Display error and success messages only if they are different from previous ones
 		if (error && error !== prevError.current) {
-			toast.error(error); // Display error toast
+			toast.error(error);
 			prevError.current = error;
+			dispatch(clearError());
 		}
 		if (message && message !== prevMessage.current) {
-			toast.success(message); // Display success toast
+			toast.success(message);
 			prevMessage.current = message;
+			dispatch(clearMessage());
 		}
 
-		// Set a timer to clear the messages after 4 seconds
 		const timer = setTimeout(() => {
-			dispatch(clearMessage());
-			dispatch(clearError());
+			prevMessage.current = null;
+			prevError.current = null;
 		}, 4000);
 
 		return () => clearTimeout(timer); // Cleanup timeout on unmount
 	}, [dispatch, clearMessage, clearError, error, message]);
 };
 
-// import { useEffect } from "react";
-// import { toast } from "react-toastify"; // Ensure toast is imported
+// import { useEffect, useRef } from "react";
+// import { toast } from "react-toastify";
 
 // export const useClearState = (
 // 	dispatch,
@@ -43,21 +42,24 @@ export const useClearState = (
 // 	error,
 // 	message
 // ) => {
+// 	const prevMessage = useRef(null);
+// 	const prevError = useRef(null);
+
 // 	useEffect(() => {
-// 		// Display error and success messages
-// 		if (error) {
-// 			toast.error(error); // Display error toast
+// 		if (error && error !== prevError.current) {
+// 			toast.error(error);
+// 			prevError.current = error;
 // 		}
-// 		if (message) {
-// 			toast.success(message); // Display success toast
+// 		if (message && message !== prevMessage.current) {
+// 			toast.success(message);
+// 			prevMessage.current = message;
 // 		}
 
-// 		// Set a timer to clear the messages after 4 seconds
 // 		const timer = setTimeout(() => {
 // 			dispatch(clearMessage());
 // 			dispatch(clearError());
 // 		}, 4000);
 
-// 		return () => clearTimeout(timer); // Cleanup timeout on unmount
+// 		return () => clearTimeout(timer);
 // 	}, [dispatch, clearMessage, clearError, error, message]);
 // };
