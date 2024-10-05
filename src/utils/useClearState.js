@@ -1,4 +1,6 @@
-// Update this part inside useClearState.js
+import { useEffect, useRef } from "react";
+import { toast } from "react-toastify";
+
 export const useClearState = (
 	dispatch,
 	clearMessage,
