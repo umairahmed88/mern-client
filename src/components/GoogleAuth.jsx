@@ -20,12 +20,10 @@ const GoogleAuth = () => {
 			).unwrap();
 
 			if (res) {
-				toast.success(res.message);
 				navigate("/profile");
 			}
 		} catch (err) {
 			console.error(err);
-			// toast.error("Error signing with google");
 		}
 	};
 

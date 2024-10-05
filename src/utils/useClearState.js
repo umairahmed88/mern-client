@@ -1,6 +1,4 @@
-import { useEffect, useRef } from "react";
-import { toast } from "react-toastify";
-
+// Update this part inside useClearState.js
 export const useClearState = (
 	dispatch,
 	clearMessage,
@@ -12,28 +10,28 @@ export const useClearState = (
 	const prevError = useRef(null);
 
 	useEffect(() => {
-		// Display error toast if there is a new error
+		// Handle error toast
 		if (error && error !== prevError.current) {
-			toast.error(error);
+			toast.error(error); // Trigger toast only once for error
 			prevError.current = error;
-			dispatch(clearError()); // Clear error state immediately
+			dispatch(clearError());
 		}
 
-		// Display success toast if there is a new message
+		// Handle success message toast
 		if (message && message !== prevMessage.current) {
-			toast.success(message);
+			toast.success(message); // Trigger toast only once for message
 			prevMessage.current = message;
-			dispatch(clearMessage()); // Clear message state immediately
+			dispatch(clearMessage());
 		}
 
-		// Cleanup to reset refs after 4 seconds
+		// Clear previous error/message after 4 seconds
 		const timer = setTimeout(() => {
 			prevMessage.current = null;
 			prevError.current = null;
 		}, 4000);
 
-		return () => clearTimeout(timer); // Clear the timeout on unmount to avoid memory leaks
-	}, [dispatch, clearMessage, clearError, error, message]); // Ensure dependencies are properly tracked
+		return () => clearTimeout(timer); // Clean up timer
+	}, [dispatch, clearMessage, clearError, error, message]);
 };
 
 // import { useEffect, useRef } from "react";

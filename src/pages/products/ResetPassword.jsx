@@ -26,7 +26,6 @@ const ResetPassword = () => {
 		e.preventDefault();
 
 		if (newPassword !== confirmNewPassword) {
-			toast.error("Passwords do not match");
 			return;
 		}
 
@@ -36,7 +35,6 @@ const ResetPassword = () => {
 				resetPassword({ token, newPassword, confirmNewPassword })
 			).unwrap();
 
-			toast.success(res.message);
 			navigate("/signin");
 		} catch (err) {
 			toast.error(err?.message || "Error resetting password");

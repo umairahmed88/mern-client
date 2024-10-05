@@ -86,16 +86,9 @@ const Signup = () => {
 			const res = await dispatch(signup(formData)).unwrap();
 
 			if (res) {
-				toast.success(
-					"Signup successful! Please check your email for verification."
-				);
-				toast.success(message);
-
 				setFormData("");
 			}
 		} catch (err) {
-			toast.error(error);
-
 			console.error("Error during signup:", err);
 		}
 	};

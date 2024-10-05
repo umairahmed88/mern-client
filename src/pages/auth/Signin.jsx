@@ -31,9 +31,7 @@ const Signin = () => {
 			if (res) {
 				navigate("/profile");
 			}
-		} catch (err) {
-			toast.error(err);
-		}
+		} catch (err) {}
 	};
 
 	if (loading) return <div className=''>Loading...</div>;
