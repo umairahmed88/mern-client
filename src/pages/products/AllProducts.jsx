@@ -25,7 +25,7 @@ const AllProducts = () => {
 	const [isProductModalOpen, setIsProductModalOpen] = useState(false); // State for individual product delete modal
 	const [selectedProductId, setSelectedProductId] = useState(null); // Store product id to delete
 
-	useClearState(dispatch, clearMessage, clearError);
+	useClearState(dispatch, clearMessage, clearError, error, message);
 
 	console.log(products);
 
@@ -71,10 +71,6 @@ const AllProducts = () => {
 	return (
 		<div className='max-w-2xl mx-auto'>
 			<h1 className='text-2xl font-bold m-3 text-center'>Products</h1>
-
-			<div className='text-center mb-4'>
-				<p className='text-lg font-semibold'>{message}</p>
-			</div>
 
 			{products.length > 0 && (
 				<div className='grid grid-cols-1 gap-4'>
