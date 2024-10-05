@@ -12,24 +12,28 @@ export const useClearState = (
 	const prevError = useRef(null);
 
 	useEffect(() => {
+		// Display error toast if there is a new error
 		if (error && error !== prevError.current) {
 			toast.error(error);
 			prevError.current = error;
-			dispatch(clearError());
+			dispatch(clearError()); // Clear error state immediately
 		}
+
+		// Display success toast if there is a new message
 		if (message && message !== prevMessage.current) {
 			toast.success(message);
 			prevMessage.current = message;
-			dispatch(clearMessage());
+			dispatch(clearMessage()); // Clear message state immediately
 		}
 
+		// Cleanup to reset refs after 4 seconds
 		const timer = setTimeout(() => {
 			prevMessage.current = null;
 			prevError.current = null;
 		}, 4000);
 
-		return () => clearTimeout(timer); // Cleanup timeout on unmount
-	}, [dispatch, clearMessage, clearError, error, message]);
+		return () => clearTimeout(timer); // Clear the timeout on unmount to avoid memory leaks
+	}, [dispatch, clearMessage, clearError, error, message]); // Ensure dependencies are properly tracked
 };
 
 // import { useEffect, useRef } from "react";
@@ -49,17 +53,19 @@ export const useClearState = (
 // 		if (error && error !== prevError.current) {
 // 			toast.error(error);
 // 			prevError.current = error;
+// 			dispatch(clearError());
 // 		}
 // 		if (message && message !== prevMessage.current) {
 // 			toast.success(message);
 // 			prevMessage.current = message;
+// 			dispatch(clearMessage());
 // 		}
 
 // 		const timer = setTimeout(() => {
-// 			dispatch(clearMessage());
-// 			dispatch(clearError());
+// 			prevMessage.current = null;
+// 			prevError.current = null;
 // 		}, 4000);
 
-// 		return () => clearTimeout(timer);
+// 		return () => clearTimeout(timer); // Cleanup timeout on unmount
 // 	}, [dispatch, clearMessage, clearError, error, message]);
 // };
