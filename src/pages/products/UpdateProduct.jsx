@@ -75,7 +75,6 @@ const UpdateProduct = () => {
 				})
 				.catch((err) => {
 					setImageUploadError("Image upload error");
-					toast.error(err);
 					setUploading(false);
 				});
 		} else {
@@ -131,12 +130,9 @@ const UpdateProduct = () => {
 			).unwrap();
 
 			if (res) {
-				toast.success(res.message);
 				navigate("/products");
 			}
-		} catch (err) {
-			toast.error(err);
-		}
+		} catch (err) {}
 	};
 
 	const handleRemoveImage = (index) => {

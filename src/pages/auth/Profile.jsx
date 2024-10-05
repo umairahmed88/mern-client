@@ -95,16 +95,11 @@ const Profile = () => {
 
 			if (res) {
 				if (isEmailUpdated) {
-					toast.success(res.message);
 					await dispatch(signout()).unwrap();
 					navigate("/signin");
 				}
-
-				toast.success(message);
 			}
-		} catch (err) {
-			toast.error(err);
-		}
+		} catch (err) {}
 	};
 
 	const handleSignout = async () => {
@@ -114,9 +109,7 @@ const Profile = () => {
 			if (res) {
 				navigate("/signin");
 			}
-		} catch (err) {
-			toast.error(err);
-		}
+		} catch (err) {}
 	};
 
 	const toggleModal = () => {

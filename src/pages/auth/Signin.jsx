@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useClearState } from "../../utils/useClearState";
 import { useDispatch, useSelector } from "react-redux";
 import { clearError, clearMessage, signin } from "../../redux/auth/authSlices";
-import { toast } from "react-toastify";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import GoogleAuth from "../../components/GoogleAuth";
 import ForgotPassword from "../../components/ForgotPassword";

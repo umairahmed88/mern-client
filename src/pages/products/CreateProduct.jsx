@@ -9,7 +9,6 @@ import {
 	uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../../firebase";
-import { toast } from "react-toastify";
 
 const CreateProduct = () => {
 	const { loading, error, message } = useSelector((state) => state.product);
@@ -87,13 +86,9 @@ const CreateProduct = () => {
 			const res = dispatch(createProduct(formData)).unwrap();
 
 			if (res) {
-				toast.success(message);
 				navigate("/products");
 			}
-		} catch (err) {
-			toast.error(err);
-			console.error(err);
-		}
+		} catch (err) {}
 	};
 
 	const handleRemoveImage = (index) => {
