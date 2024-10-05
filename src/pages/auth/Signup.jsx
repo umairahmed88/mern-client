@@ -189,6 +189,8 @@ const Signup = () => {
 					</button>
 					<GoogleAuth />
 				</form>
+				{error && <p className=' text-red-700'>{error}</p>}
+				{message && <p className=' text-green-700'>{message}</p>}
 				<ForgotPassword />
 			</div>
 			<div className=' flex gap-2'>
