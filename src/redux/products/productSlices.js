@@ -86,6 +86,51 @@ export const updateProduct = createAsyncThunk(
 	}
 );
 
+export const increaseProduct = createAsyncThunk(
+	"product/increaseProduct",
+	async (id, { getState, rejectWithValue }) => {
+		try {
+			const token = getState().auth.currentUser.sanitizedUser.token;
+			const response = await axios.put(
+				`${API_URL}/increase-product/${id}`,
+				{},
+				{
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+			console.log(response.data);
+			return response.data;
+		} catch (err) {
+			return rejectWithValue(err.response ? err.response.data : err.message);
+		}
+	}
+);
+export const decreaseProduct = createAsyncThunk(
+	"product/decreaseProduct",
+	async (id, { getState, rejectWithValue }) => {
+		try {
+			const token = getState().auth.currentUser.sanitizedUser.token;
+			const response = await axios.put(
+				`${API_URL}/decrease-product/${id}`,
+				{},
+				{
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+			console.log(response.data);
+			return response.data;
+		} catch (err) {
+			return rejectWithValue(err.response ? err.response.data : err.message);
+		}
+	}
+);
+
 export const deleteProduct = createAsyncThunk(
 	"product/deleteProduct",
 	async (id, { getState, rejectWithValue }) => {
@@ -182,6 +227,48 @@ const productSlice = createSlice({
 				state.message = action.payload?.message;
 			})
 			.addCase(updateProduct.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload?.message;
+			})
+			.addCase(increaseProduct.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+				state.message = null;
+			})
+			.addCase(increaseProduct.fulfilled, (state, action) => {
+				state.loading = false;
+				if (action.payload.product) {
+					const index = state.products.findIndex(
+						(product) => product._id === action.payload.product._id
+					);
+					if (index !== -1) {
+						state.products[index] = action.payload.product;
+					}
+				}
+				state.message = action.payload?.message;
+			})
+			.addCase(increaseProduct.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload?.message;
+			})
+			.addCase(decreaseProduct.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+				state.message = null;
+			})
+			.addCase(decreaseProduct.fulfilled, (state, action) => {
+				state.loading = false;
+				if (action.payload.product) {
+					const index = state.products.findIndex(
+						(product) => product._id === action.payload.product._id
+					);
+					if (index !== -1) {
+						state.products[index] = action.payload.product;
+					}
+				}
+				state.message = action.payload?.message;
+			})
+			.addCase(decreaseProduct.rejected, (state, action) => {
 				state.loading = false;
 				state.error = action.payload?.message;
 			})

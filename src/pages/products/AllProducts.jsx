@@ -3,9 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {
 	clearError,
 	clearMessage,
+	decreaseProduct,
 	deleteAllProducts,
 	deleteProduct,
 	fetchAllProducts,
+	increaseProduct,
 } from "../../redux/products/productSlices";
 import { Link } from "react-router-dom";
 import ConfirmationModal from "../../components/Modal";
@@ -41,6 +43,14 @@ const AllProducts = () => {
 		dispatch(deleteProduct(id)).unwrap();
 	};
 
+	const handleIncreaseProduct = (id) => {
+		dispatch(increaseProduct(id)).unwrap();
+	};
+
+	const handleDecreaseProduct = (id) => {
+		dispatch(decreaseProduct(id)).unwrap();
+	};
+
 	const handleDeleteAllProduct = () => {
 		dispatch(deleteAllProducts()).unwrap();
 	};
@@ -73,11 +83,16 @@ const AllProducts = () => {
 							className='p-4 border rounded shadow-md flex justify-between items-center'
 							key={product._id}
 						>
-							<img
-								src={product.imageUrls}
-								alt={product.name}
-								className='h-32 w-32 object-contain rounded-lg'
-							/>
+							<Link
+								to={`/product-details/${product._id}`}
+								className='text-blue-600 hover:underline'
+							>
+								<img
+									src={product.imageUrls}
+									alt={product.name}
+									className='h-32 w-32 object-contain rounded-lg'
+								/>
+							</Link>
 							<div className=''>
 								<div className='mt-2'>
 									<p>
@@ -90,26 +105,32 @@ const AllProducts = () => {
 										Quantity:{" "}
 										<span className='font-bold'>{product.quantity}</span>
 									</p>
-									<div className='flex gap-2 mt-2'>
-										<Link
-											to={`/product-details/${product._id}`}
-											className='text-blue-600 hover:underline'
+									<div className='flex gap-2 m-2'>
+										<button
+											onClick={() => handleIncreaseProduct(product._id)}
+											className='bg-green-600  px-1 rounded-full text-white'
 										>
-											Details
-										</Link>
+											+
+										</button>
+										<button
+											onClick={() => handleDecreaseProduct(product._id)}
+											className='bg-red-700  px-1.5 rounded-full text-white'
+										>
+											-
+										</button>
 										<button
 											onClick={() => toggleProductModal(product._id)}
-											className='bg-red-600 px-2 py-1 rounded-lg text-white'
+											className='bg-red-700  px-1 rounded-full text-white'
 										>
-											Delete
+											X
 										</button>
-										<Link
-											className='bg-green-600 p-1 text-white rounded-lg'
-											to={`/update-product/${product._id}`}
-										>
-											Update
-										</Link>
 									</div>
+									<Link
+										className='bg-green-600 p-1 text-white rounded-lg'
+										to={`/update-product/${product._id}`}
+									>
+										Update
+									</Link>
 								</div>
 							</div>
 						</div>
