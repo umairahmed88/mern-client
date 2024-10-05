@@ -12,27 +12,24 @@ export const useClearState = (
 	const prevError = useRef(null);
 
 	useEffect(() => {
-		// Handle error toast
 		if (error && error !== prevError.current) {
-			toast.error(error); // Trigger toast only once for error
+			toast.error(error);
 			prevError.current = error;
 			dispatch(clearError());
 		}
 
-		// Handle success message toast
 		if (message && message !== prevMessage.current) {
-			toast.success(message); // Trigger toast only once for message
+			toast.success(message);
 			prevMessage.current = message;
 			dispatch(clearMessage());
 		}
 
-		// Clear previous error/message after 4 seconds
 		const timer = setTimeout(() => {
 			prevMessage.current = null;
 			prevError.current = null;
 		}, 4000);
 
-		return () => clearTimeout(timer); // Clean up timer
+		return () => clearTimeout(timer);
 	}, [dispatch, clearMessage, clearError, error, message]);
 };
 
