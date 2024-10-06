@@ -52,41 +52,51 @@ const UpdateProduct = () => {
 	}, [product]);
 
 	const handleImageSubmit = (e) => {
-		if (
-			files.length > 0 &&
-			files.length + (formData.imageUrls || []).length < 7
-		) {
-			setUploading(true);
-			setImageUploadError(false);
-			const promises = [];
-
-			for (let i = 0; i < files.length; i++) {
-				if (files[i].size < 5000000 && files[i].type.startsWith("image/")) {
-					promises.push(storeImage(files[i]));
-				} else {
-					setImageUploadError("File too large or invalid file type");
-				}
-			}
-
-			return Promise.all(promises)
-				.then((urls) => {
-					setFormData({
-						...formData,
-						imageUrls: formData.imageUrls.concat(urls),
-					});
-					setImageUploadError(false);
-					setUploading(false);
-					setFiles([]);
-				})
-				.catch((err) => {
-					setImageUploadError("Image upload error");
-					setUploading(false);
-				});
-		} else {
-			setImageUploadError("You can upload 6 images per product.");
-			toast.error("You can upload 6 images per product.");
+		if (files.length === 0) {
+			setImageUploadError("No files selected.");
+			toast.error("No files selected.");
 			setUploading(false);
+			return;
 		}
+
+		if (files.length + (formData.imageUrls || []).length > 6) {
+			setImageUploadError("You can upload a maximum of 6 images per product.");
+			toast.error("You can upload a maximum of 6 images per product.");
+			setUploading(false);
+			return;
+		}
+
+		setUploading(true);
+		setImageUploadError(false);
+		const promises = [];
+
+		for (let i = 0; i < files.length; i++) {
+			if (files[i].size < 5000000 && files[i].type.startsWith("image/")) {
+				promises.push(storeImage(files[i]));
+			} else {
+				setImageUploadError("File too large or invalid file type");
+				toast.error("File too large or invalid file type");
+				setUploading(false);
+				return;
+			}
+		}
+
+		return Promise.all(promises)
+			.then((urls) => {
+				setFormData({
+					...formData,
+					imageUrls: formData.imageUrls.concat(urls),
+				});
+				setImageUploadError(false);
+				setUploading(false);
+				setFiles([]);
+				toast.success("Images uploaded successfully!");
+			})
+			.catch((err) => {
+				setImageUploadError("Image upload error");
+				toast.error("Image upload error");
+				setUploading(false);
+			});
 	};
 
 	const storeImage = async (file) => {
@@ -219,7 +229,7 @@ const UpdateProduct = () => {
 							</div>
 						))}
 					<button
-						disabled={loading}
+						disabled={loading || uploading}
 						className='p-3 rounded-lg hover:opacity-90 bg-zinc-600 text-white disabled:opacity-75'
 					>
 						{loading ? "Updating..." : "Update"}
