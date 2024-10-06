@@ -93,18 +93,22 @@ const Signup = () => {
 		}
 	};
 
-	if (loading) return <p>Loading...</p>;
+	if (loading)
+		return <div className='text-center text-xl py-10'>Loading...</div>;
 
 	return (
-		<div className='max-w-2xl mx-auto'>
-			<h1 className=' text-2xl font-bold m-3 text-center'>Signup</h1>
-			<div className=''>
-				<form className=' flex flex-col gap-3' onSubmit={handleSubmit}>
+		<div className='max-w-lg mx-auto mt-12 p-6 bg-white shadow-lg rounded-lg'>
+			<h1 className='text-3xl font-bold text-center text-gray-800 mb-6'>
+				Signup
+			</h1>
+
+			<div>
+				<form className='flex flex-col gap-6' onSubmit={handleSubmit}>
 					<input
 						type='text'
 						id='username'
 						placeholder='Username'
-						className=' border-2 p-3 rounded-lg'
+						className='p-4 border-2 rounded-lg w-full text-gray-700 focus:outline-none focus:border-indigo-500'
 						onChange={handleChange}
 						required
 					/>
@@ -112,93 +116,106 @@ const Signup = () => {
 						type='email'
 						id='email'
 						placeholder='Email'
-						className=' border-2 p-3 rounded-lg'
+						className='p-4 border-2 rounded-lg w-full text-gray-700 focus:outline-none focus:border-indigo-500'
 						onChange={handleChange}
 						required
 					/>
-					<div className=' p-3 rounded-lg border-2 flex justify-between'>
+
+					<div className='flex items-center border-2 rounded-lg p-4'>
 						<input
 							type={visible ? "text" : "password"}
 							placeholder='Password'
-							className='border-none outline-none  w-[95%]'
+							className='w-full border-none outline-none text-gray-700'
 							id='password'
 							onChange={handleChange}
 							required
 						/>
 						<div
-							onClick={(e) => setVisible(!visible)}
-							className=' cursor-pointer'
+							onClick={() => setVisible(!visible)}
+							className='cursor-pointer text-gray-600'
 						>
 							{visible ? <EyeOutlined /> : <EyeInvisibleOutlined />}
 						</div>
 					</div>
-					<div className=' p-3 rounded-lg border-2 flex justify-between'>
+
+					<div className='flex items-center border-2 rounded-lg p-4'>
 						<input
 							type={visible ? "text" : "password"}
 							placeholder='Confirm Password'
-							className='border-none outline-none  w-[95%]'
+							className='w-full border-none outline-none text-gray-700'
 							id='confirmPassword'
 							onChange={handleChange}
 							required
 						/>
 					</div>
-					<div className='border-2 flex p-2 flex-col'>
-						<p className='text-center'>Select a profile image</p>
-						<div className=''>
-							<input
-								type='file'
-								onChange={(e) => setFile(e.target.files[0])}
-								accept='image/*'
-								required
-							/>
-							<p>
-								{fileUploadError ? (
-									<span className=' text-red-700'>
-										Error uploading image(image must be less than 2 mb)
-									</span>
-								) : filePerc > 0 && filePerc < 100 ? (
-									<span>{`Uploading ${filePerc}%`}</span>
-								) : filePerc === 100 ? (
-									<span>Image successfully uploaded!</span>
-								) : (
-									""
-								)}
-							</p>
-						</div>
+
+					<div className='border-2 rounded-lg p-4 flex flex-col items-center'>
+						<p className='text-center text-gray-700 mb-2'>
+							Select a profile image
+						</p>
+						<input
+							type='file'
+							onChange={(e) => setFile(e.target.files[0])}
+							accept='image/*'
+							className='mb-3'
+							required
+						/>
+						<p className='text-sm text-gray-600'>
+							{fileUploadError ? (
+								<span className='text-red-600'>
+									Error uploading image (must be less than 2MB)
+								</span>
+							) : filePerc > 0 && filePerc < 100 ? (
+								<span>Uploading {filePerc}%</span>
+							) : filePerc === 100 ? (
+								<span className='text-green-600'>
+									Image successfully uploaded!
+								</span>
+							) : (
+								""
+							)}
+						</p>
 						{file && (
-							<div className=' flex justify-between'>
+							<div className='flex items-center gap-4'>
 								<img
 									src={formData.avatar}
-									alt='profile image'
-									className=' h-24 w-24 object-contain rounded-full'
+									alt='Profile'
+									className='h-24 w-24 rounded-full object-cover'
 								/>
 								<button
+									type='button'
 									onClick={handleRemoveImage}
-									className=' text-red-700 p-3 rounded-lg uppercase'
+									className='text-red-600 font-semibold hover:underline'
 								>
 									Delete
 								</button>
 							</div>
 						)}
 					</div>
+
 					<button
 						disabled={uploading || loading || (file && filePerc < 100)}
-						className='rounded-lg bg-zinc-600 p-3 font-bold hover:opacity-90 disabled:opacity-80'
+						className='w-full py-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition-opacity disabled:opacity-75'
 					>
 						{loading ? "Signing up..." : "SignUp"}
 					</button>
+
 					<GoogleAuth />
 				</form>
-				{error && <p className=' text-red-700'>{error}</p>}
-				{message && <p className=' text-green-700'>{message}</p>}
+
+				{error && <p className='text-red-600 mt-3 text-center'>{error}</p>}
+				{message && (
+					<p className='text-green-600 mt-3 text-center'>{message}</p>
+				)}
+
 				<ForgotPassword />
 			</div>
-			<div className=' flex gap-2'>
-				<p>Already Signup ?</p>
-				<Link className=' hover:underline text-blue-700' to={"/signin"}>
+
+			<div className='flex justify-center mt-6 gap-2'>
+				<p className='text-gray-700'>Already have an account?</p>
+				<Link className='text-indigo-600 hover:underline' to='/signin'>
 					Signin
 				</Link>
-				instead.
 			</div>
 		</div>
 	);

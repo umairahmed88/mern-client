@@ -64,95 +64,97 @@ const AllProducts = () => {
 		setIsProductModalOpen((prev) => !prev);
 	};
 
-	if (loading) return <div>Loading...</div>;
+	if (loading)
+		return <div className='text-center text-xl py-10'>Loading...</div>;
 
-	if (error) return <div>Error: {error}</div>;
+	if (error) return <div className='text-center text-red-600'>{error}</div>;
 
 	return (
-		<div className='max-w-2xl mx-auto'>
-			<h1 className='text-2xl font-bold m-3 text-center'>Products</h1>
-
+		<div className='max-w-7xl mx-auto px-4 py-8'>
+			<h1 className='text-3xl font-bold mb-8 text-center'>All Products</h1>
 			{products.length > 0 && (
-				<div className='grid grid-cols-1 gap-4'>
+				<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8'>
 					{products.map((product) => (
 						<div
-							className='p-4 border rounded shadow-md flex justify-between items-center'
+							className='p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300'
 							key={product._id}
 						>
 							<Link
 								to={`/product-details/${product._id}`}
-								className='text-blue-600 hover:underline'
+								className='block mb-4'
 							>
 								<img
 									src={product.imageUrls}
 									alt={product.name}
-									className='h-32 w-32 object-contain rounded-lg'
+									className='h-48 w-full object-contain rounded-md'
 								/>
 							</Link>
-							<div className=''>
-								<div className='mt-2'>
-									<p>
-										Name: <span className='font-bold'>{product.name}</span>
-									</p>
-									<p>
-										Price: <span className='font-bold'>${product.price}</span>
-									</p>
-									<p>
-										Quantity:{" "}
-										<span className='font-bold'>{product.quantity}</span>
-									</p>
-									<div className='flex gap-2 m-2'>
-										<button
-											onClick={() => handleIncreaseProduct(product._id)}
-											className='bg-green-600  px-1 rounded-full text-white'
-										>
-											+
-										</button>
-										<button
-											onClick={() => handleDecreaseProduct(product._id)}
-											className='bg-red-700  px-1.5 rounded-full text-white'
-										>
-											-
-										</button>
-										<button
-											onClick={() => toggleProductModal(product._id)}
-											className='bg-red-700  px-1 rounded-full text-white'
-										>
-											X
-										</button>
-									</div>
-									<Link
-										className='bg-green-600 p-1 text-white rounded-lg'
-										to={`/update-product/${product._id}`}
+							<div className='text-center'>
+								<h2 className='text-lg font-semibold text-gray-800'>
+									{product.name}
+								</h2>
+								<p className='text-xl font-bold text-green-600 mt-1'>
+									${product.price}
+								</p>
+								<p className='text-sm text-gray-600 mt-2'>
+									Quantity:{" "}
+									<span className='font-semibold text-gray-800'>
+										{product.quantity}
+									</span>
+								</p>
+
+								<div className='mt-4 flex justify-center gap-2'>
+									<button
+										onClick={() => handleIncreaseProduct(product._id)}
+										className='bg-green-500 text-white px-4 py-1 rounded-full hover:bg-green-600 transition duration-300'
 									>
-										Update
-									</Link>
+										+
+									</button>
+									<button
+										onClick={() => handleDecreaseProduct(product._id)}
+										className='bg-red-500 text-white px-4 py-1 rounded-full hover:bg-red-600 transition duration-300'
+									>
+										-
+									</button>
+									<button
+										onClick={() => toggleProductModal(product._id)}
+										className='bg-red-700 text-white px-4 py-1 rounded-full hover:bg-red-800 transition duration-300'
+									>
+										x
+									</button>
 								</div>
+
+								<Link
+									className='block mt-4 bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-500 transition duration-300'
+									to={`/update-product/${product._id}`}
+								>
+									Update
+								</Link>
 							</div>
 						</div>
 					))}
 				</div>
 			)}
 			{products.length > 0 && (
-				<div className=' m-2 flex justify-end'>
+				<div className='flex justify-end mt-6'>
 					<button
 						onClick={toggleModal}
-						className=' bg-red-700 text-white p-3 hover:opacity-90 rounded-lg'
+						className='bg-red-700 text-white py-2 px-6 rounded-lg hover:opacity-90 transition duration-300'
 					>
 						Delete All Products
 					</button>
-					<ConfirmationModal
-						isOpen={isModalOpen}
-						title='Confirm Signout'
-						message='Are you sure you want to delete all products?'
-						onClose={toggleModal}
-						onConfirm={() => {
-							toggleModal();
-							handleDeleteAllProduct();
-						}}
-					/>
 				</div>
 			)}
+			<ConfirmationModal
+				isOpen={isModalOpen}
+				title='Confirm Delete'
+				message='Are you sure you want to delete all products?'
+				onClose={toggleModal}
+				onConfirm={() => {
+					toggleModal();
+					handleDeleteAllProduct();
+				}}
+			/>
 			<ConfirmationModal
 				isOpen={isProductModalOpen}
 				title='Confirm Delete Product'

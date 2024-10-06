@@ -33,55 +33,66 @@ const Signin = () => {
 		} catch (err) {}
 	};
 
-	if (loading) return <div className=''>Loading...</div>;
+	if (loading)
+		return <div className='text-center text-xl py-10'>Loading...</div>;
 
 	return (
-		<div className='max-w-2xl mx-auto'>
-			<h1 className=' text-2xl font-bold m-3 text-center'>Sign In</h1>
-			<div className=''>
-				<form className=' flex flex-col gap-3' onSubmit={handleSubmit}>
+		<div className='max-w-md mx-auto mt-12 p-6 bg-white shadow-md rounded-lg'>
+			<h1 className='text-3xl font-bold text-center text-gray-800 mb-6'>
+				Sign In
+			</h1>
+
+			<div>
+				<form className='flex flex-col gap-4' onSubmit={handleSubmit}>
 					<input
 						type='email'
 						placeholder='Email'
-						className=' p-3 rounded-lg border-2'
+						className='p-4 border-2 rounded-lg w-full text-gray-700 focus:outline-none focus:border-indigo-500'
 						onChange={handleChange}
 						id='email'
 						required
 					/>
-					<div className=' p-3 rounded-lg border-2 flex justify-between'>
+
+					<div className='flex items-center border-2 rounded-lg p-4'>
 						<input
 							type={visible ? "text" : "password"}
 							placeholder='Password'
-							className='border-none outline-none w-[95%]'
+							className='w-full border-none outline-none text-gray-700'
 							id='password'
 							onChange={handleChange}
 							required
 						/>
 						<div
-							onClick={(e) => setVisible(!visible)}
-							className=' cursor-pointer'
+							onClick={() => setVisible(!visible)}
+							className='cursor-pointer text-gray-600'
 						>
 							{visible ? <EyeOutlined /> : <EyeInvisibleOutlined />}
 						</div>
 					</div>
+
 					<button
 						disabled={loading}
-						className=' up p-3 bg-zinc-600 text-white rounded-lg hover:opacity-90 disabled:opacity-75'
+						className='w-full p-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition-opacity disabled:opacity-75'
 					>
-						Signin
+						{loading ? "Signing in..." : "Signin"}
 					</button>
+
 					<GoogleAuth />
 				</form>
-				{error && <p className=' text-red-700'>{error}</p>}
-				{message && <p className=' text-green-700'>{message}</p>}
+
+				{error && <p className='text-red-600 mt-3 text-center'>{error}</p>}
+				{message && (
+					<p className='text-green-600 mt-3 text-center'>{message}</p>
+				)}
+
 				<ForgotPassword />
 			</div>
-			<div className=' flex gap-2 p-2'>
-				<p>Do not have account? </p>
-				<Link className=' text-blue-700 hover:underline' to={"/signup"}>
+
+			<div className='flex justify-center mt-6 gap-2'>
+				<p className='text-gray-700'>Don't have an account?</p>
+				<Link className='text-indigo-600 hover:underline' to={"/signup"}>
 					Signup
 				</Link>
-				first
 			</div>
 		</div>
 	);

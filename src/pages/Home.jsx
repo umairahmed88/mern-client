@@ -36,49 +36,50 @@ const Home = () => {
 		await dispatch(addToCart({ productId, quantity })).unwrap();
 	};
 
-	if (loading) return <div className=''>Loading...</div>;
+	if (loading)
+		return <div className='text-center text-xl py-10'>Loading...</div>;
 
 	return (
-		<div className='max-w-2xl mx-auto'>
-			<h1 className='text-2xl font-bold m-3 text-center'>Products</h1>
+		<div className='max-w-7xl mx-auto px-4 py-8'>
+			<h1 className='text-3xl font-bold mb-8 text-center'>Shopping World</h1>
 
 			{products.length > 0 && (
-				<div className='grid grid-cols-1 gap-4'>
+				<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8'>
 					{products.map((product) => (
 						<div
-							className='p-4 border rounded shadow-md flex justify-between items-center'
+							className='p-4 border border-gray-200 rounded-lg shadow-lg flex flex-col justify-between items-center bg-white hover:shadow-xl transition-shadow duration-300'
 							key={product._id}
 						>
 							<Link
 								to={`/product-details/${product._id}`}
-								className='text-blue-600 hover:underline'
+								className='block mb-4'
 							>
 								<img
 									src={product.imageUrls}
 									alt={product.name}
-									className='h-32 w-32 object-contain rounded-lg'
+									className='h-48 w-full object-contain rounded-md'
 								/>
 							</Link>
-							<div className=''>
-								<div className='mt-2'>
-									<p>
-										Name: <span className='font-bold'>{product.name}</span>
-									</p>
-									<p>
-										Price: <span className='font-bold'>${product.price}</span>
-									</p>
-									<p>
-										Quantity:{" "}
-										<span className='font-bold'>{product.quantity}</span>
-									</p>
-									<button
-										onClick={() => handleAddToCart(product._id)}
-										className='bg-zinc-600  px-1 rounded-lg text-white hover:opacity-90'
-									>
-										add to cart
-									</button>
-								</div>
+							<div className='text-center'>
+								<p className='text-lg font-semibold text-gray-800'>
+									{product.name}
+								</p>
+								<p className='text-xl font-bold text-green-600 mt-1'>
+									${product.price}
+								</p>
+								<p className='text-sm text-gray-600 mt-2'>
+									Stock:{" "}
+									<span className='font-semibold text-gray-800'>
+										{product.quantity}
+									</span>
+								</p>
 							</div>
+							<button
+								onClick={() => handleAddToCart(product._id)}
+								className='mt-4 bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-500 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-400'
+							>
+								Add to Cart
+							</button>
 						</div>
 					))}
 				</div>
