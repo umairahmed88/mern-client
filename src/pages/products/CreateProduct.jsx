@@ -98,83 +98,96 @@ const CreateProduct = () => {
 		});
 	};
 
-	if (loading) return <div className=''>Loading...</div>;
+	if (loading)
+		return <div className='text-center text-xl py-10'>Loading...</div>;
 
 	return (
-		<div className='max-w-2xl mx-auto'>
-			<h1 className=' text-2xl font-bold m-3 text-center'>Create Product</h1>
-			<div className=''>
-				<form onSubmit={handleSubmit} className=' flex flex-col gap-3'>
+		<div className='max-w-3xl mx-auto mt-12 p-6 bg-white shadow-lg rounded-lg'>
+			<h1 className='text-3xl font-bold text-center text-gray-800 mb-6'>
+				Create Product
+			</h1>
+
+			<form onSubmit={handleSubmit} className='flex flex-col gap-6'>
+				<input
+					type='text'
+					id='name'
+					className='p-4 border-2 rounded-lg w-full text-gray-700 focus:outline-none focus:border-indigo-500'
+					placeholder='Product Name'
+					onChange={handleChange}
+					required
+				/>
+
+				<input
+					type='number'
+					min={0}
+					id='price'
+					className='p-4 border-2 rounded-lg w-full text-gray-700 focus:outline-none focus:border-indigo-500'
+					placeholder='Product Price'
+					onChange={handleChange}
+					required
+				/>
+
+				<input
+					type='number'
+					min={0}
+					id='quantity'
+					className='p-4 border-2 rounded-lg w-full text-gray-700 focus:outline-none focus:border-indigo-500'
+					placeholder='Product Quantity'
+					onChange={handleChange}
+					required
+				/>
+
+				<div className='flex justify-between items-center border-2 p-4 rounded-lg gap-4'>
 					<input
-						type='text'
-						id='name'
-						className=' border-2 p-3 rounded-lg'
-						placeholder='Product Name'
-						onChange={handleChange}
+						type='file'
+						id='images'
+						className='text-gray-700'
+						onChange={(e) => setFiles(e.target.files)}
+						accept='image/*'
+						multiple
 						required
 					/>
-					<input
-						type='number'
-						min={0}
-						id='price'
-						className=' border-2 p-3 rounded-lg'
-						placeholder='Product Price'
-						onChange={handleChange}
-						required
-					/>
-					<input
-						type='number'
-						id='quantity'
-						className=' border-2 p-3 rounded-lg'
-						placeholder='Product Quantity'
-						onChange={handleChange}
-						required
-					/>
-					<div className=' flex justify-between border-2 p-3 rounded-lg'>
-						<input
-							type='file'
-							id='name'
-							className=''
-							placeholder='Product Name'
-							onChange={(e) => setFiles(e.target.files)}
-							accept='image/*'
-							multiple
-							required
-						/>
-						<button
-							disabled={uploading}
-							onClick={handleImageSubmit}
-							className=' p-2 rounded-lg border-2 border-black disabled:opacity-75'
-						>
-							{uploading ? "Uploading..." : "Upload"}
-						</button>
-					</div>
-					{formData.imageUrls.length > 0 &&
-						formData.imageUrls.map((url, i) => (
-							<div className=' flex justify-between' key={url}>
+					<button
+						type='button'
+						disabled={uploading}
+						onClick={handleImageSubmit}
+						className='bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-500 transition-opacity disabled:opacity-75'
+					>
+						{uploading ? "Uploading..." : "Upload Images"}
+					</button>
+				</div>
+
+				{formData.imageUrls.length > 0 && (
+					<div className='grid grid-cols-2 gap-4'>
+						{formData.imageUrls.map((url, i) => (
+							<div key={url} className='relative'>
 								<img
 									src={url}
 									alt='product'
-									className='w-20 h-20 object-contain rounded-lg'
+									className='w-32 h-32 object-cover rounded-lg'
 								/>
 								<button
+									type='button'
 									onClick={() => handleRemoveImage(i)}
-									className=' text-red-700 p-3 uppercase hover:opacity-75'
+									className='absolute top-2 right-2 text-red-600 font-bold bg-white p-2 rounded-full hover:bg-red-600 hover:text-white transition'
 								>
-									Delete
+									&times;
 								</button>
 							</div>
 						))}
-					<button
-						disabled={loading || uploading}
-						className='bg-zinc-600 p-3 rounded-lg text-white opacity-90 disabled:opacity-90'
-					>
-						{loading ? "Creating..." : "Create Product"}
-					</button>
-					{error && <p>{error}</p>}
-					{message && <p>{message}</p>}
-				</form>
-			</div>
+					</div>
+				)}
+
+				<button
+					disabled={loading || uploading}
+					className='w-full py-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition-opacity disabled:opacity-75'
+				>
+					{loading ? "Creating..." : "Create Product"}
+				</button>
+
+				{error && <p className='text-red-600 mt-3'>{error}</p>}
+				{message && <p className='text-green-600 mt-3'>{message}</p>}
+			</form>
 		</div>
 	);
 };
