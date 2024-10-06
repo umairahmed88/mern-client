@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
 	clearError,
@@ -227,6 +227,14 @@ const UpdateProduct = () => {
 						{loading ? "Updating..." : "Update"}
 					</button>
 				</form>
+				<div className=' flex justify-end m-2'>
+					<Link
+						to={"/products"}
+						className='bg-red-700 p-2 rounded-lg text-white hover:opacity-90'
+					>
+						Cancel
+					</Link>
+				</div>
 			</div>
 		</div>
 	);
