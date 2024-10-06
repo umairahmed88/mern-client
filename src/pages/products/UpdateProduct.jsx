@@ -52,13 +52,6 @@ const UpdateProduct = () => {
 	}, [product]);
 
 	const handleImageSubmit = (e) => {
-		if (files.length === 0) {
-			setImageUploadError("No files selected.");
-			toast.error("No files selected.");
-			setUploading(false);
-			return;
-		}
-
 		if (files.length + (formData.imageUrls || []).length > 6) {
 			setImageUploadError("You can upload a maximum of 6 images per product.");
 			toast.error("You can upload a maximum of 6 images per product.");
