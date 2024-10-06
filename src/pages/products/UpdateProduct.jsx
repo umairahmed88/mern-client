@@ -83,7 +83,6 @@ const UpdateProduct = () => {
 				setImageUploadError(false);
 				setUploading(false);
 				setFiles([]);
-				toast.success("Images uploaded successfully!");
 			})
 			.catch((err) => {
 				setImageUploadError("Image upload error");
