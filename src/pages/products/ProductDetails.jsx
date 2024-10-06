@@ -27,7 +27,6 @@ const ProductDetails = () => {
 
 			{product && (
 				<div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
-					{/* Product Images */}
 					<div className='space-y-4'>
 						<div className='aspect-w-16 aspect-h-9'>
 							<img

@@ -13,6 +13,7 @@ import {
 	uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../../firebase";
+import { useClearState } from "../../utils/useClearState";
 
 const UpdateProduct = () => {
 	const {
@@ -28,6 +29,8 @@ const UpdateProduct = () => {
 	const [files, setFiles] = useState([]);
 	const [uploading, setUploading] = useState(false);
 	const [imageUploadError, setImageUploadError] = useState(false);
+
+	useClearState(dispatch, clearMessage, clearError, error, message);
 
 	useEffect(() => {
 		if (id) {
@@ -63,7 +66,7 @@ const UpdateProduct = () => {
 				}
 			}
 
-			Promise.all(promises)
+			return Promise.all(promises)
 				.then((urls) => {
 					setFormData({
 						...formData,
@@ -118,6 +121,12 @@ const UpdateProduct = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+
+		if (uploading) {
+			toast.error("Please wait for image upload to finish.");
+			return;
+		}
+		await handleImageSubmit();
 
 		if (!formData.imageUrls || formData.imageUrls.length === 0) {
 			toast.error("At least one image is required for the product.");
