@@ -135,6 +135,14 @@ const AllProducts = () => {
 					))}
 				</div>
 			)}
+			<div className='flex justify-end mt-6'>
+				<Link
+					to={"/create-product"}
+					className='bg-green-700 text-white py-2 px-6 rounded-lg hover:opacity-90 transition duration-300'
+				>
+					Add New Product
+				</Link>
+			</div>
 			{products.length > 0 && (
 				<div className='flex justify-end mt-6'>
 					<button
