@@ -7,6 +7,7 @@ import {
 } from "../redux/products/productSlices";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { addToCart } from "../redux/cartItems/cartItemsSlices";
 
 const Home = () => {
 	const {
@@ -31,7 +32,9 @@ const Home = () => {
 		}
 	}, [dispatch, products.length]);
 
-	const handleAddToCart = () => {};
+	const handleAddToCart = async (productId, quantity = 1) => {
+		await dispatch(addToCart({ productId, quantity })).unwrap();
+	};
 
 	if (loading) return <div className=''>Loading...</div>;
 
