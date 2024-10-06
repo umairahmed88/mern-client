@@ -6,6 +6,25 @@ import { persistReducer } from "redux-persist";
 
 const API_URL = "https://mern-api-ua.vercel.app/api/v1/cartItems";
 
+export const fetchAllItems = createAsyncThunk(
+	"cartItem/fetchAllItems",
+	async (_, { getState, rejectWithValue }) => {
+		try {
+			const token = getState().auth.currentUser.sanitizedUser.token;
+			const response = await axios.get(`${API_URL}/fetch-all-items`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+					"Content-Type": "application/json",
+				},
+			});
+			console.log(response.data);
+			return response.data;
+		} catch (err) {
+			return rejectWithValue(err.response ? err.response.data : err.message);
+		}
+	}
+);
+
 export const addToCart = createAsyncThunk(
 	"cartItem/addToCart",
 	async (cartItemData, { getState, rejectWithValue }) => {
@@ -66,6 +85,20 @@ const cartItemsSlice = createSlice({
 				state.message = action.payload.message;
 			})
 			.addCase(addToCart.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload.message;
+			})
+			.addCase(fetchAllItems.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+				state.message = null;
+			})
+			.addCase(fetchAllItems.fulfilled, (state, action) => {
+				state.loading = false;
+				state.cartItems = action.payload.cartItems;
+				state.message = action.payload.message;
+			})
+			.addCase(fetchAllItems.rejected, (state, action) => {
 				state.loading = false;
 				state.error = action.payload.message;
 			});
