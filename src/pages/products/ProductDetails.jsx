@@ -1,10 +1,21 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { fetchProduct } from "../../redux/products/productSlices";
+import {
+	clearError as clearProductError,
+	clearMessage as clearProductMessage,
+	fetchProduct,
+} from "../../redux/products/productSlices";
+import { useClearState } from "../../utils/useClearState";
 
 const ProductDetails = () => {
-	const { product } = useSelector((state) => state.product);
+	const {
+		product,
+		loading: productLoading,
+		error: productError,
+		message: productMessage,
+	} = useSelector((state) => state.product);
+
 	const { id } = useParams();
 	const dispatch = useDispatch();
 
@@ -14,7 +25,17 @@ const ProductDetails = () => {
 		}
 	}, [dispatch, id]);
 
-	if (!product)
+	useClearState(dispatch, [
+		{
+			name: "product",
+			error: productError,
+			message: productMessage,
+			clearError: clearProductError,
+			clearMessage: clearProductMessage,
+		},
+	]);
+
+	if (!productLoading)
 		return (
 			<div className='flex justify-center items-center h-screen'>
 				Loading...
@@ -67,7 +88,7 @@ const ProductDetails = () => {
 						</p>
 
 						<Link
-							className='inline-block mt-4 px-6 py-2 bg-zinc-700 text-white font-medium rounded hover:opacity-90 transition duration-200'
+							className='inline-block mt-4 px-6 py-2 bg-indigo-700 text-white font-medium rounded hover:opacity-90 transition duration-200'
 							to={`/update-product/${product._id}`}
 						>
 							Update Product

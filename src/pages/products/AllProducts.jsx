@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-	clearError,
-	clearMessage,
 	decreaseProduct,
 	deleteAllProducts,
 	deleteProduct,
 	fetchAllProducts,
 	increaseProduct,
+	clearError as clearProductError,
+	clearMessage as clearProductMessage,
 } from "../../redux/products/productSlices";
 import { Link } from "react-router-dom";
 import ConfirmationModal from "../../components/Modal";
@@ -16,16 +16,25 @@ import { useClearState } from "../../utils/useClearState";
 const AllProducts = () => {
 	const {
 		products = [],
-		loading,
-		error,
-		message,
+		loading: productLoading,
+		error: productError,
+		message: productMessage,
 	} = useSelector((state) => state.product);
+
 	const dispatch = useDispatch();
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isProductModalOpen, setIsProductModalOpen] = useState(false); // State for individual product delete modal
 	const [selectedProductId, setSelectedProductId] = useState(null); // Store product id to delete
 
-	useClearState(dispatch, clearMessage, clearError, error, message);
+	useClearState(dispatch, [
+		{
+			name: "product",
+			error: productError,
+			message: productMessage,
+			clearError: clearProductError,
+			clearMessage: clearProductMessage,
+		},
+	]);
 
 	console.log(products);
 
@@ -64,10 +73,8 @@ const AllProducts = () => {
 		setIsProductModalOpen((prev) => !prev);
 	};
 
-	if (loading)
+	if (productLoading)
 		return <div className='text-center text-xl py-10'>Loading...</div>;
-
-	if (error) return <div className='text-center text-red-600'>{error}</div>;
 
 	return (
 		<div className='max-w-7xl mx-auto px-4 py-8'>

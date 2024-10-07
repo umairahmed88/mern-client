@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createProduct } from "../../redux/products/productSlices";
+import {
+	createProduct,
+	clearError as clearProductError,
+	clearMessage as clearProductMessage,
+} from "../../redux/products/productSlices";
 import { Link, useNavigate } from "react-router-dom";
 import {
 	getDownloadURL,
@@ -9,9 +13,14 @@ import {
 	uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../../firebase";
+import { useClearState } from "../../utils/useClearState";
 
 const CreateProduct = () => {
-	const { loading, error, message } = useSelector((state) => state.product);
+	const {
+		loading: productLoading,
+		error: productError,
+		message: productMessage,
+	} = useSelector((state) => state.product);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [formData, setFormData] = useState({
@@ -23,6 +32,16 @@ const CreateProduct = () => {
 	const [files, setFiles] = useState([]);
 	const [uploading, setUploading] = useState(false);
 	const [imageUploadError, setImageUploadError] = useState(false);
+
+	useClearState(dispatch, [
+		{
+			name: "product",
+			error: productError,
+			message: productMessage,
+			clearError: clearProductError,
+			clearMessage: clearProductMessage,
+		},
+	]);
 
 	const handleImageSubmit = (e) => {
 		if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
@@ -98,7 +117,7 @@ const CreateProduct = () => {
 		});
 	};
 
-	if (loading)
+	if (productLoading)
 		return <div className='text-center text-xl py-10'>Loading...</div>;
 
 	return (
@@ -179,14 +198,16 @@ const CreateProduct = () => {
 				)}
 
 				<button
-					disabled={loading || uploading}
+					disabled={productLoading || uploading}
 					className='w-full py-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition-opacity disabled:opacity-75'
 				>
-					{loading ? "Creating..." : "Create Product"}
+					{productLoading ? "Creating..." : "Create Product"}
 				</button>
 
-				{error && <p className='text-red-600 mt-3'>{error}</p>}
-				{message && <p className='text-green-600 mt-3'>{message}</p>}
+				{productError && <p className='text-red-600 mt-3'>{productError}</p>}
+				{productMessage && (
+					<p className='text-green-600 mt-3'>{productMessage}</p>
+				)}
 			</form>
 			<div className='flex justify-end mt-6'>
 				<Link

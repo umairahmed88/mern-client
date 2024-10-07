@@ -12,7 +12,7 @@ import AllProducts from "./pages/products/AllProducts";
 import ProductDetails from "./pages/products/ProductDetails";
 import UpdateProduct from "./pages/products/UpdateProduct";
 import CreateProduct from "./pages/products/CreateProduct";
-import ResetPassword from "./pages/products/ResetPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
 
 const routes = [
 	{ path: "/", element: <Home /> },

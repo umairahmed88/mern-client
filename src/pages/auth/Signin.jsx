@@ -2,19 +2,36 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useClearState } from "../../utils/useClearState";
 import { useDispatch, useSelector } from "react-redux";
-import { clearError, clearMessage, signin } from "../../redux/auth/authSlices";
+import {
+	clearError as clearAuthError,
+	clearMessage as clearAuthMessage,
+	signin,
+} from "../../redux/auth/authSlices";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import GoogleAuth from "../../components/GoogleAuth";
 import ForgotPassword from "../../components/ForgotPassword";
 
 const Signin = () => {
-	const { loading, error, message } = useSelector((state) => state.auth);
+	const {
+		loading,
+		message: authMessage,
+		error: authError,
+	} = useSelector((state) => state.auth);
+
 	const [formData, setFormData] = useState({});
 	const [visible, setVisible] = useState(false);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	useClearState(dispatch, clearMessage, clearError, error, message);
+	useClearState(dispatch, [
+		{
+			name: "auth",
+			error: authError,
+			message: authMessage,
+			clearError: clearAuthError,
+			clearMessage: clearAuthMessage,
+		},
+	]);
 
 	const handleChange = (e) => {
 		setFormData({
@@ -80,9 +97,11 @@ const Signin = () => {
 					<GoogleAuth />
 				</form>
 
-				{error && <p className='text-red-600 mt-3 text-center'>{error}</p>}
-				{message && (
-					<p className='text-green-600 mt-3 text-center'>{message}</p>
+				{authError && (
+					<p className='text-red-600 mt-3 text-center'>{authError}</p>
+				)}
+				{authMessage && (
+					<p className='text-green-600 mt-3 text-center'>{authMessage}</p>
 				)}
 
 				<ForgotPassword />

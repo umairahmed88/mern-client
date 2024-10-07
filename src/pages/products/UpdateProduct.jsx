@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
-	clearError,
-	clearMessage,
+	clearError as clearProductError,
+	clearMessage as clearProductMessage,
 	fetchProduct,
 	updateProduct,
 } from "../../redux/products/productSlices";
@@ -20,10 +20,11 @@ import { useClearState } from "../../utils/useClearState";
 const UpdateProduct = () => {
 	const {
 		product = {},
-		loading,
-		message,
-		error,
+		loading: productLoading,
+		error: productError,
+		message: productMessage,
 	} = useSelector((state) => state.product);
+
 	const { id } = useParams();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -32,7 +33,15 @@ const UpdateProduct = () => {
 	const [uploading, setUploading] = useState(false);
 	const [imageUploadError, setImageUploadError] = useState(false);
 
-	useClearState(dispatch, clearMessage, clearError, error, message);
+	useClearState(dispatch, [
+		{
+			name: "product",
+			error: productError,
+			message: productMessage,
+			clearError: clearProductError,
+			clearMessage: clearProductMessage,
+		},
+	]);
 
 	useEffect(() => {
 		if (id) {
@@ -155,7 +164,7 @@ const UpdateProduct = () => {
 		});
 	};
 
-	if (loading)
+	if (productLoading)
 		return <div className='text-center text-xl py-10'>Loading...</div>;
 
 	return (
@@ -236,10 +245,10 @@ const UpdateProduct = () => {
 				)}
 
 				<button
-					disabled={loading || uploading}
+					disabled={productLoading || uploading}
 					className='w-full py-4 bg-indigo-600 text-white rounded-lg hover:opacity-90 transition-opacity disabled:opacity-75'
 				>
-					{loading ? "Updating..." : "Update Product"}
+					{productLoading ? "Updating..." : "Update Product"}
 				</button>
 			</form>
 

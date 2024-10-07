@@ -9,8 +9,8 @@ import {
 import { app } from "../../firebase";
 import { toast } from "react-toastify";
 import {
-	clearError,
-	clearMessage,
+	clearError as clearAuthError,
+	clearMessage as clearAuthMessage,
 	signout,
 	updateUser,
 } from "../../redux/auth/authSlices";
@@ -19,9 +19,13 @@ import { useNavigate } from "react-router-dom";
 import ConfirmationModal from "../../components/Modal";
 
 const Profile = () => {
-	const { currentUser, loading, message, error } = useSelector(
-		(state) => state.auth
-	);
+	const {
+		currentUser,
+		loading,
+		message: authMessage,
+		error: authError,
+	} = useSelector((state) => state.auth);
+
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const fileRef = useRef();
@@ -30,9 +34,17 @@ const Profile = () => {
 	const [fileUploadError, setFileUploadError] = useState(false);
 	const [filePerc, setFilePerc] = useState(0);
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [showUpdateForm, setShowUpdateForm] = useState(false); // New state for toggling
+	const [showUpdateForm, setShowUpdateForm] = useState(false);
 
-	useClearState(dispatch, clearMessage, clearError, error, message);
+	useClearState(dispatch, [
+		{
+			name: "auth",
+			error: authError,
+			message: authMessage,
+			clearError: clearAuthError,
+			clearMessage: clearAuthMessage,
+		},
+	]);
 
 	const { avatar, username, email, id } = currentUser?.sanitizedUser || {};
 
@@ -135,7 +147,7 @@ const Profile = () => {
 						<div className='flex justify-center'>
 							<img
 								src={avatar}
-								className='h-28 w-28 rounded-full object-cover border-2 border-gray-300 shadow-lg'
+								className='h-28 w-28 rounded-full object-cover border-2 shadow-lg'
 								alt='profile picture'
 							/>
 						</div>

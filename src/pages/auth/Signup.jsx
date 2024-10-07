@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { clearError, clearMessage, signup } from "../../redux/auth/authSlices";
+import {
+	clearError as clearAuthError,
+	clearMessage as clearAuthMessage,
+	signup,
+} from "../../redux/auth/authSlices";
 import { useClearState } from "../../utils/useClearState";
 import { Link } from "react-router-dom";
 import {
@@ -16,7 +20,12 @@ import GoogleAuth from "../../components/GoogleAuth";
 import ForgotPassword from "../../components/ForgotPassword";
 
 const Signup = () => {
-	const { loading, message, error } = useSelector((state) => state.auth);
+	const {
+		loading,
+		message: authMessage,
+		error: authError,
+	} = useSelector((state) => state.auth);
+
 	const dispatch = useDispatch();
 	const [formData, setFormData] = useState({});
 	const [file, setFile] = useState(null);
@@ -25,7 +34,15 @@ const Signup = () => {
 	const [filePerc, setFilePerc] = useState(0);
 	const [visible, setVisible] = useState(false);
 
-	useClearState(dispatch, clearMessage, clearError, error, message);
+	useClearState(dispatch, [
+		{
+			name: "auth",
+			error: authError,
+			message: authMessage,
+			clearError: clearAuthError,
+			clearMessage: clearAuthMessage,
+		},
+	]);
 
 	useEffect(() => {
 		if (file) {
@@ -203,9 +220,11 @@ const Signup = () => {
 					<GoogleAuth />
 				</form>
 
-				{error && <p className='text-red-600 mt-3 text-center'>{error}</p>}
-				{message && (
-					<p className='text-green-600 mt-3 text-center'>{message}</p>
+				{authError && (
+					<p className='text-red-600 mt-3 text-center'>{authError}</p>
+				)}
+				{authMessage && (
+					<p className='text-green-600 mt-3 text-center'>{authMessage}</p>
 				)}
 
 				<ForgotPassword />
