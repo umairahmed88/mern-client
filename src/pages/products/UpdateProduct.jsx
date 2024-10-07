@@ -155,86 +155,101 @@ const UpdateProduct = () => {
 		});
 	};
 
-	if (loading) return <div className=''>Loading...</div>;
+	if (loading)
+		return <div className='text-center text-xl py-10'>Loading...</div>;
 
 	return (
-		<div className='max-w-2xl mx-auto'>
-			<h1 className=' text-2xl font-bold m-3 text-center'>{`Update ${
+		<div className='max-w-3xl mx-auto mt-12 p-6 bg-white shadow-lg rounded-lg'>
+			<h1 className='text-3xl font-bold text-center text-gray-800 mb-6'>{`Update ${
 				product?.name || formData?.name
 			}`}</h1>
-			<div className=''>
-				<form onSubmit={handleSubmit} className='flex flex-col gap-3'>
+
+			<form onSubmit={handleSubmit} className='flex flex-col gap-6'>
+				<input
+					type='text'
+					id='name'
+					onChange={handleChange}
+					defaultValue={formData?.name || product?.name}
+					className='p-4 border-2 rounded-lg w-full text-gray-700 focus:outline-none focus:border-teal-500'
+					placeholder='Product Name'
+					required
+				/>
+
+				<input
+					type='number'
+					id='price'
+					onChange={handleChange}
+					defaultValue={formData?.price || product?.price}
+					className='p-4 border-2 rounded-lg w-full text-gray-700 focus:outline-none focus:border-teal-500'
+					placeholder='Product Price'
+					required
+				/>
+
+				<input
+					type='number'
+					id='quantity'
+					onChange={handleChange}
+					defaultValue={formData?.quantity || product?.quantity}
+					className='p-4 border-2 rounded-lg w-full text-gray-700 focus:outline-none focus:border-teal-500'
+					placeholder='Product Quantity'
+					required
+				/>
+
+				<div className='p-4 border-2 rounded-lg flex justify-between items-center'>
 					<input
-						type='text'
-						id='name'
-						onChange={handleChange}
-						defaultValue={formData?.name || product?.name}
-						className='p-3 border-2 rounded-lg'
+						type='file'
+						id='images'
+						onChange={(e) => setFiles(e.target.files)}
+						className='text-gray-700'
+						accept='image/*'
+						multiple
 					/>
-					<input
-						type='number'
-						id='price'
-						onChange={handleChange}
-						defaultValue={formData?.price || product?.price}
-						className='p-3 border-2 rounded-lg'
-					/>
-					<input
-						type='number'
-						id='quantity'
-						onChange={handleChange}
-						defaultValue={formData?.quantity || product?.quantity}
-						className='p-3 border-2 rounded-lg'
-					/>
-					<div className='p-3 border-2 rounded-lg flex justify-between'>
-						<input
-							type='file'
-							id='images'
-							onChange={(e) => setFiles(e.target.files)}
-							className=''
-							accept='image/*'
-							multiple
-						/>
-						<button
-							onClick={handleImageSubmit}
-							className=' bg-zinc-600 p-3 rounded-lg text-white hover:opacity-90 disabled:opacity-90'
-						>
-							{uploading ? "Uploading..." : "Upload"}
-						</button>
-					</div>
-					{formData?.imageUrls?.length > 0 &&
-						formData?.imageUrls?.map((url, i) => (
-							<div
-								className=' flex justify-between items-center p-2 shadow-md border-2'
-								key={url}
-							>
+					<button
+						type='button'
+						onClick={handleImageSubmit}
+						className='py-2 px-4 bg-indigo-600 text-white rounded-lg hover:opacity-90 transition-opacity disabled:opacity-75'
+						disabled={uploading}
+					>
+						{uploading ? "Uploading..." : "Upload Images"}
+					</button>
+				</div>
+
+				{formData?.imageUrls?.length > 0 && (
+					<div className='grid grid-cols-2 gap-4'>
+						{formData?.imageUrls.map((url, i) => (
+							<div key={url} className='relative'>
 								<img
 									src={url}
 									alt={formData?.name || product?.name}
-									className=' h-24 w-24 object-contain'
+									className='w-32 h-32 object-cover rounded-lg'
 								/>
 								<button
+									type='button'
 									onClick={() => handleRemoveImage(i)}
-									className='text-red-700 p-3 uppercase hover:opacity-75'
+									className='absolute top-2 right-2 text-red-600 font-bold bg-white p-2 rounded-full hover:opacity-90 transition'
 								>
-									Delete
+									&times;
 								</button>
 							</div>
 						))}
-					<button
-						disabled={loading || uploading}
-						className='p-3 rounded-lg hover:opacity-90 bg-zinc-600 text-white disabled:opacity-75'
-					>
-						{loading ? "Updating..." : "Update"}
-					</button>
-				</form>
-				<div className=' flex justify-end m-2'>
-					<Link
-						to={"/products"}
-						className='bg-red-700 p-2 rounded-lg text-white hover:opacity-90'
-					>
-						Cancel
-					</Link>
-				</div>
+					</div>
+				)}
+
+				<button
+					disabled={loading || uploading}
+					className='w-full py-4 bg-indigo-600 text-white rounded-lg hover:opacity-90 transition-opacity disabled:opacity-75'
+				>
+					{loading ? "Updating..." : "Update Product"}
+				</button>
+			</form>
+
+			<div className='flex justify-end mt-6'>
+				<Link
+					to='/products'
+					className='py-3 px-6 bg-red-600 text-white rounded-lg hover:opacity-90 transition-opacity'
+				>
+					Cancel
+				</Link>
 			</div>
 		</div>
 	);

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createProduct } from "../../redux/products/productSlices";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
 	getDownloadURL,
 	getStorage,
@@ -188,6 +188,14 @@ const CreateProduct = () => {
 				{error && <p className='text-red-600 mt-3'>{error}</p>}
 				{message && <p className='text-green-600 mt-3'>{message}</p>}
 			</form>
+			<div className='flex justify-end mt-6'>
+				<Link
+					to='/products'
+					className='py-3 px-6 bg-red-600 text-white rounded-lg hover:opacity-90 transition-opacity'
+				>
+					Cancel
+				</Link>
+			</div>
 		</div>
 	);
 };
