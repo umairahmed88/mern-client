@@ -11,11 +11,11 @@ const links = [
 const Header = () => {
 	const { currentUser } = useSelector((state) => state.auth);
 	return (
-		<header className=' bg-indigo-600 items-center p-3 text-white shadow-md '>
+		<header className=' bg-indigo-600 items-center py-2 px-3 text-white shadow-md '>
 			<div className=' mx-auto flex justify-between items-center'>
 				<Link
 					to='/'
-					className='text-2xl font-bold tracking-wid hover:opacity-90'
+					className='text-xl font-bold tracking-wid hover:opacity-90'
 				>
 					UA Store
 				</Link>
@@ -40,7 +40,7 @@ const Header = () => {
 					) : (
 						<Link
 							to='/signin'
-							className=' py-2 px-4 rounded-lg transition duration-300'
+							className='rounded-lg transition duration-300 hover:opacity-90'
 						>
 							Sign In
 						</Link>
