@@ -57,6 +57,44 @@ export const addToCart = createAsyncThunk(
 	}
 );
 
+export const deleteItem = createAsyncThunk(
+	"cartItem/deleteItem",
+	async (id, { getState, rejectWithValue }) => {
+		try {
+			const token = getState()?.auth?.currentUser?.sanitizedUser?.token;
+			const response = await axios.delete(`${API_URL}/delete-item/${id}`, {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			console.log(response.data);
+			return response.data;
+		} catch (err) {
+			return rejectWithValue(err.response ? err.response.data : err.message);
+		}
+	}
+);
+
+export const clearCart = createAsyncThunk(
+	"cartItem/clearCart",
+	async (id, { getState, rejectWithValue }) => {
+		try {
+			const token = getState()?.auth?.currentUser?.sanitizedUser?.token;
+			const response = await axios.delete(`${API_URL}/clear-cart`, {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			console.log(response.data);
+			return response.data;
+		} catch (err) {
+			return rejectWithValue(err.response ? err.response.data : err.message);
+		}
+	}
+);
+
 const cartItemsSlice = createSlice({
 	name: "cartItem",
 	initialState: {
@@ -108,6 +146,36 @@ const cartItemsSlice = createSlice({
 				state.message = action.payload.message;
 			})
 			.addCase(fetchAllItems.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload.message;
+			})
+			.addCase(deleteItem.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+				state.message = null;
+			})
+			.addCase(deleteItem.fulfilled, (state, action) => {
+				state.loading = false;
+				state.cartItems = state.cartItems.filter(
+					(item) => item._id !== action.meta.arg
+				);
+				state.message = action.payload.message;
+			})
+			.addCase(deleteItem.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload.message;
+			})
+			.addCase(clearCart.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+				state.message = null;
+			})
+			.addCase(clearCart.fulfilled, (state, action) => {
+				state.loading = false;
+				state.cartItems = [];
+				state.message = action.payload.message;
+			})
+			.addCase(clearCart.rejected, (state, action) => {
 				state.loading = false;
 				state.error = action.payload.message;
 			});
