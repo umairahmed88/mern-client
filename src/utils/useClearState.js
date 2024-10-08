@@ -1,22 +1,19 @@
 import { useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 
-// Simplified dynamic useClearState hook
 export const useClearState = (dispatch, slices = []) => {
 	const prevState = useRef({});
 
 	useEffect(() => {
-		if (!Array.isArray(slices)) return; // Ensure slices is an array
+		if (!Array.isArray(slices)) return;
 
 		slices.forEach(({ name, error, message, clearError, clearMessage }) => {
-			// Handle errors with unique toastId per slice
 			if (error && error !== prevState.current[`${name}Error`]) {
 				toast.error(error, { toastId: `${name}Error` });
 				dispatch(clearError());
 				prevState.current[`${name}Error`] = error;
 			}
 
-			// Handle messages with unique toastId per slice
 			if (message && message !== prevState.current[`${name}Message`]) {
 				toast.success(message, { toastId: `${name}Message` });
 				dispatch(clearMessage());
