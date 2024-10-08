@@ -32,38 +32,6 @@ export const useClearState = (dispatch, slices = []) => {
 // import { useEffect, useRef } from "react";
 // import { toast } from "react-toastify";
 
-// // Simplified dynamic useClearState hook
-// export const useClearState = (dispatch, slices = []) => {
-// 	const prevState = useRef({});
-
-// 	useEffect(() => {
-// 		slices.forEach(({ name, error, message, clearError, clearMessage }) => {
-// 			// Handle errors with unique toastId per slice
-// 			if (error && error !== prevState.current[`${name}Error`]) {
-// 				toast.error(error, { toastId: `${name}Error` });
-// 				dispatch(clearError());
-// 				prevState.current[`${name}Error`] = error;
-// 			}
-
-// 			// Handle messages with unique toastId per slice
-// 			if (message && message !== prevState.current[`${name}Message`]) {
-// 				toast.success(message, { toastId: `${name}Message` });
-// 				dispatch(clearMessage());
-// 				prevState.current[`${name}Message`] = message;
-// 			}
-// 		});
-
-// 		const timer = setTimeout(() => {
-// 			prevState.current = {};
-// 		}, 4000);
-
-// 		return () => clearTimeout(timer);
-// 	}, [dispatch, slices]);
-// };
-
-// import { useEffect, useRef } from "react";
-// import { toast } from "react-toastify";
-
 // export const useClearState = (
 // 	dispatch,
 // 	clearMessage,

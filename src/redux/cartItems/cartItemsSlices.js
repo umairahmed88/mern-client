@@ -10,7 +10,7 @@ export const fetchAllItems = createAsyncThunk(
 	"cartItem/fetchAllItems",
 	async (_, { getState, rejectWithValue }) => {
 		try {
-			const token = getState().auth.currentUser.sanitizedUser.token;
+			const token = getState()?.auth?.currentUser?.sanitizedUser?.token;
 			const response = await axios.get(`${API_URL}/fetch-all-items`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -29,14 +29,23 @@ export const addToCart = createAsyncThunk(
 	"cartItem/addToCart",
 	async (cartItemData, { getState, rejectWithValue }) => {
 		try {
-			const token = getState().auth.currentUser.sanitizedUser.token;
+			const { currentUser } = getState().auth;
+
+			if (!currentUser) {
+				return rejectWithValue({
+					message: "Please login or signup first to add items to your cart.",
+				});
+			}
+
+			const token = currentUser.sanitizedUser.token;
+
 			const response = await axios.post(
 				`${API_URL}/add-to-cart`,
 				cartItemData,
 				{
 					headers: {
-						Authorization: `Bearer ${token}`,
 						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
 					},
 				}
 			);

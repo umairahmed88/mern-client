@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useClearState } from "../utils/useClearState";
 
-// Import your actions
 import {
 	clearError as clearProductError,
 	clearMessage as clearProductMessage,
@@ -31,7 +30,6 @@ const Home = () => {
 
 	const dispatch = useDispatch();
 
-	// Simplified hook usage without needing manual mapping
 	useClearState(dispatch, [
 		{
 			name: "product",
