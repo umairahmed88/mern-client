@@ -13,6 +13,7 @@ import ProductDetails from "./pages/products/ProductDetails";
 import UpdateProduct from "./pages/products/UpdateProduct";
 import CreateProduct from "./pages/products/CreateProduct";
 import ResetPassword from "./pages/auth/ResetPassword";
+import CartItems from "./pages/cartItems/CartItems";
 
 const routes = [
 	{ path: "/", element: <Home /> },
@@ -24,6 +25,7 @@ const routes = [
 	{ path: "/product-details/:id", element: <ProductDetails /> },
 	{ path: "/update-product/:id", element: <UpdateProduct /> },
 	{ path: "/reset-password", element: <ResetPassword /> },
+	{ path: "/cart-items", element: <CartItems /> },
 
 	// { path: "/profile", element: <Profile /> },
 	// { path: "/", element: <Home /> },
