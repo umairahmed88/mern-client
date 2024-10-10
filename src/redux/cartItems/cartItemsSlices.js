@@ -11,7 +11,7 @@ export const fetchAllItems = createAsyncThunk(
 	async (_, { getState, rejectWithValue }) => {
 		try {
 			const token = getState()?.auth?.currentUser?.sanitizedUser?.token;
-			const response = await axios.get(`${API_URL}/fetch-all-items`, {
+			const response = await axios.get(`${API_URL}/get-all-items`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 					"Content-Type": "application/json",
