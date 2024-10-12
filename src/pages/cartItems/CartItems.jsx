@@ -6,6 +6,7 @@ import {
 	clearMessage as clearCartMessage,
 } from "../../redux/cartItems/cartItemsSlices";
 import { useClearState } from "../../utils/useClearState";
+import { Link } from "react-router-dom";
 
 const CartItems = () => {
 	const dispatch = useDispatch();
@@ -58,19 +59,22 @@ const CartItems = () => {
 						className='border p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200'
 					>
 						<img
-							src={item.imageUrls[0]} // Assuming there's at least one image URL
+							src={item.imageUrls[0]}
 							alt={item.name}
 							className='w-full h-48 object-cover mb-4 rounded-lg'
 						/>
 						<h2 className='text-lg font-semibold'>{item.name}</h2>
 						<p className='text-gray-600'>{item.description}</p>
 						<p className='text-lg font-bold mt-2'>${item.price}</p>
-						<p className='text-gray-500 text-sm mt-1'>
-							{item.quantity} in stock
-						</p>
-						<button className='mt-4 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-colors duration-200'>
-							Buy Now
-						</button>
+						<p className='text-gray-500 text-sm mt-1'>Qty: {item.quantity}</p>
+						<div className=' mt-2'>
+							<Link
+								to={"/checkout-form"}
+								className='w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition-colors duration-200'
+							>
+								Buy Now
+							</Link>
+						</div>
 					</div>
 				))}
 			</div>

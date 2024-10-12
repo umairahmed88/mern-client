@@ -108,6 +108,7 @@ export const increaseProduct = createAsyncThunk(
 		}
 	}
 );
+
 export const decreaseProduct = createAsyncThunk(
 	"product/decreaseProduct",
 	async (id, { getState, rejectWithValue }) => {

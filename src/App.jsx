@@ -20,10 +20,10 @@ const routes = [
 	{ path: "/signup", element: <Signup /> },
 	{ path: "/signin", element: <Signin /> },
 	{ path: "/verify-email", element: <VerifyEmail /> },
-	{ path: "/products", element: <AllProducts /> },
-	{ path: "/create-product", element: <CreateProduct /> },
-	{ path: "/product-details/:id", element: <ProductDetails /> },
-	{ path: "/update-product/:id", element: <UpdateProduct /> },
+	// { path: "/products", element: <AllProducts /> },
+	// { path: "/create-product", element: <CreateProduct /> },
+	// { path: "/product-details/:id", element: <ProductDetails /> },
+	// { path: "/update-product/:id", element: <UpdateProduct /> },
 	{ path: "/reset-password", element: <ResetPassword /> },
 	{ path: "/cart-items", element: <CartItems /> },
 
@@ -41,6 +41,10 @@ const App = () => {
 				))}
 				<Route element={<PrivateRoute />}>
 					<Route path='/profile' element={<Profile />} />
+					<Route path='/products' element={<AllProducts />} />
+					<Route path='/create-product' element={<CreateProduct />} />
+					<Route path='/product-details/:id' element={<ProductDetails />} />
+					<Route path='/update-product/:id' element={<UpdateProduct />} />
 				</Route>
 			</Routes>
 			<ToastContainer />
