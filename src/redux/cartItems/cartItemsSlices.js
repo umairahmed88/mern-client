@@ -142,7 +142,7 @@ const cartItemsSlice = createSlice({
 			})
 			.addCase(fetchAllItems.fulfilled, (state, action) => {
 				state.loading = false;
-				state.cartItems = action.payload.cartItems;
+				state.cartItems = action.payload.items;
 				state.message = action.payload.message;
 			})
 			.addCase(fetchAllItems.rejected, (state, action) => {

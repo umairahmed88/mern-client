@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
 	decreaseProduct,
@@ -36,15 +36,9 @@ const AllProducts = () => {
 		},
 	]);
 
-	console.log(products);
-
 	useEffect(() => {
 		if (!products.length) {
-			dispatch(fetchAllProducts())
-				.unwrap()
-				.catch((err) => {
-					console.error("Failed to load products:", err);
-				});
+			dispatch(fetchAllProducts()).unwrap();
 		}
 	}, [dispatch, products.length]);
 
