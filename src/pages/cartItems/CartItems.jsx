@@ -13,13 +13,17 @@ const CartItems = () => {
 		loading,
 	} = useSelector((state) => state.cartItem);
 
+	console.log("cartItems are: ", cartItems);
+
 	// Dispatch the fetchAllItems action on component mount
 	useEffect(() => {
-		dispatch(fetchAllItems())
+		const res = dispatch(fetchAllItems())
 			.unwrap()
 			.catch((err) => {
 				console.error("Failed to load products:", err);
 			});
+
+		console.log("response is :", res);
 	}, [dispatch]);
 
 	// Conditional rendering based on the loading state
