@@ -23,8 +23,8 @@ const AllProducts = () => {
 
 	const dispatch = useDispatch();
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [isProductModalOpen, setIsProductModalOpen] = useState(false); // State for individual product delete modal
-	const [selectedProductId, setSelectedProductId] = useState(null); // Store product id to delete
+	const [isProductModalOpen, setIsProductModalOpen] = useState(false);
+	const [selectedProductId, setSelectedProductId] = useState(null);
 
 	useClearState(dispatch, [
 		{

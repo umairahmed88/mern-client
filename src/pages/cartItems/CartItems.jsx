@@ -4,6 +4,8 @@ import {
 	fetchAllItems,
 	clearError as clearCartError,
 	clearMessage as clearCartMessage,
+	deleteItem,
+	clearCart,
 } from "../../redux/cartItems/cartItemsSlices";
 import { useClearState } from "../../utils/useClearState";
 import { Link } from "react-router-dom";
@@ -31,6 +33,22 @@ const CartItems = () => {
 			clearMessage: clearCartMessage,
 		},
 	]);
+
+	const handleIncreaseItem = (id) => {
+		dispatch(deleteItem(id)).unwrap();
+	};
+
+	const handleDecreaseItem = (id) => {
+		dispatch(deleteItem(id)).unwrap();
+	};
+
+	const handleDeleteItem = (id) => {
+		dispatch(deleteItem(id)).unwrap();
+	};
+
+	const clearYourCart = () => {
+		dispatch(clearCart()).unwrap();
+	};
 
 	if (loading)
 		return <div className='text-center text-xl py-10'>Loading...</div>;
@@ -65,16 +83,44 @@ const CartItems = () => {
 						<p className='text-gray-600'>{item.description}</p>
 						<p className='text-lg font-bold mt-2'>${item.price}</p>
 						<p className='text-gray-500 text-sm mt-1'>Qty: {item.quantity}</p>
-						<div className=' mt-2'>
-							<Link
-								to={"/checkout-form"}
-								className='w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition-colors duration-200'
+						<div className=' mt-2 flex gap-3'>
+							<button
+								className='text-green-600'
+								onClick={() => handleIncreaseItem(item._id)}
 							>
-								Buy Now
-							</Link>
+								+
+							</button>
+							<button
+								className=' text-red-700 text-lg font-bold'
+								onClick={() => handleDecreaseItem(item._id)}
+							>
+								-
+							</button>
+							<button
+								onClick={() => handleDeleteItem(item._id)}
+								className=' text-red-700'
+							>
+								x
+							</button>
 						</div>
 					</div>
 				))}
+			</div>
+			<div className='mt-3 text-end'>
+				<button
+					onClick={clearYourCart()}
+					className='bg-red-700 hover:opacity-90 p-3 rounded-lg text-white'
+				>
+					Clear Cart
+				</button>
+			</div>
+			<div className='mt-3 text-end'>
+				<Link
+					to={"/checkout-form"}
+					className='bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition-colors duration-200'
+				>
+					Checkout
+				</Link>
 			</div>
 		</div>
 	);

@@ -13,7 +13,6 @@ export const signup = createAsyncThunk(
 			const response = await axios.post(`${API_URL}/signup`, userData, {
 				headers: { "Content-Type": "application/json" },
 			});
-			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response ? err.response.data : err.message);
@@ -28,7 +27,6 @@ export const signin = createAsyncThunk(
 			const response = await axios.post(`${API_URL}/signin`, userData, {
 				headers: { "Content-Type": "application/json" },
 			});
-			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response ? err.response.data : err.message);
@@ -47,7 +45,6 @@ export const googleAuth = createAsyncThunk(
 					headers: { "Content-Type": "application/json" },
 				}
 			);
-			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response ? err.response.data : err.message);
@@ -68,7 +65,6 @@ export const forgotPassword = createAsyncThunk(
 					},
 				}
 			);
-			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response ? err.response.data : err.message);
@@ -87,7 +83,6 @@ export const resetPassword = createAsyncThunk(
 					headers: { "Content-Type": "application/json" },
 				}
 			);
-			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response ? err.response.data : err.message);
@@ -110,7 +105,6 @@ export const updateUser = createAsyncThunk(
 					},
 				}
 			);
-			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response ? err.response.data : err.message);

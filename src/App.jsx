@@ -94,6 +94,8 @@ import CreateProduct from "./pages/products/CreateProduct";
 import ResetPassword from "./pages/auth/ResetPassword";
 import CartItems from "./pages/cartItems/CartItems";
 import GlobalLoadingBar from "./utils/GlobalLoadingBar";
+import { useState } from "react";
+import { useClearState } from "./utils/useClearState";
 
 const routes = [
 	{ path: "/", element: <Home /> },
