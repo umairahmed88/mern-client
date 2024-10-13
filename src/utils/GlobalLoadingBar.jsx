@@ -1,17 +1,22 @@
+// GlobalLoadingBar.jsx
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import TopLoadingBar from "react-top-loading-bar";
 
-const GlobalLoadingBar = ({ isLoading }) => {
+const GlobalLoadingBar = () => {
 	const [progress, setProgress] = useState(0);
+	const location = useLocation();
 
 	useEffect(() => {
-		if (isLoading) {
-			setProgress(30);
-			setTimeout(() => {
-				setProgress(100);
-			}, 800);
-		}
-	}, [isLoading]);
+		setProgress(30);
+		const timer = setTimeout(() => {
+			setProgress(100);
+		}, 800);
+
+		return () => {
+			clearTimeout(timer);
+		};
+	}, [location]);
 
 	return (
 		<TopLoadingBar
@@ -24,7 +29,3 @@ const GlobalLoadingBar = ({ isLoading }) => {
 };
 
 export default GlobalLoadingBar;
-
-
-
-

@@ -77,12 +77,7 @@
 
 // export default App;
 
-import {
-	Route,
-	BrowserRouter as Router,
-	Routes,
-	useLocation,
-} from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Home from "./pages/Home";
 import Signup from "./pages/auth/Signup";
@@ -98,10 +93,7 @@ import UpdateProduct from "./pages/products/UpdateProduct";
 import CreateProduct from "./pages/products/CreateProduct";
 import ResetPassword from "./pages/auth/ResetPassword";
 import CartItems from "./pages/cartItems/CartItems";
-import { useState, useEffect } from "react";
 import GlobalLoadingBar from "./utils/GlobalLoadingBar";
-import { useDispatch, useSelector } from "react-redux";
-import { useClearState } from "./utils/useClearState";
 
 const routes = [
 	{ path: "/", element: <Home /> },
@@ -113,42 +105,9 @@ const routes = [
 ];
 
 const AppContent = () => {
-	const [isRouteLoading, setIsRouteLoading] = useState(false); // For route changes
-	const location = useLocation();
-	const dispatch = useDispatch();
-
-	// Get slices for global error/message handling
-	const errorSlices = useSelector((state) => [
-		{
-			name: "auth",
-			error: state.auth.error,
-			message: state.auth.message,
-			clearError: state.auth.clearError,
-			clearMessage: state.auth.clearMessage,
-		},
-	]);
-
-	// Get global loading state from the hook
-	const isGlobalLoading = useClearState(dispatch, errorSlices);
-
-	// Manage route-based loading
-	useEffect(() => {
-		let timeout;
-		setIsRouteLoading(true); // Start loading when route changes
-
-		// Delay to simulate loading (or set based on actual async operations)
-		timeout = setTimeout(() => {
-			setIsRouteLoading(false); // Stop loading after delay
-		}, 800);
-
-		// Clean up timeout to avoid memory leaks
-		return () => clearTimeout(timeout);
-	}, [location]);
-
 	return (
 		<>
-			<GlobalLoadingBar isLoading={isRouteLoading || isGlobalLoading} />{" "}
-			{/* Show loading bar */}
+			<GlobalLoadingBar />
 			<Header />
 			<Routes>
 				{routes.map((route) => (

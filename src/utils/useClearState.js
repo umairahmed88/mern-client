@@ -1,28 +1,19 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 
 export const useClearState = (dispatch, slices = []) => {
 	const prevState = useRef({});
-	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		if (!Array.isArray(slices)) return;
 
-		let loading = false;
-
 		slices.forEach(({ name, error, message, clearError, clearMessage }) => {
-			if (error || message) {
-				loading = true; // Flag that something is loading
-			}
-
-			// Handle errors
 			if (error && error !== prevState.current[`${name}Error`]) {
 				toast.error(error, { toastId: `${name}Error` });
 				dispatch(clearError());
 				prevState.current[`${name}Error`] = error;
 			}
 
-			// Handle messages
 			if (message && message !== prevState.current[`${name}Message`]) {
 				toast.success(message, { toastId: `${name}Message` });
 				dispatch(clearMessage());
@@ -30,52 +21,13 @@ export const useClearState = (dispatch, slices = []) => {
 			}
 		});
 
-		// Only update loading state if it actually changed
-		if (isLoading !== loading) {
-			setIsLoading(loading); // Update state only if it's different
-		}
-
-		// Clean up previous state
 		const timer = setTimeout(() => {
 			prevState.current = {};
 		}, 4000);
 
 		return () => clearTimeout(timer);
-	}, [dispatch, slices, isLoading]); // Correct dependencies
-
-	return isLoading; // Return the current loading state
+	}, [dispatch, slices]);
 };
-
-// import { useEffect, useRef } from "react";
-// import { toast } from "react-toastify";
-
-// export const useClearState = (dispatch, slices = []) => {
-// 	const prevState = useRef({});
-
-// 	useEffect(() => {
-// 		if (!Array.isArray(slices)) return;
-
-// 		slices.forEach(({ name, error, message, clearError, clearMessage }) => {
-// 			if (error && error !== prevState.current[`${name}Error`]) {
-// 				toast.error(error, { toastId: `${name}Error` });
-// 				dispatch(clearError());
-// 				prevState.current[`${name}Error`] = error;
-// 			}
-
-// 			if (message && message !== prevState.current[`${name}Message`]) {
-// 				toast.success(message, { toastId: `${name}Message` });
-// 				dispatch(clearMessage());
-// 				prevState.current[`${name}Message`] = message;
-// 			}
-// 		});
-
-// 		const timer = setTimeout(() => {
-// 			prevState.current = {};
-// 		}, 4000);
-
-// 		return () => clearTimeout(timer);
-// 	}, [dispatch, slices]);
-// };
 
 // // import { useEffect, useRef } from "react";
 // // import { toast } from "react-toastify";
