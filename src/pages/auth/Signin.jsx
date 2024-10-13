@@ -20,6 +20,7 @@ const Signin = () => {
 
 	const [formData, setFormData] = useState({});
 	const [visible, setVisible] = useState(false);
+
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
@@ -42,12 +43,11 @@ const Signin = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		try {
-			const res = await dispatch(signin(formData)).unwrap();
-			if (res) {
-				navigate("/profile");
-			}
-		} catch (err) {}
+		const res = await dispatch(signin(formData)).unwrap();
+
+		if (res) {
+			navigate("/profile");
+		}
 	};
 
 	if (loading)
@@ -108,7 +108,7 @@ const Signin = () => {
 			</div>
 
 			<div className='flex justify-center mt-6 gap-2'>
-				<p className='text-gray-700'>Don't have an account?</p>
+				<p className='text-gray-700'>Do not have an account?</p>
 				<Link className='text-indigo-600 hover:underline' to={"/signup"}>
 					Signup
 				</Link>

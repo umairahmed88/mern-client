@@ -11,15 +11,13 @@ import { Link } from "react-router-dom";
 const CartItems = () => {
 	const dispatch = useDispatch();
 
-	// Destructure necessary fields from the Redux state
 	const {
-		cartItems, // This now correctly points to state.cartItems
+		cartItems,
 		error: cartError,
 		message: cartMessage,
 		loading,
 	} = useSelector((state) => state.cartItem);
 
-	// Dispatch the fetchAllItems action on component mount
 	useEffect(() => {
 		dispatch(fetchAllItems()).unwrap();
 	}, [dispatch]);
