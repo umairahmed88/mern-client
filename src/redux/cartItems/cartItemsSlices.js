@@ -57,6 +57,70 @@ export const addToCart = createAsyncThunk(
 	}
 );
 
+export const increaseItem = createAsyncThunk(
+	"cartItem/increaseItem",
+	async (id, { getState, rejectWithValue }) => {
+		try {
+			const { currentUser } = getState().auth;
+
+			if (!currentUser) {
+				return rejectWithValue({
+					message: "Please login or signup first to add items to your cart.",
+				});
+			}
+
+			const token = currentUser.sanitizedUser.token;
+
+			const response = await axios.put(
+				`${API_URL}/increase-item/${id}`,
+				{},
+				{
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+			console.log(response.data);
+			return response.data;
+		} catch (err) {
+			return rejectWithValue(err.response ? err.response.data : err.message);
+		}
+	}
+);
+
+export const decreaseItem = createAsyncThunk(
+	"cartItem/increaseItem",
+	async (id, { getState, rejectWithValue }) => {
+		try {
+			const { currentUser } = getState().auth;
+
+			if (!currentUser) {
+				return rejectWithValue({
+					message: "Please login or signup first to add items to your cart.",
+				});
+			}
+
+			const token = currentUser.sanitizedUser.token;
+
+			const response = await axios.put(
+				`${API_URL}/decrease-item/${id}`,
+				{},
+				{
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+			console.log(response.data);
+			return response.data;
+		} catch (err) {
+			return rejectWithValue(err.response ? err.response.data : err.message);
+		}
+	}
+);
+
 export const deleteItem = createAsyncThunk(
 	"cartItem/deleteItem",
 	async (id, { getState, rejectWithValue }) => {
