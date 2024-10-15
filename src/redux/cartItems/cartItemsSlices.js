@@ -107,6 +107,32 @@ export const decreaseItem = createAsyncThunk(
 	}
 );
 
+export const updateItemQuantity = createAsyncThunk(
+	"cartItem/updateItemQuantity",
+	async ({ id, quantity }, { getState, rejectWithValue }) => {
+		try {
+			const token = getAuthToken(getState, rejectWithValue);
+
+			if (!token) return rejectWithValue({ message: "Please login." });
+
+			const response = await axios.put(
+				`${API_URL}/update-item-quantity/${id}`,
+				{ quantity },
+				{
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+			console.log(response.data);
+			return response.data;
+		} catch (err) {
+			return rejectWithValue(err.response ? err.response.data : err.message);
+		}
+	}
+);
+
 export const deleteItem = createAsyncThunk(
 	"cartItem/deleteItem",
 	async (id, { getState, rejectWithValue }) => {
@@ -240,6 +266,25 @@ const cartItemsSlice = createSlice({
 				state.message = action.payload.message;
 			})
 			.addCase(decreaseItem.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload.message;
+			})
+			.addCase(updateItemQuantity.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+				state.message = null;
+			})
+			.addCase(updateItemQuantity.fulfilled, (state, action) => {
+				state.loading = false;
+				const index = state.cartItems.findIndex(
+					(item) => item._id === action.payload.item._id
+				);
+				if (index !== -1) {
+					state.cartItems[index] = action.payload.item;
+				}
+				state.message = action.payload.message;
+			})
+			.addCase(updateItemQuantity.rejected, (state, action) => {
 				state.loading = false;
 				state.error = action.payload.message;
 			})
