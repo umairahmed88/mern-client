@@ -13,8 +13,7 @@ export const createProduct = createAsyncThunk(
 		try {
 			const token = getAuthToken(getState, rejectWithValue);
 
-			if (!token)
-				return rejectWithValue({ message: "Authorization token missing." });
+			if (!token) return rejectWithValue({ message: "Please login." });
 
 			const response = await axios.post(
 				`${API_URL}/create-product`,
@@ -74,8 +73,7 @@ export const updateProduct = createAsyncThunk(
 		try {
 			const token = getAuthToken(getState, rejectWithValue);
 
-			if (!token)
-				return rejectWithValue({ message: "Authorization token missing." });
+			if (!token) return rejectWithValue({ message: "Please login." });
 
 			const response = await axios.put(
 				`${API_URL}/update-product/${id}`,
@@ -101,8 +99,7 @@ export const increaseProduct = createAsyncThunk(
 		try {
 			const token = getAuthToken(getState, rejectWithValue);
 
-			if (!token)
-				return rejectWithValue({ message: "Authorization token missing." });
+			if (!token) return rejectWithValue({ message: "Please login." });
 
 			const response = await axios.put(
 				`${API_URL}/increase-product/${id}`,
@@ -128,8 +125,7 @@ export const decreaseProduct = createAsyncThunk(
 		try {
 			const token = getAuthToken(getState, rejectWithValue);
 
-			if (!token)
-				return rejectWithValue({ message: "Authorization token missing." });
+			if (!token) return rejectWithValue({ message: "Please login." });
 
 			const response = await axios.put(
 				`${API_URL}/decrease-product/${id}`,
@@ -153,7 +149,10 @@ export const deleteProduct = createAsyncThunk(
 	"product/deleteProduct",
 	async (id, { getState, rejectWithValue }) => {
 		try {
-			const token = getState().auth.currentUser.sanitizedUser.token;
+			const token = getAuthToken(getState, rejectWithValue);
+
+			if (!token) return rejectWithValue({ message: "Please login." });
+
 			const response = await axios.delete(`${API_URL}/delete-product/${id}`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -172,7 +171,10 @@ export const deleteAllProducts = createAsyncThunk(
 	"product/deleteAllProducts",
 	async (id, { getState, rejectWithValue }) => {
 		try {
-			const token = getState().auth.currentUser.sanitizedUser.token;
+			const token = getAuthToken(getState, rejectWithValue);
+
+			if (!token) return rejectWithValue({ message: "Please login." });
+
 			const response = await axios.delete(`${API_URL}/delete-all-products`, {
 				headers: {
 					Authorization: `Bearer ${token}`,

@@ -3,6 +3,7 @@ import axios from "axios";
 import storage from "redux-persist/lib/storage";
 import { REHYDRATE } from "redux-persist/es/constants";
 import { persistReducer } from "redux-persist";
+import { getAuthToken } from "../../utils/getAuthToken";
 
 const API_URL = "https://mern-api-ua.vercel.app/api/v1/auth";
 
@@ -94,7 +95,10 @@ export const updateUser = createAsyncThunk(
 	"auth/updateUser",
 	async ({ id, userData }, { getState, rejectWithValue }) => {
 		try {
-			const token = getState().auth.currentUser.sanitizedUser.token;
+			const token = getAuthToken(getState, rejectWithValue);
+
+			if (!token) return rejectWithValue({ message: "Please login." });
+
 			const response = await axios.put(
 				`${API_URL}/update-user/${id}`,
 				userData,
@@ -116,7 +120,10 @@ export const signout = createAsyncThunk(
 	"auth/signout",
 	async (_, { getState, rejectWithValue }) => {
 		try {
-			const token = getState().auth.currentUser.sanitizedUser.token;
+			const token = getAuthToken(getState, rejectWithValue);
+
+			if (!token) return rejectWithValue({ message: "Please login." });
+
 			const response = await axios.post(
 				`${API_URL}/signout`,
 				{},
