@@ -6,6 +6,8 @@ import {
 	clearMessage as clearCartMessage,
 	deleteItem,
 	clearCart,
+	increaseItem,
+	decreaseItem,
 } from "../../redux/cartItems/cartItemsSlices";
 import { useClearState } from "../../utils/useClearState";
 import { Link } from "react-router-dom";
@@ -35,11 +37,11 @@ const CartItems = () => {
 	]);
 
 	const handleIncreaseItem = (id) => {
-		dispatch(deleteItem(id)).unwrap();
+		dispatch(increaseItem(id)).unwrap();
 	};
 
 	const handleDecreaseItem = (id) => {
-		dispatch(deleteItem(id)).unwrap();
+		dispatch(decreaseItem(id)).unwrap();
 	};
 
 	const handleDeleteItem = (id) => {
