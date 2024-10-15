@@ -108,7 +108,7 @@ const CartItems = () => {
 			</div>
 			<div className='mt-3 text-end'>
 				<button
-					onClick={clearYourCart()}
+					onClick={clearYourCart}
 					className='bg-red-700 hover:opacity-90 p-3 rounded-lg text-white'
 				>
 					Clear Cart
