@@ -25,7 +25,6 @@ export const createProduct = createAsyncThunk(
 					},
 				}
 			);
-			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response ? err.response.data : err.message);
@@ -42,7 +41,6 @@ export const fetchAllProducts = createAsyncThunk(
 					"Content-Type": "application/json",
 				},
 			});
-			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response ? err.response.data : err.message);
@@ -59,7 +57,6 @@ export const fetchProduct = createAsyncThunk(
 					"Content-Type": "application/json",
 				},
 			});
-			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response ? err.response.data : err.message);
@@ -85,7 +82,6 @@ export const updateProduct = createAsyncThunk(
 					},
 				}
 			);
-			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response ? err.response.data : err.message);
@@ -111,7 +107,6 @@ export const increaseProduct = createAsyncThunk(
 					},
 				}
 			);
-			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response ? err.response.data : err.message);
@@ -137,7 +132,6 @@ export const decreaseProduct = createAsyncThunk(
 					},
 				}
 			);
-			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response ? err.response.data : err.message);
@@ -159,7 +153,6 @@ export const deleteProduct = createAsyncThunk(
 					"Content-Type": "application/json",
 				},
 			});
-			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response ? err.response.data : err.message);
@@ -169,7 +162,7 @@ export const deleteProduct = createAsyncThunk(
 
 export const deleteAllProducts = createAsyncThunk(
 	"product/deleteAllProducts",
-	async (id, { getState, rejectWithValue }) => {
+	async (_, { getState, rejectWithValue }) => {
 		try {
 			const token = getAuthToken(getState, rejectWithValue);
 
@@ -181,7 +174,6 @@ export const deleteAllProducts = createAsyncThunk(
 					"Content-Type": "application/json",
 				},
 			});
-			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response ? err.response.data : err.message);
