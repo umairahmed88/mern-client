@@ -13,8 +13,7 @@ export const fetchAllItems = createAsyncThunk(
 		try {
 			const token = getAuthToken(getState, rejectWithValue);
 
-			if (!token)
-				return rejectWithValue({ message: "Authorization token missing." });
+			if (!token) return rejectWithValue({ message: "Please login." });
 
 			const response = await axios.get(`${API_URL}/get-all-items`, {
 				headers: {
@@ -36,8 +35,7 @@ export const addToCart = createAsyncThunk(
 		try {
 			const token = getAuthToken(getState, rejectWithValue);
 
-			if (!token)
-				return rejectWithValue({ message: "Authorization token missing." });
+			if (!token) return rejectWithValue({ message: "Please login." });
 
 			const response = await axios.post(
 				`${API_URL}/add-to-cart`,
@@ -63,8 +61,7 @@ export const increaseItem = createAsyncThunk(
 		try {
 			const token = getAuthToken(getState, rejectWithValue);
 
-			if (!token)
-				return rejectWithValue({ message: "Authorization token missing." });
+			if (!token) return rejectWithValue({ message: "Please login." });
 
 			const response = await axios.put(
 				`${API_URL}/increase-item/${id}`,
@@ -90,8 +87,7 @@ export const decreaseItem = createAsyncThunk(
 		try {
 			const token = getAuthToken(getState, rejectWithValue);
 
-			if (!token)
-				return rejectWithValue({ message: "Authorization token missing." });
+			if (!token) return rejectWithValue({ message: "Please login." });
 
 			const response = await axios.put(
 				`${API_URL}/decrease-item/${id}`,
@@ -117,8 +113,7 @@ export const deleteItem = createAsyncThunk(
 		try {
 			const token = getAuthToken(getState, rejectWithValue);
 
-			if (!token)
-				return rejectWithValue({ message: "Authorization token missing." });
+			if (!token) return rejectWithValue({ message: "Please login." });
 
 			const response = await axios.delete(`${API_URL}/delete-item/${id}`, {
 				headers: {
@@ -140,8 +135,7 @@ export const clearCart = createAsyncThunk(
 		try {
 			const token = getAuthToken(getState, rejectWithValue);
 
-			if (!token)
-				return rejectWithValue({ message: "Authorization token missing." });
+			if (!token) return rejectWithValue({ message: "Please login." });
 
 			const response = await axios.delete(`${API_URL}/clear-cart`, {
 				headers: {
