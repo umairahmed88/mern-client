@@ -3,6 +3,7 @@ import axios from "axios";
 import { REHYDRATE } from "redux-persist/es/constants";
 import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
+import { getAuthToken } from "../../utils/getAuthToken";
 
 const API_URL = "https://mern-api-ua.vercel.app/api/v1/cartItems";
 
@@ -10,7 +11,11 @@ export const fetchAllItems = createAsyncThunk(
 	"cartItem/fetchAllItems",
 	async (_, { getState, rejectWithValue }) => {
 		try {
-			const token = getState()?.auth?.currentUser?.sanitizedUser?.token;
+			const token = getAuthToken(getState, rejectWithValue);
+
+			if (!token)
+				return rejectWithValue({ message: "Authorization token missing." });
+
 			const response = await axios.get(`${API_URL}/get-all-items`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -29,15 +34,10 @@ export const addToCart = createAsyncThunk(
 	"cartItem/addToCart",
 	async (cartItemData, { getState, rejectWithValue }) => {
 		try {
-			const { currentUser } = getState().auth;
+			const token = getAuthToken(getState, rejectWithValue);
 
-			if (!currentUser) {
-				return rejectWithValue({
-					message: "Please login or signup first to add items to your cart.",
-				});
-			}
-
-			const token = currentUser.sanitizedUser.token;
+			if (!token)
+				return rejectWithValue({ message: "Authorization token missing." });
 
 			const response = await axios.post(
 				`${API_URL}/add-to-cart`,
@@ -61,15 +61,10 @@ export const increaseItem = createAsyncThunk(
 	"cartItem/increaseItem",
 	async (id, { getState, rejectWithValue }) => {
 		try {
-			const { currentUser } = getState().auth;
+			const token = getAuthToken(getState, rejectWithValue);
 
-			if (!currentUser) {
-				return rejectWithValue({
-					message: "Please login or signup first to add items to your cart.",
-				});
-			}
-
-			const token = currentUser.sanitizedUser.token;
+			if (!token)
+				return rejectWithValue({ message: "Authorization token missing." });
 
 			const response = await axios.put(
 				`${API_URL}/increase-item/${id}`,
@@ -90,18 +85,13 @@ export const increaseItem = createAsyncThunk(
 );
 
 export const decreaseItem = createAsyncThunk(
-	"cartItem/increaseItem",
+	"cartItem/decreaseItem",
 	async (id, { getState, rejectWithValue }) => {
 		try {
-			const { currentUser } = getState().auth;
+			const token = getAuthToken(getState, rejectWithValue);
 
-			if (!currentUser) {
-				return rejectWithValue({
-					message: "Please login or signup first to add items to your cart.",
-				});
-			}
-
-			const token = currentUser.sanitizedUser.token;
+			if (!token)
+				return rejectWithValue({ message: "Authorization token missing." });
 
 			const response = await axios.put(
 				`${API_URL}/decrease-item/${id}`,
@@ -125,7 +115,11 @@ export const deleteItem = createAsyncThunk(
 	"cartItem/deleteItem",
 	async (id, { getState, rejectWithValue }) => {
 		try {
-			const token = getState()?.auth?.currentUser?.sanitizedUser?.token;
+			const token = getAuthToken(getState, rejectWithValue);
+
+			if (!token)
+				return rejectWithValue({ message: "Authorization token missing." });
+
 			const response = await axios.delete(`${API_URL}/delete-item/${id}`, {
 				headers: {
 					"Content-Type": "application/json",
@@ -142,9 +136,13 @@ export const deleteItem = createAsyncThunk(
 
 export const clearCart = createAsyncThunk(
 	"cartItem/clearCart",
-	async (id, { getState, rejectWithValue }) => {
+	async (_, { getState, rejectWithValue }) => {
 		try {
-			const token = getState()?.auth?.currentUser?.sanitizedUser?.token;
+			const token = getAuthToken(getState, rejectWithValue);
+
+			if (!token)
+				return rejectWithValue({ message: "Authorization token missing." });
+
 			const response = await axios.delete(`${API_URL}/clear-cart`, {
 				headers: {
 					"Content-Type": "application/json",
@@ -210,6 +208,44 @@ const cartItemsSlice = createSlice({
 				state.message = action.payload.message;
 			})
 			.addCase(fetchAllItems.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload.message;
+			})
+			.addCase(increaseItem.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+				state.message = null;
+			})
+			.addCase(increaseItem.fulfilled, (state, action) => {
+				state.loading = false;
+				const index = state.cartItems.findIndex(
+					(item) => item._id === action.payload.item._id
+				);
+				if (index !== -1) {
+					state.cartItems[index] = action.payload.item;
+				}
+				state.message = action.payload.message;
+			})
+			.addCase(increaseItem.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload.message;
+			})
+			.addCase(decreaseItem.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+				state.message = null;
+			})
+			.addCase(decreaseItem.fulfilled, (state, action) => {
+				state.loading = false;
+				const index = state.cartItems.findIndex(
+					(item) => item._id === action.payload.item._id
+				);
+				if (index !== -1) {
+					state.cartItems[index] = action.payload.item;
+				}
+				state.message = action.payload.message;
+			})
+			.addCase(decreaseItem.rejected, (state, action) => {
 				state.loading = false;
 				state.error = action.payload.message;
 			})

@@ -3,6 +3,7 @@ import axios from "axios";
 import { REHYDRATE } from "redux-persist/es/constants";
 import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
+import { getAuthToken } from "../../utils/getAuthToken";
 
 const API_URL = "https://mern-api-ua.vercel.app/api/v1/products";
 
@@ -10,7 +11,11 @@ export const createProduct = createAsyncThunk(
 	"product/createProduct",
 	async (productData, { getState, rejectWithValue }) => {
 		try {
-			const token = getState().auth.currentUser.sanitizedUser.token;
+			const token = getAuthToken(getState, rejectWithValue);
+
+			if (!token)
+				return rejectWithValue({ message: "Authorization token missing." });
+
 			const response = await axios.post(
 				`${API_URL}/create-product`,
 				productData,
@@ -67,7 +72,11 @@ export const updateProduct = createAsyncThunk(
 	"product/update-product",
 	async ({ id, updateData }, { getState, rejectWithValue }) => {
 		try {
-			const token = getState().auth.currentUser.sanitizedUser.token;
+			const token = getAuthToken(getState, rejectWithValue);
+
+			if (!token)
+				return rejectWithValue({ message: "Authorization token missing." });
+
 			const response = await axios.put(
 				`${API_URL}/update-product/${id}`,
 				updateData,
@@ -90,7 +99,11 @@ export const increaseProduct = createAsyncThunk(
 	"product/increaseProduct",
 	async (id, { getState, rejectWithValue }) => {
 		try {
-			const token = getState().auth.currentUser.sanitizedUser.token;
+			const token = getAuthToken(getState, rejectWithValue);
+
+			if (!token)
+				return rejectWithValue({ message: "Authorization token missing." });
+
 			const response = await axios.put(
 				`${API_URL}/increase-product/${id}`,
 				{},
@@ -113,7 +126,11 @@ export const decreaseProduct = createAsyncThunk(
 	"product/decreaseProduct",
 	async (id, { getState, rejectWithValue }) => {
 		try {
-			const token = getState().auth.currentUser.sanitizedUser.token;
+			const token = getAuthToken(getState, rejectWithValue);
+
+			if (!token)
+				return rejectWithValue({ message: "Authorization token missing." });
+
 			const response = await axios.put(
 				`${API_URL}/decrease-product/${id}`,
 				{},
