@@ -11,6 +11,7 @@ import {
 } from "../../redux/cartItems/cartItemsSlices";
 import { useClearState } from "../../utils/useClearState";
 import { Link } from "react-router-dom";
+import UpdateItemQuantity from "../../utils/cartItems/updateItemQuantity";
 
 const CartItems = () => {
 	const dispatch = useDispatch();
@@ -85,22 +86,26 @@ const CartItems = () => {
 						<p className='text-gray-600'>{item.description}</p>
 						<p className='text-lg font-bold mt-2'>${item.price}</p>
 						<p className='text-gray-500 text-sm mt-1'>Qty: {item.quantity}</p>
-						<div className=' mt-2 flex gap-3'>
+						<div className='mt-2 flex justify-between items-center'>
 							<button
-								className='text-green-600'
+								className='text-green-600 p-2  rounded w-10 text-center'
 								onClick={() => handleIncreaseItem(item._id)}
 							>
 								+
 							</button>
+							<UpdateItemQuantity
+								itemId={item._id}
+								currentQuantity={item.quantity}
+							/>
 							<button
-								className=' text-red-700 text-lg font-bold'
+								className='text-red-700 p-2  rounded w-10 text-center text-lg font-bold'
 								onClick={() => handleDecreaseItem(item._id)}
 							>
 								-
 							</button>
 							<button
 								onClick={() => handleDeleteItem(item._id)}
-								className=' text-red-700'
+								className='text-red-700 p-2  rounded w-10 text-center'
 							>
 								x
 							</button>
