@@ -246,7 +246,7 @@ const UpdateProduct = () => {
 
 				<button
 					disabled={productLoading || uploading}
-					className='w-full py-4 bg-indigo-600 text-white rounded-lg hover:opacity-90 transition-opacity disabled:opacity-75'
+					className='w-full py-3 bg-indigo-600 text-white rounded-lg hover:opacity-90 transition-opacity disabled:opacity-75'
 				>
 					{productLoading ? "Updating..." : "Update Product"}
 				</button>
