@@ -210,7 +210,22 @@ const cartItemsSlice = createSlice({
 			})
 			.addCase(addToCart.fulfilled, (state, action) => {
 				state.loading = false;
-				state.cartItems.push(action.payload.cartItem);
+				const existingItem = state.cartItems.find(
+					(item) => item.productId === action.payload.cartItem.productId
+				);
+
+				if (existingItem) {
+					existingItem.quantity += action.payload.cartItem.quantity;
+				} else {
+					state.cartItems.push(action.payload.cartItem);
+				}
+
+				const product = state.products.find(
+					(product) => product._id === action.payload.cartItem.productId
+				);
+				if (product) {
+					product.quantity -= action.payload.cartItem.quantity;
+				}
 				state.message = action.payload.message;
 			})
 			.addCase(addToCart.rejected, (state, action) => {
@@ -296,7 +311,18 @@ const cartItemsSlice = createSlice({
 					(item) => item._id === action.payload.item._id
 				);
 				if (index !== -1) {
+					const previousQuantity = state.cartItems[index].quantity;
+					const newQuantity = action.payload.item.quantity;
+
 					state.cartItems[index] = action.payload.item;
+
+					const product = state.products.find(
+						(product) => product._id === action.payload.item.productId
+					);
+					if (product) {
+						const quantityChange = newQuantity - previousQuantity;
+						product.quantity -= quantityChange;
+					}
 				}
 				state.message = action.payload.message;
 			})
@@ -339,6 +365,14 @@ const cartItemsSlice = createSlice({
 			})
 			.addCase(clearCart.fulfilled, (state, action) => {
 				state.loading = false;
+				state.cartItems.forEach((cartItem) => {
+					const product = state.products.find(
+						(product) => product._id === cartItem.productId
+					);
+					if (product) {
+						product.quantity += cartItem.quantity;
+					}
+				});
 				state.cartItems = [];
 				state.message = action.payload.message;
 			})
