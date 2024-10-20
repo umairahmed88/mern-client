@@ -244,6 +244,12 @@ const cartItemsSlice = createSlice({
 				if (index !== -1) {
 					state.cartItems[index] = action.payload.item;
 				}
+				const product = state.products.find(
+					(product) => product._id === action.payload.item.productId
+				);
+				if (product) {
+					product.quantity = action.payload.updatedProductQuantity;
+				}
 				state.message = action.payload.message;
 			})
 			.addCase(increaseItem.rejected, (state, action) => {
@@ -261,7 +267,17 @@ const cartItemsSlice = createSlice({
 					(item) => item._id === action.payload.item._id
 				);
 				if (index !== -1) {
-					state.cartItems[index] = action.payload.item;
+					if (action.payload.item.quantity === 0) {
+						state.cartItems.splice(index, 1);
+					} else {
+						state.cartItems[index] = action.payload.item;
+					}
+				}
+				const product = state.products.find(
+					(product) => product._id === action.payload.item.productId
+				);
+				if (product) {
+					product.quantity = action.payload.updatedProductQuantity;
 				}
 				state.message = action.payload.message;
 			})
