@@ -298,6 +298,18 @@ const cartItemsSlice = createSlice({
 				state.cartItems = state.cartItems.filter(
 					(item) => item._id !== action.meta.arg
 				);
+				const deletedItem = action.meta.arg;
+				const productId = state.cartItems.find(
+					(item) => item._id === deletedItem
+				)?.productId;
+				if (productId) {
+					const product = state.products.find(
+						(product) => product._id === productId
+					);
+					if (product) {
+						product.quantity += action.meta.quantity;
+					}
+				}
 				state.message = action.payload.message;
 			})
 			.addCase(deleteItem.rejected, (state, action) => {
