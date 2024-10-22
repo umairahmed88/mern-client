@@ -244,12 +244,6 @@ const cartItemsSlice = createSlice({
 				if (index !== -1) {
 					state.cartItems[index] = action.payload.item;
 				}
-				const product = state.products.find(
-					(product) => product._id === action.payload.item.productId
-				);
-				if (product) {
-					product.quantity = action.payload.updatedProductQuantity;
-				}
 				state.message = action.payload.message;
 			})
 			.addCase(increaseItem.rejected, (state, action) => {
@@ -267,17 +261,7 @@ const cartItemsSlice = createSlice({
 					(item) => item._id === action.payload.item._id
 				);
 				if (index !== -1) {
-					if (action.payload.item.quantity === 0) {
-						state.cartItems.splice(index, 1);
-					} else {
-						state.cartItems[index] = action.payload.item;
-					}
-				}
-				const product = state.products.find(
-					(product) => product._id === action.payload.item.productId
-				);
-				if (product) {
-					product.quantity = action.payload.updatedProductQuantity;
+					state.cartItems[index] = action.payload.item;
 				}
 				state.message = action.payload.message;
 			})
@@ -296,18 +280,7 @@ const cartItemsSlice = createSlice({
 					(item) => item._id === action.payload.item._id
 				);
 				if (index !== -1) {
-					const previousQuantity = state.cartItems[index].quantity;
-					const newQuantity = action.payload.item.quantity;
-
 					state.cartItems[index] = action.payload.item;
-
-					const product = state.products.find(
-						(product) => product._id === action.payload.item.productId
-					);
-					if (product) {
-						const quantityChange = newQuantity - previousQuantity;
-						product.quantity -= quantityChange;
-					}
 				}
 				state.message = action.payload.message;
 			})
@@ -325,18 +298,6 @@ const cartItemsSlice = createSlice({
 				state.cartItems = state.cartItems.filter(
 					(item) => item._id !== action.meta.arg
 				);
-				const deletedItem = action.meta.arg;
-				const productId = state.cartItems.find(
-					(item) => item._id === deletedItem
-				)?.productId;
-				if (productId) {
-					const product = state.products.find(
-						(product) => product._id === productId
-					);
-					if (product) {
-						product.quantity += action.meta.quantity;
-					}
-				}
 				state.message = action.payload.message;
 			})
 			.addCase(deleteItem.rejected, (state, action) => {
@@ -350,14 +311,6 @@ const cartItemsSlice = createSlice({
 			})
 			.addCase(clearCart.fulfilled, (state, action) => {
 				state.loading = false;
-				state.cartItems.forEach((cartItem) => {
-					const product = state.products.find(
-						(product) => product._id === cartItem.productId
-					);
-					if (product) {
-						product.quantity += cartItem.quantity;
-					}
-				});
 				state.cartItems = [];
 				state.message = action.payload.message;
 			})
