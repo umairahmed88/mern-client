@@ -210,22 +210,7 @@ const cartItemsSlice = createSlice({
 			})
 			.addCase(addToCart.fulfilled, (state, action) => {
 				state.loading = false;
-				const existingItem = state.cartItems.find(
-					(item) => item.productId === action.payload.cartItem.productId
-				);
-
-				if (existingItem) {
-					existingItem.quantity += action.payload.cartItem.quantity;
-				} else {
-					state.cartItems.push(action.payload.cartItem);
-				}
-
-				const product = state.products.find(
-					(product) => product._id === action.payload.cartItem.productId
-				);
-				if (product) {
-					product.quantity -= action.payload.cartItem.quantity;
-				}
+				state.cartItems.push(action.payload.cartItem);
 				state.message = action.payload.message;
 			})
 			.addCase(addToCart.rejected, (state, action) => {
