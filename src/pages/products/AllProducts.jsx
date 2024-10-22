@@ -25,7 +25,6 @@ const AllProducts = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isProductModalOpen, setIsProductModalOpen] = useState(false);
 	const [selectedProductId, setSelectedProductId] = useState(null);
-	console.log("Products are: ", products);
 
 	useClearState(dispatch, [
 		{
