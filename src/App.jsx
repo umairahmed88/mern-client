@@ -94,8 +94,7 @@ import CreateProduct from "./pages/products/CreateProduct";
 import ResetPassword from "./pages/auth/ResetPassword";
 import CartItems from "./pages/cartItems/CartItems";
 import GlobalLoadingBar from "./utils/GlobalLoadingBar";
-import { useState } from "react";
-import { useClearState } from "./utils/useClearState";
+import CheckoutForm from "./pages/checkout/CheckoutForm";
 
 const routes = [
 	{ path: "/", element: <Home /> },
@@ -104,6 +103,8 @@ const routes = [
 	{ path: "/verify-email", element: <VerifyEmail /> },
 	{ path: "/reset-password", element: <ResetPassword /> },
 	{ path: "/cart-items", element: <CartItems /> },
+	{ path: "/checkout-form", element: <CheckoutForm /> },
+	// { path: "/", element: <Home /> },
 ];
 
 const AppContent = () => {
