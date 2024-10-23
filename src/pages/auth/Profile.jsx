@@ -9,12 +9,9 @@ import {
 import { app } from "../../firebase";
 import { toast } from "react-toastify";
 import {
-	clearError as clearAuthError,
-	clearMessage as clearAuthMessage,
 	signout,
 	updateUser,
 } from "../../redux/auth/authSlices";
-import { useClearState } from "../../utils/useClearState";
 import { useNavigate } from "react-router-dom";
 import ConfirmationModal from "../../components/Modal";
 
@@ -36,15 +33,6 @@ const Profile = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [showUpdateForm, setShowUpdateForm] = useState(false);
 
-	useClearState(dispatch, [
-		{
-			name: "auth",
-			error: authError,
-			message: authMessage,
-			clearError: clearAuthError,
-			clearMessage: clearAuthMessage,
-		},
-	]);
 
 	const { avatar, username, email, id } = currentUser?.sanitizedUser || {};
 

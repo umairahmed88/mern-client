@@ -2,11 +2,8 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import {
-	clearError as clearAuthError,
-	clearMessage as clearAuthMessage,
 	signup,
 } from "../../redux/auth/authSlices";
-import { useClearState } from "../../utils/useClearState";
 import { Link } from "react-router-dom";
 import {
 	getDownloadURL,
@@ -34,15 +31,6 @@ const Signup = () => {
 	const [filePerc, setFilePerc] = useState(0);
 	const [visible, setVisible] = useState(false);
 
-	useClearState(dispatch, [
-		{
-			name: "auth",
-			error: authError,
-			message: authMessage,
-			clearError: clearAuthError,
-			clearMessage: clearAuthMessage,
-		},
-	]);
 
 	useEffect(() => {
 		if (file) {

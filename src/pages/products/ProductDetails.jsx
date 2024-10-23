@@ -2,18 +2,13 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import {
-	clearError as clearProductError,
-	clearMessage as clearProductMessage,
 	fetchProduct,
 } from "../../redux/products/productSlices";
-import { useClearState } from "../../utils/useClearState";
 
 const ProductDetails = () => {
 	const {
 		product,
 		loading: productLoading,
-		error: productError,
-		message: productMessage,
 	} = useSelector((state) => state.product);
 
 	const { id } = useParams();
@@ -25,15 +20,6 @@ const ProductDetails = () => {
 		}
 	}, [dispatch, id]);
 
-	useClearState(dispatch, [
-		{
-			name: "product",
-			error: productError,
-			message: productMessage,
-			clearError: clearProductError,
-			clearMessage: clearProductMessage,
-		},
-	]);
 
 	if (!productLoading)
 		return (

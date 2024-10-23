@@ -9,7 +9,6 @@ import {
 	increaseItem,
 	decreaseItem,
 } from "../../redux/cartItems/cartItemsSlices";
-import { useClearState } from "../../utils/useClearState";
 import { Link } from "react-router-dom";
 import UpdateItemQuantity from "../../utils/cartItems/updateItemQuantity";
 
@@ -27,15 +26,6 @@ const CartItems = () => {
 		dispatch(fetchAllItems()).unwrap();
 	}, [dispatch]);
 
-	useClearState(dispatch, [
-		{
-			name: "product",
-			error: cartError,
-			message: cartMessage,
-			clearError: clearCartError,
-			clearMessage: clearCartMessage,
-		},
-	]);
 
 	const handleIncreaseItem = (id) => {
 		dispatch(increaseItem(id)).unwrap();

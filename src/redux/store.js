@@ -4,11 +4,13 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import authReducer from "./auth/authSlices";
 import productsReducer from "./products/productSlices";
 import cartItemsReducer from "./cartItems/cartItemsSlices";
+import ordersReducer from "./orders/ordersSlices";
 
 const rootReducer = combineReducers({
 	auth: authReducer,
 	product: productsReducer,
 	cartItem: cartItemsReducer,
+	order: ordersReducer,
 });
 
 const persistConfig = {

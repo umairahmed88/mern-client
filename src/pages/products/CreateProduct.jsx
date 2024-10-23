@@ -2,8 +2,6 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
 	createProduct,
-	clearError as clearProductError,
-	clearMessage as clearProductMessage,
 } from "../../redux/products/productSlices";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -13,7 +11,6 @@ import {
 	uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../../firebase";
-import { useClearState } from "../../utils/useClearState";
 
 const CreateProduct = () => {
 	const {
@@ -33,15 +30,6 @@ const CreateProduct = () => {
 	const [uploading, setUploading] = useState(false);
 	const [imageUploadError, setImageUploadError] = useState(false);
 
-	useClearState(dispatch, [
-		{
-			name: "product",
-			error: productError,
-			message: productMessage,
-			clearError: clearProductError,
-			clearMessage: clearProductMessage,
-		},
-	]);
 
 	const handleImageSubmit = (e) => {
 		if (files.length > 0 && files.length + formData.imageUrls.length < 7) {

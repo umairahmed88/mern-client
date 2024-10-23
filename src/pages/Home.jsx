@@ -1,16 +1,11 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useClearState } from "../utils/useClearState";
 
 import {
-	clearError as clearProductError,
-	clearMessage as clearProductMessage,
 	fetchAllProducts,
 } from "../redux/products/productSlices";
 import {
-	clearError as clearCartError,
-	clearMessage as clearCartMessage,
 	addToCart,
 } from "../redux/cartItems/cartItemsSlices";
 
@@ -18,34 +13,13 @@ const Home = () => {
 	const {
 		products = [],
 		loading: productLoading,
-		error: productError,
-		message: productMessage,
 	} = useSelector((state) => state.product);
 
 	const {
-		error: cartError,
-		message: cartMessage,
 		loading: cartLoading,
 	} = useSelector((state) => state.cartItem);
 
 	const dispatch = useDispatch();
-
-	useClearState(dispatch, [
-		{
-			name: "product",
-			error: productError,
-			message: productMessage,
-			clearError: clearProductError,
-			clearMessage: clearProductMessage,
-		},
-		{
-			name: "cartItem",
-			error: cartError,
-			message: cartMessage,
-			clearError: clearCartError,
-			clearMessage: clearCartMessage,
-		},
-	]);
 
 	useEffect(() => {
 		if (!products.length) {

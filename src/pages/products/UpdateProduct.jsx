@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
-	clearError as clearProductError,
-	clearMessage as clearProductMessage,
 	fetchProduct,
 	updateProduct,
 } from "../../redux/products/productSlices";
@@ -15,14 +13,11 @@ import {
 	uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../../firebase";
-import { useClearState } from "../../utils/useClearState";
 
 const UpdateProduct = () => {
 	const {
 		product = {},
 		loading: productLoading,
-		error: productError,
-		message: productMessage,
 	} = useSelector((state) => state.product);
 
 	const { id } = useParams();
@@ -33,15 +28,6 @@ const UpdateProduct = () => {
 	const [uploading, setUploading] = useState(false);
 	const [imageUploadError, setImageUploadError] = useState(false);
 
-	useClearState(dispatch, [
-		{
-			name: "product",
-			error: productError,
-			message: productMessage,
-			clearError: clearProductError,
-			clearMessage: clearProductMessage,
-		},
-	]);
 
 	useEffect(() => {
 		if (id) {

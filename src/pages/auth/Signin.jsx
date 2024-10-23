@@ -1,12 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useClearState } from "../../utils/useClearState";
 import { useDispatch, useSelector } from "react-redux";
-import {
-	clearError as clearAuthError,
-	clearMessage as clearAuthMessage,
-	signin,
-} from "../../redux/auth/authSlices";
+import { signin } from "../../redux/auth/authSlices";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import GoogleAuth from "../../components/GoogleAuth";
 import ForgotPassword from "../../components/ForgotPassword";
@@ -23,16 +18,6 @@ const Signin = () => {
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-
-	useClearState(dispatch, [
-		{
-			name: "auth",
-			error: authError,
-			message: authMessage,
-			clearError: clearAuthError,
-			clearMessage: clearAuthMessage,
-		},
-	]);
 
 	const handleChange = (e) => {
 		setFormData({

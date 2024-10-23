@@ -6,19 +6,14 @@ import {
 	deleteProduct,
 	fetchAllProducts,
 	increaseProduct,
-	clearError as clearProductError,
-	clearMessage as clearProductMessage,
 } from "../../redux/products/productSlices";
 import { Link } from "react-router-dom";
 import ConfirmationModal from "../../components/Modal";
-import { useClearState } from "../../utils/useClearState";
 
 const AllProducts = () => {
 	const {
 		products = [],
 		loading: productLoading,
-		error: productError,
-		message: productMessage,
 	} = useSelector((state) => state.product);
 
 	const dispatch = useDispatch();
@@ -26,15 +21,6 @@ const AllProducts = () => {
 	const [isProductModalOpen, setIsProductModalOpen] = useState(false);
 	const [selectedProductId, setSelectedProductId] = useState(null);
 
-	useClearState(dispatch, [
-		{
-			name: "product",
-			error: productError,
-			message: productMessage,
-			clearError: clearProductError,
-			clearMessage: clearProductMessage,
-		},
-	]);
 
 	useEffect(() => {
 		if (!products.length) {

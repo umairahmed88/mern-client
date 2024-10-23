@@ -1,13 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
-	clearError as clearAuthError,
-	clearMessage as clearAuthMessage,
 	resetPassword,
 } from "../../redux/auth/authSlices";
-import { useClearState } from "../../utils/useClearState";
 
 const ResetPassword = () => {
 	const { message: authMessage, error: authError } = useSelector(
@@ -23,15 +20,6 @@ const ResetPassword = () => {
 	const query = new URLSearchParams(useLocation().search);
 	const token = query.get("token");
 
-	useClearState(dispatch, [
-		{
-			name: "auth",
-			error: authError,
-			message: authMessage,
-			clearError: clearAuthError,
-			clearMessage: clearAuthMessage,
-		},
-	]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
