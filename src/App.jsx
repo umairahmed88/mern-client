@@ -19,6 +19,7 @@ import { ToastContainer } from "react-toastify";
 import { useClearState } from "./utils/useClearState";
 import "react-toastify/dist/ReactToastify.css";
 import Orders from "./pages/orders/Orders";
+import OrderDetails from "./pages/orders/OrderDetails";
 
 const AppContent = () => {
 	useClearState();
@@ -37,6 +38,7 @@ const AppContent = () => {
 				<Route path='/checkout-form' element={<CheckoutForm />} />
 				<Route path='/checkout-success' element={<CheckoutSuccess />} />
 				<Route path='/orders' element={<Orders />} />
+				<Route path='/order-details/:id' element={<OrderDetails />} />
 				<Route element={<PrivateRoute />}>
 					<Route path='/profile' element={<Profile />} />
 					<Route path='/products' element={<AllProducts />} />
