@@ -74,3 +74,11 @@ const ordersSlice = createSlice({
 export const { clearMessage, clearError } = ordersSlice.actions;
 
 export default persistReducer({ key: "order", storage }, ordersSlice.reducer);
+
+/*
+You did not provide an API key. 
+You need to provide your API key in the Authorization header, 
+using Bearer auth (e.g. 'Authorization: Bearer YOUR_SECRET_KEY'). 
+See https://stripe.com/docs/api#authentication for details, 
+or we can help at https://support.stripe.com/.
+*/

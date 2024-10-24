@@ -13,8 +13,9 @@ import UpdateProduct from "./pages/products/UpdateProduct";
 import ResetPassword from "./pages/auth/ResetPassword";
 import CartItems from "./pages/cartItems/CartItems";
 import CheckoutForm from "./pages/checkout/CheckoutForm";
-import { ToastContainer } from "react-toastify";
+import CheckoutSuccess from "./pages/checkout/CheckoutSuccess";
 import GlobalLoadingBar from "./utils/GlobalLoadingBar";
+import { ToastContainer } from "react-toastify";
 import { useClearState } from "./utils/useClearState";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -33,6 +34,7 @@ const AppContent = () => {
 				<Route path='/reset-password' element={<ResetPassword />} />
 				<Route path='/cart-items' element={<CartItems />} />
 				<Route path='/checkout-form' element={<CheckoutForm />} />
+				<Route path='/checkout-success' element={<CheckoutSuccess />} />
 				<Route element={<PrivateRoute />}>
 					<Route path='/profile' element={<Profile />} />
 					<Route path='/products' element={<AllProducts />} />
