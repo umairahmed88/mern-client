@@ -2,8 +2,6 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
 	fetchAllItems,
-	clearError as clearCartError,
-	clearMessage as clearCartMessage,
 	deleteItem,
 	clearCart,
 	increaseItem,
@@ -18,14 +16,12 @@ const CartItems = () => {
 	const {
 		cartItems,
 		error: cartError,
-		message: cartMessage,
 		loading,
 	} = useSelector((state) => state.cartItem);
 
 	useEffect(() => {
 		dispatch(fetchAllItems()).unwrap();
 	}, [dispatch]);
-
 
 	const handleIncreaseItem = (id) => {
 		dispatch(increaseItem(id)).unwrap();

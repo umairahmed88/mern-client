@@ -5,14 +5,15 @@ const links = [
 	{ name: "Home", to: "/" },
 	{ name: "Products", to: "/products" },
 	{ name: "Cart", to: "/cart-items" },
+	{ name: "Create-Order", to: "/checkout-form" },
 ];
 
 const Header = () => {
 	const { currentUser } = useSelector((state) => state.auth);
 
 	return (
-		<header className=' bg-indigo-600 items-center py-2 px-3 text-white shadow-md '>
-			<div className=' mx-auto flex justify-between items-center'>
+		<header className='bg-indigo-600 items-center py-2 px-3 text-white shadow-md '>
+			<div className='mx-auto flex justify-between items-center'>
 				<Link
 					to='/'
 					className='text-xl font-bold tracking-wid hover:opacity-90'
