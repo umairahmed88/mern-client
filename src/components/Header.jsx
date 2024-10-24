@@ -6,6 +6,7 @@ const links = [
 	{ name: "Products", to: "/products" },
 	{ name: "Cart", to: "/cart-items" },
 	{ name: "Create-Order", to: "/checkout-form" },
+	{ name: "Orders", to: "/orders" },
 ];
 
 const Header = () => {

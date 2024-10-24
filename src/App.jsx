@@ -18,6 +18,7 @@ import GlobalLoadingBar from "./utils/GlobalLoadingBar";
 import { ToastContainer } from "react-toastify";
 import { useClearState } from "./utils/useClearState";
 import "react-toastify/dist/ReactToastify.css";
+import Orders from "./pages/orders/Orders";
 
 const AppContent = () => {
 	useClearState();
@@ -35,6 +36,7 @@ const AppContent = () => {
 				<Route path='/cart-items' element={<CartItems />} />
 				<Route path='/checkout-form' element={<CheckoutForm />} />
 				<Route path='/checkout-success' element={<CheckoutSuccess />} />
+				<Route path='/orders' element={<Orders />} />
 				<Route element={<PrivateRoute />}>
 					<Route path='/profile' element={<Profile />} />
 					<Route path='/products' element={<AllProducts />} />
