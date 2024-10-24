@@ -73,6 +73,31 @@ export const createOrder = createAsyncThunk(
 	}
 );
 
+export const updateOrder = createAsyncThunk(
+	"order/updateOrder",
+	async ({ id, updateData }, { getState, rejectWithValue }) => {
+		try {
+			const token = getAuthToken(getState, rejectWithValue);
+
+			if (!token) return rejectWithValue({ message: "Please login." });
+
+			const response = await axios.put(
+				`${API_URL}/update-order/${id}`,
+				updateData,
+				{
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+			return response.data;
+		} catch (err) {
+			return rejectWithValue(err.response ? err.response.data : err.message);
+		}
+	}
+);
+
 export const deleteOrder = createAsyncThunk(
 	"order/deleteOrder",
 	async (id, { getState, rejectWithValue }) => {
@@ -183,6 +208,25 @@ const ordersSlice = createSlice({
 			.addCase(createOrder.rejected, (state, action) => {
 				state.loading = false;
 				state.error = action.payload.message || action.payload;
+			})
+			.addCase(updateOrder.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+				state.message = null;
+			})
+			.addCase(updateOrder.fulfilled, (state, action) => {
+				state.loading = false;
+				const index = state.orders.findIndex(
+					(order) => order._id === updateOrder._id
+				);
+				if (index !== -1) {
+					state.orders[index] = updateOrder;
+				}
+				state.message = action.payload.message;
+			})
+			.addCase(updateOrder.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload.message;
 			})
 			.addCase(deleteOrder.pending, (state) => {
 				state.loading = true;
