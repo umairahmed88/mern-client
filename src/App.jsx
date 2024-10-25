@@ -14,12 +14,13 @@ import ResetPassword from "./pages/auth/ResetPassword";
 import CartItems from "./pages/cartItems/CartItems";
 import CheckoutForm from "./pages/checkout/CheckoutForm";
 import CheckoutSuccess from "./pages/checkout/CheckoutSuccess";
+import Orders from "./pages/orders/Orders";
+import OrderDetails from "./pages/orders/OrderDetails";
+import UpdateOrder from "./pages/orders/UpdateOrder";
 import GlobalLoadingBar from "./utils/GlobalLoadingBar";
 import { ToastContainer } from "react-toastify";
 import { useClearState } from "./utils/useClearState";
 import "react-toastify/dist/ReactToastify.css";
-import Orders from "./pages/orders/Orders";
-import OrderDetails from "./pages/orders/OrderDetails";
 
 const AppContent = () => {
 	useClearState();
@@ -39,6 +40,7 @@ const AppContent = () => {
 				<Route path='/checkout-success' element={<CheckoutSuccess />} />
 				<Route path='/orders' element={<Orders />} />
 				<Route path='/order-details/:id' element={<OrderDetails />} />
+				<Route path='/update-order/:id' element={<UpdateOrder />} />
 				<Route element={<PrivateRoute />}>
 					<Route path='/profile' element={<Profile />} />
 					<Route path='/products' element={<AllProducts />} />

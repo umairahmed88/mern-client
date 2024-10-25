@@ -18,7 +18,9 @@ const OrderDetails = () => {
 
 	return (
 		<div className='container mx-auto py-10'>
-			<h1 className='text-2xl font-bold mb-6 text-center'>Orders Details</h1>
+			<h1 className='text-2xl font-bold mb-6 text-center'>
+				{order?._id} Details
+			</h1>
 			{order && (
 				<div className='bg-white shadow-md rounded-lg p-6'>
 					<h2 className='text-xl font-semibold mb-2'>Order ID: {order._id}</h2>
