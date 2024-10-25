@@ -11,21 +11,22 @@ import { Link } from "react-router-dom";
 import ConfirmationModal from "../../components/Modal";
 
 const AllProducts = () => {
-	const {
-		products = [],
-		loading: productLoading,
-	} = useSelector((state) => state.product);
+	const { products = [], loading: productLoading } = useSelector(
+		(state) => state.product
+	);
 
 	const dispatch = useDispatch();
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isProductModalOpen, setIsProductModalOpen] = useState(false);
 	const [selectedProductId, setSelectedProductId] = useState(null);
 
-
 	useEffect(() => {
-		if (!products.length) {
-			dispatch(fetchAllProducts()).unwrap();
-		}
+		const fetchOrderData = async () => {
+			try {
+				await dispatch(fetchAllProducts()).unwrap();
+			} catch (error) {}
+		};
+		fetchOrderData();
 	}, [dispatch, products.length]);
 
 	const handleDelete = (id) => {

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { fetchOneOrder, updateOrder } from "../../redux/orders/ordersSlices";
 
 const UpdateOrder = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const { order, loading: orderLoading } = useSelector((state) => state.order);
 
 	const { id } = useParams();
@@ -13,7 +14,12 @@ const UpdateOrder = () => {
 	const [deliveryStatus, setDeliveryStatus] = useState("");
 
 	useEffect(() => {
-		dispatch(fetchOneOrder(id)).unwrap();
+		const fetchOrderData = async () => {
+			try {
+				await dispatch(fetchOneOrder(id)).unwrap();
+			} catch (error) {}
+		};
+		fetchOrderData();
 	}, [dispatch, id]);
 
 	useEffect(() => {
@@ -24,14 +30,16 @@ const UpdateOrder = () => {
 		}
 	}, [order]);
 
-	const handleUpdate = () => {
-		dispatch(
-			updateOrder({
-				id,
-				updateData: { orderStatus, paymentStatus, deliveryStatus },
-			})
-		);
-		Navigate("/orders");
+	const handleUpdate = async () => {
+		try {
+			await dispatch(
+				updateOrder({
+					id,
+					updateData: { orderStatus, paymentStatus, deliveryStatus },
+				})
+			).unwrap();
+			navigate("/orders");
+		} catch (error) {}
 	};
 
 	if (orderLoading)
@@ -40,11 +48,10 @@ const UpdateOrder = () => {
 	return (
 		<div className='container mx-auto py-10'>
 			<h1 className='text-2xl font-bold mb-6 text-center'>
-				Update {order?._id} Details
+				Update `{order?._id}` Details
 			</h1>
 			{order && (
 				<div>
-					<h1 className='text-2xl font-bold mb-4 text-center'>Update Order</h1>
 					<div className='mb-4'>
 						<label className='block text-gray-700'>Order Status:</label>
 						<div className='flex space-x-4'>

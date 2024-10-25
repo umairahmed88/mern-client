@@ -10,7 +10,12 @@ const OrderDetails = () => {
 	const { id } = useParams();
 
 	useEffect(() => {
-		dispatch(fetchOneOrder(id)).unwrap();
+		const fetchOrderData = async () => {
+			try {
+				await dispatch(fetchOneOrder(id)).unwrap();
+			} catch (error) {}
+		};
+		fetchOrderData();
 	}, [dispatch, id]);
 
 	if (orderLoading)
@@ -19,7 +24,7 @@ const OrderDetails = () => {
 	return (
 		<div className='container mx-auto py-10'>
 			<h1 className='text-2xl font-bold mb-6 text-center'>
-				{order?._id} Details
+				`{order?._id}` Details
 			</h1>
 			{order && (
 				<div className='bg-white shadow-md rounded-lg p-6'>
