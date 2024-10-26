@@ -30,7 +30,7 @@ const Orders = () => {
 		dispatch(deleteAllOrders()).unwrap();
 	};
 
-	const confirmClearCart = () => {
+	const confirmDeleteAllOrders = () => {
 		handleDeleteAllOrders();
 		closeModal();
 	};
@@ -80,7 +80,7 @@ const Orders = () => {
 				message='Are you sure you want to delete all orders? This action cannot be undone.'
 				isOpen={isModalOpen}
 				onClose={closeModal}
-				onConfirm={confirmClearCart}
+				onConfirm={confirmDeleteAllOrders}
 			/>
 		</div>
 	);

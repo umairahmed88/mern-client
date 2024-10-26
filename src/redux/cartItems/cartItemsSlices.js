@@ -21,7 +21,6 @@ export const fetchAllItems = createAsyncThunk(
 					"Content-Type": "application/json",
 				},
 			});
-			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response ? err.response.data : err.message);
@@ -47,7 +46,6 @@ export const addToCart = createAsyncThunk(
 					},
 				}
 			);
-			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response ? err.response.data : err.message);
@@ -73,7 +71,6 @@ export const increaseItem = createAsyncThunk(
 					},
 				}
 			);
-			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response ? err.response.data : err.message);
@@ -99,7 +96,6 @@ export const decreaseItem = createAsyncThunk(
 					},
 				}
 			);
-			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response ? err.response.data : err.message);
@@ -125,7 +121,6 @@ export const updateItemQuantity = createAsyncThunk(
 					},
 				}
 			);
-			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response ? err.response.data : err.message);
@@ -147,7 +142,6 @@ export const deleteItem = createAsyncThunk(
 					Authorization: `Bearer ${token}`,
 				},
 			});
-			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response ? err.response.data : err.message);
@@ -169,7 +163,6 @@ export const clearCart = createAsyncThunk(
 					Authorization: `Bearer ${token}`,
 				},
 			});
-			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response ? err.response.data : err.message);

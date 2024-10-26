@@ -21,7 +21,6 @@ export const fetchAllOrders = createAsyncThunk(
 					Authorization: `Bearer ${token}`,
 				},
 			});
-			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response ? err.response.data : err.message);
@@ -43,7 +42,6 @@ export const fetchOneOrder = createAsyncThunk(
 					Authorization: `Bearer ${token}`,
 				},
 			});
-			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response ? err.response.data : err.message);
@@ -65,7 +63,6 @@ export const createOrder = createAsyncThunk(
 					Authorization: `Bearer ${token}`,
 				},
 			});
-			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response ? err.response.data : err.message);
@@ -112,7 +109,6 @@ export const deleteOrder = createAsyncThunk(
 					Authorization: `Bearer ${token}`,
 				},
 			});
-			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response ? err.response.data : err.message);
@@ -133,7 +129,6 @@ export const deleteAllOrders = createAsyncThunk(
 					Authorization: `Bearer ${token}`,
 				},
 			});
-			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			return rejectWithValue(err.response ? err.response.data : err.message);

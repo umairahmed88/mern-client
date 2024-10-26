@@ -72,18 +72,12 @@ const CheckoutForm = () => {
 		try {
 			const response = await dispatch(createOrder(formData)).unwrap();
 
-			console.log(response.paymentUrl);
-
 			if (formData.paymentMethod === "Stripe" && response.paymentUrl) {
 				window.location.href = response.paymentUrl;
 			} else {
 				navigate(`/order-details/${response._id}`);
 			}
-			console.log(response._id);
-			console.log(response);
-		} catch (err) {
-			console.log("Order placement failed", err);
-		}
+		} catch (err) {}
 	};
 
 	if (orderLoading || cartItemsLoading)
