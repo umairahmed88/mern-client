@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
 	deleteAllOrders,
@@ -6,8 +6,13 @@ import {
 	fetchAllOrders,
 } from "../../redux/orders/ordersSlices";
 import { Link } from "react-router-dom";
+import ConfirmationModal from "../../components/Modal";
 
 const Orders = () => {
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const openModal = () => setIsModalOpen(true);
+	const closeModal = () => setIsModalOpen(false);
+
 	const dispatch = useDispatch();
 	const { orders = [], loading: orderLoading } = useSelector(
 		(state) => state.order
@@ -23,6 +28,11 @@ const Orders = () => {
 
 	const handleDeleteAllOrders = () => {
 		dispatch(deleteAllOrders()).unwrap();
+	};
+
+	const confirmClearCart = () => {
+		handleDeleteAllOrders();
+		closeModal();
 	};
 
 	if (orderLoading)
@@ -58,13 +68,20 @@ const Orders = () => {
 			{orders.length > 0 && (
 				<div className=' flex justify-end mt-6'>
 					<button
-						onClick={handleDeleteAllOrders}
-						className=' bg-red-700 text-white p-1.5 font-bold rounded-lg'
+						onClick={openModal}
+						className='bg-red-700 hover:opacity-90 p-3 rounded-lg text-white'
 					>
 						Delete All Orders
 					</button>
 				</div>
 			)}
+			<ConfirmationModal
+				title='Delete All Orders'
+				message='Are you sure you want to delete all orders? This action cannot be undone.'
+				isOpen={isModalOpen}
+				onClose={closeModal}
+				onConfirm={confirmClearCart}
+			/>
 		</div>
 	);
 };

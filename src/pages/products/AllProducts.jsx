@@ -22,9 +22,7 @@ const AllProducts = () => {
 
 	useEffect(() => {
 		const fetchOrderData = async () => {
-			try {
-				await dispatch(fetchAllProducts()).unwrap();
-			} catch (error) {}
+			await dispatch(fetchAllProducts()).unwrap();
 		};
 		fetchOrderData();
 	}, [dispatch, products.length]);

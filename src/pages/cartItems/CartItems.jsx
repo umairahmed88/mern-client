@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
 	fetchAllItems,
@@ -9,8 +9,13 @@ import {
 } from "../../redux/cartItems/cartItemsSlices";
 import { Link } from "react-router-dom";
 import UpdateItemQuantity from "../../utils/cartItems/updateItemQuantity";
+import ConfirmationModal from "../../components/Modal";
 
 const CartItems = () => {
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const openModal = () => setIsModalOpen(true);
+	const closeModal = () => setIsModalOpen(false);
+
 	const dispatch = useDispatch();
 
 	const {
@@ -37,6 +42,11 @@ const CartItems = () => {
 
 	const clearYourCart = () => {
 		dispatch(clearCart()).unwrap();
+	};
+
+	const confirmClearCart = () => {
+		clearYourCart();
+		closeModal();
 	};
 
 	if (loading)
@@ -101,12 +111,19 @@ const CartItems = () => {
 			</div>
 			<div className='mt-3 text-end'>
 				<button
-					onClick={clearYourCart}
+					onClick={openModal}
 					className='bg-red-700 hover:opacity-90 p-3 rounded-lg text-white'
 				>
 					Clear Cart
 				</button>
 			</div>
+			<ConfirmationModal
+				title='Clear Cart'
+				message='Are you sure you want to clear your cart? This action cannot be undone.'
+				isOpen={isModalOpen}
+				onClose={closeModal}
+				onConfirm={confirmClearCart}
+			/>
 			<div className='mt-3 text-end'>
 				<Link
 					to={"/checkout-form"}
