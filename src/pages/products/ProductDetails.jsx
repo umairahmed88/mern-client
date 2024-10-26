@@ -1,15 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import {
-	fetchProduct,
-} from "../../redux/products/productSlices";
+import { fetchProduct } from "../../redux/products/productSlices";
 
 const ProductDetails = () => {
-	const {
-		product,
-		loading: productLoading,
-	} = useSelector((state) => state.product);
+	const { product, loading: productLoading } = useSelector(
+		(state) => state.product
+	);
 
 	const { id } = useParams();
 	const dispatch = useDispatch();
@@ -20,8 +17,7 @@ const ProductDetails = () => {
 		}
 	}, [dispatch, id]);
 
-
-	if (!productLoading)
+	if (productLoading)
 		return (
 			<div className='flex justify-center items-center h-screen'>
 				Loading...
