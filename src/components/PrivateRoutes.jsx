@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 import { signout } from "../redux/auth/authSlices";
-import jwtDecode from "jwt-decode"; // Import jwtDecode directly, no need to destructure
+import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 
 function PrivateRoute() {
