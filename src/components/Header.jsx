@@ -1,6 +1,5 @@
-// Header.js
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Search from "./Search";
 
 const userLinks = [
@@ -19,56 +18,72 @@ const Header = () => {
 	return (
 		<header className='bg-indigo-600 items-center py-2 px-3 text-white shadow-md'>
 			<div className='mx-auto flex justify-between items-center'>
-				<Link
+				<NavLink
 					to='/'
-					className='text-xl font-bold tracking-wide hover:opacity-90'
+					className='text-xl font-bold tracking-wide hover:bg-indigo-500 p-1 rounded-lg'
 				>
 					UA Store
-				</Link>
+				</NavLink>
 
-				{/* Search Component */}
 				<Search />
 
 				<nav className='flex items-center gap-6'>
-					<Link className='hover:opacity-90 transition duration-300' to={"/"}>
+					<NavLink
+						to='/'
+						className={({ isActive }) =>
+							`transition duration-300 ${
+								isActive ? "underline" : "rounded-lg hover:bg-indigo-500 p-1"
+							}`
+						}
+					>
 						Home
-					</Link>
+					</NavLink>
 					{currentUser ? (
 						<>
 							{currentUser.sanitizedUser.role === "user"
 								? userLinks.map((link) => (
-										<Link
-											className='hover:opacity-90 transition duration-300'
+										<NavLink
 											to={link.to}
 											key={link.to}
+											className={({ isActive }) =>
+												`transition duration-300 ${
+													isActive
+														? "underline"
+														: "rounded-lg hover:bg-indigo-500 p-1"
+												}`
+											}
 										>
 											{link.name}
-										</Link>
+										</NavLink>
 								  ))
 								: adminLinks.map((link) => (
-										<Link
-											className='hover:opacity-90 transition duration-300'
+										<NavLink
 											to={link.to}
 											key={link.to}
+											className={({ isActive }) =>
+												`transition duration-300 ${
+													isActive ? "underline" : "hover:bg-indigo-500 p-1"
+												}`
+											}
 										>
 											{link.name}
-										</Link>
+										</NavLink>
 								  ))}
-							<Link to='/profile' className='flex items-center'>
+							<NavLink to='/profile' className='flex items-center'>
 								<img
 									src={currentUser.sanitizedUser.avatar}
 									alt='Profile'
 									className='h-8 w-8 rounded-full'
 								/>
-							</Link>
+							</NavLink>
 						</>
 					) : (
-						<Link
+						<NavLink
 							to='/signin'
-							className='rounded-lg transition duration-300 hover:opacity-90'
+							className='transition duration-300 rounded-lg hover:bg-indigo-500 p-1'
 						>
 							Sign In
-						</Link>
+						</NavLink>
 					)}
 				</nav>
 			</div>

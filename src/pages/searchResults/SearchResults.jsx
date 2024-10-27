@@ -6,8 +6,6 @@ const SearchResults = () => {
 		(state) => state.product
 	);
 
-	console.log("searchResults: ", searchResults);
-
 	if (searchLoading) <div className=''>Loading...</div>;
 
 	return (
