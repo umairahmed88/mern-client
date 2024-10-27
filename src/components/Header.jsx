@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { HiSearch } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { searchProduct } from "../redux/products/productSlices";
@@ -50,7 +51,7 @@ const Header = () => {
 						type='submit'
 						className='absolute right-1 top-1 p-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-700'
 					>
-						Search
+						<HiSearch />
 					</button>
 				</form>
 
