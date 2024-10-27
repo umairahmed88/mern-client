@@ -20,6 +20,7 @@ import {
 	GlobalLoadingBar,
 	useClearState,
 	ToastContainer,
+	SearchResults,
 } from "./index";
 import "react-toastify/dist/ReactToastify.css";
 import { UserRoute, AdminRoute } from "./components/PrivateRoutes";
@@ -30,6 +31,7 @@ const routes = [
 	{ path: "/signin", element: <Signin /> },
 	{ path: "/verify-email", element: <VerifyEmail /> },
 	{ path: "/reset-password", element: <ResetPassword /> },
+	{ path: "/search-results", element: <SearchResults /> },
 	{ path: "/cart-items", element: <CartItems />, user: true },
 	{ path: "/checkout-form", element: <CheckoutForm />, user: true },
 	{ path: "/checkout-success", element: <CheckoutSuccess />, user: true },

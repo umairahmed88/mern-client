@@ -181,11 +181,29 @@ export const deleteAllProducts = createAsyncThunk(
 	}
 );
 
+export const searchProduct = createAsyncThunk(
+	"product/searchProduct",
+	async (searchParams, { rejectWithValue }) => {
+		try {
+			const response = await axios.get(`${API_URL}search`, {
+				params: searchParams,
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+			return response.data;
+		} catch (err) {
+			return rejectWithValue(err.response ? err.response.data : err.message);
+		}
+	}
+);
+
 const productSlice = createSlice({
 	name: "products",
 	initialState: {
 		product: null,
 		products: [],
+		searchResults: [],
 		loading: false,
 		error: null,
 		message: null,
@@ -309,6 +327,20 @@ const productSlice = createSlice({
 				state.message = action.payload?.message;
 			})
 			.addCase(fetchAllProducts.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload?.message;
+			})
+			.addCase(searchProduct.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+				state.message = null;
+			})
+			.addCase(searchProduct.fulfilled, (state, action) => {
+				state.loading = false;
+				state.searchResults = action.payload.products;
+				state.message = action.payload?.message;
+			})
+			.addCase(searchProduct.rejected, (state, action) => {
 				state.loading = false;
 				state.error = action.payload?.message;
 			})

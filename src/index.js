@@ -16,6 +16,9 @@ export { default as CreateProduct } from "./pages/products/CreateProduct";
 export { default as ProductDetails } from "./pages/products/ProductDetails";
 export { default as UpdateProduct } from "./pages/products/UpdateProduct";
 
+// Search results for products
+export { default as SearchResults } from "./pages/searchResults/SearchResults";
+
 // Cart and Checkout Pages
 export { default as CartItems } from "./pages/cartItems/CartItems";
 export { default as CheckoutForm } from "./pages/checkout/CheckoutForm";
