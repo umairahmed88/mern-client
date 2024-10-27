@@ -21,7 +21,7 @@ const SearchResults = () => {
 							key={product._id}
 							className='border rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300'
 						>
-							<Link to={`/product/${product._id}`}>
+							<Link to={`/product-details/${product._id}`}>
 								<img
 									src={product.imageUrls[0] || "default-image-url.jpg"}
 									alt={product.name}
