@@ -8,19 +8,15 @@ const Search = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [searchTerm, setSearchTerm] = useState("");
-	const { searchResults = [], loading: searchLoading } = useSelector(
-		(state) => state.product
-	);
-
-	console.log("searchResults: ", searchResults);
+	const { loading: searchLoading } = useSelector((state) => state.product);
 
 	const handleInputChange = (e) => {
 		setSearchTerm(e.target.value);
 	};
 
-	const handleSearchSubmit =async  (e) => {
+	const handleSearchSubmit = async (e) => {
 		e.preventDefault();
-await 		dispatch(searchProduct({ searchTerm })).unwrap();
+		await dispatch(searchProduct({ searchTerm })).unwrap();
 		navigate("/search-results");
 	};
 
