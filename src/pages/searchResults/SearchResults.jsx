@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const SearchResults = () => {
-	const { searchResults, loading: searchLoading } = useSelector(
+	const { searchResults = [], loading: searchLoading } = useSelector(
 		(state) => state.products
 	);
 
