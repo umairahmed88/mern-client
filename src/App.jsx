@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import {
 	Header,
-	PrivateRoute,
 	Home,
 	Signup,
 	Signin,
@@ -23,6 +22,7 @@ import {
 	ToastContainer,
 } from "./index";
 import "react-toastify/dist/ReactToastify.css";
+import { UserRoute, AdminRoute } from "./components/PrivateRoutes";
 
 const routes = [
 	{ path: "/", element: <Home /> },
@@ -30,17 +30,17 @@ const routes = [
 	{ path: "/signin", element: <Signin /> },
 	{ path: "/verify-email", element: <VerifyEmail /> },
 	{ path: "/reset-password", element: <ResetPassword /> },
-	{ path: "/cart-items", element: <CartItems />, private: true },
-	{ path: "/checkout-form", element: <CheckoutForm />, private: true },
-	{ path: "/checkout-success", element: <CheckoutSuccess />, private: true },
-	{ path: "/orders", element: <Orders />, private: true },
-	{ path: "/order-details/:id", element: <OrderDetails />, private: true },
-	{ path: "/update-order/:id", element: <UpdateOrder />, private: true },
-	{ path: "/profile", element: <Profile />, private: true },
-	{ path: "/products", element: <AllProducts />, private: true },
-	{ path: "/create-product", element: <CreateProduct />, private: true },
-	{ path: "/product-details/:id", element: <ProductDetails />, private: true },
-	{ path: "/update-product/:id", element: <UpdateProduct />, private: true },
+	{ path: "/cart-items", element: <CartItems />, user: true },
+	{ path: "/checkout-form", element: <CheckoutForm />, user: true },
+	{ path: "/checkout-success", element: <CheckoutSuccess />, user: true },
+	{ path: "/orders", element: <Orders />, admin: true },
+	{ path: "/order-details/:id", element: <OrderDetails />, admin: true },
+	{ path: "/update-order/:id", element: <UpdateOrder />, admin: true },
+	{ path: "/profile", element: <Profile />, user: true },
+	{ path: "/products", element: <AllProducts />, admin: true },
+	{ path: "/create-product", element: <CreateProduct />, admin: true },
+	{ path: "/product-details/:id", element: <ProductDetails /> },
+	{ path: "/update-product/:id", element: <UpdateProduct />, admin: true },
 ];
 
 const AppContent = () => {
@@ -51,9 +51,13 @@ const AppContent = () => {
 			<GlobalLoadingBar />
 			<Header />
 			<Routes>
-				{routes.map(({ path, element, private: isPrivate }) =>
-					isPrivate ? (
-						<Route element={<PrivateRoute />} key={path}>
+				{routes.map(({ path, element, user, admin }) =>
+					admin ? (
+						<Route element={<AdminRoute />} key={path}>
+							<Route path={path} element={element} />
+						</Route>
+					) : user ? (
+						<Route element={<UserRoute />} key={path}>
 							<Route path={path} element={element} />
 						</Route>
 					) : (

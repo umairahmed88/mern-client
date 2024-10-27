@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-	createProduct,
-} from "../../redux/products/productSlices";
+import { createProduct } from "../../redux/products/productSlices";
 import { Link, useNavigate } from "react-router-dom";
 import {
 	getDownloadURL,
@@ -29,7 +27,6 @@ const CreateProduct = () => {
 	const [files, setFiles] = useState([]);
 	const [uploading, setUploading] = useState(false);
 	const [imageUploadError, setImageUploadError] = useState(false);
-
 
 	const handleImageSubmit = (e) => {
 		if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
