@@ -185,7 +185,7 @@ export const searchProduct = createAsyncThunk(
 	"product/searchProduct",
 	async (searchParams, { rejectWithValue }) => {
 		try {
-			const response = await axios.get(`${API_URL}search`, {
+			const response = await axios.get(`${API_URL}/search`, {
 				params: searchParams,
 				headers: {
 					"Content-Type": "application/json",
