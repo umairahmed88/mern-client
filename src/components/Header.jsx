@@ -62,7 +62,9 @@ const Header = () => {
 											key={link.to}
 											className={({ isActive }) =>
 												`transition duration-300 ${
-													isActive ? "underline" : "hover:bg-indigo-500 p-1"
+													isActive
+														? "underline"
+														: "rounded-lg hover:bg-indigo-500 p-1"
 												}`
 											}
 										>
