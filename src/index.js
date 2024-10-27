@@ -1,6 +1,5 @@
 // src/index.js
 export { default as Header } from "./components/Header";
-export { default as PrivateRoute } from "./components/PrivateRoutes";
 export { default as VerifyEmail } from "./components/VerifyEmail";
 export { default as GlobalLoadingBar } from "./utils/GlobalLoadingBar";
 export { useClearState } from "./utils/useClearState";
