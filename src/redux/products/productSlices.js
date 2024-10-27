@@ -337,7 +337,7 @@ const productSlice = createSlice({
 			})
 			.addCase(searchProduct.fulfilled, (state, action) => {
 				state.loading = false;
-				state.searchResults = action.payload?.products;
+				state.searchResults = action.payload?.products || [];
 				state.message = action.payload?.message;
 			})
 			.addCase(searchProduct.rejected, (state, action) => {

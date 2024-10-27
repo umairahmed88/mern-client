@@ -1,4 +1,3 @@
-// Search.js
 import { useState } from "react";
 import { HiSearch } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,17 +8,23 @@ const Search = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [searchTerm, setSearchTerm] = useState("");
-	const { loading: searchLoading } = useSelector((state) => state.product);
+	const { searchResults = [], loading: searchLoading } = useSelector(
+		(state) => state.product
+	);
+
+	console.log("searchResults: ", searchResults);
 
 	const handleInputChange = (e) => {
 		setSearchTerm(e.target.value);
 	};
 
-	const handleSearchSubmit = (e) => {
+	const handleSearchSubmit =async  (e) => {
 		e.preventDefault();
-		dispatch(searchProduct({ searchTerm })).unwrap();
+await 		dispatch(searchProduct({ searchTerm })).unwrap();
 		navigate("/search-results");
 	};
+
+	if (searchLoading) <div className=''>Loading...</div>;
 
 	return (
 		<form onSubmit={handleSearchSubmit} className='relative mx-4'>
@@ -34,7 +39,6 @@ const Search = () => {
 				type='submit'
 				className='absolute right-1 top-1 p-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-700'
 			>
-				{" "}
 				{searchLoading ? (
 					<div className='spinner border-t-transparent border-4 border-white rounded-full w-4 h-4 animate-spin'></div>
 				) : (

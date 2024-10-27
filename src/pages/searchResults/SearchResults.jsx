@@ -2,20 +2,20 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const SearchResults = () => {
-	const { searchResults = [], loading: searchLoading } = useSelector(
-		(state) => state.products
+	const { searchResults, loading: searchLoading } = useSelector(
+		(state) => state.product
 	);
 
-	{
-		searchLoading && <p>Loading...</p>;
-	}
+	console.log("searchResults: ", searchResults);
+
+	if (searchLoading) <div className=''>Loading...</div>;
 
 	return (
 		<div className='container mx-auto px-4 py-8'>
 			<h2 className='text-2xl font-semibold mb-4'>Search Results</h2>
 
 			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-				{searchResults && searchResults.length > 0 ? (
+				{searchResults && searchResults?.length > 0 ? (
 					searchResults.map((product) => (
 						<div
 							key={product._id}
