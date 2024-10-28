@@ -31,8 +31,8 @@ const Header = () => {
 					<NavLink
 						to='/'
 						className={({ isActive }) =>
-							`transition duration-300 ${
-								isActive ? "underline" : "rounded-lg hover:bg-indigo-500 p-1"
+							`transition duration-200 rounded-lg p-1 ${
+								isActive ? "bg-indigo-700" : " hover:bg-indigo-500"
 							}`
 						}
 					>
@@ -46,10 +46,8 @@ const Header = () => {
 											to={link.to}
 											key={link.to}
 											className={({ isActive }) =>
-												`transition duration-300 ${
-													isActive
-														? "underline"
-														: "rounded-lg hover:bg-indigo-500 p-1"
+												`transition duration-200 rounded-lg p-1 ${
+													isActive ? "bg-indigo-700" : "hover:bg-indigo-500"
 												}`
 											}
 										>
@@ -61,10 +59,8 @@ const Header = () => {
 											to={link.to}
 											key={link.to}
 											className={({ isActive }) =>
-												`transition duration-300 ${
-													isActive
-														? "underline"
-														: "rounded-lg hover:bg-indigo-500 p-1"
+												`transition duration-200 rounded-lg p-1 ${
+													isActive ? "bg-indigo-700" : "hover:bg-indigo-500"
 												}`
 											}
 										>
@@ -82,7 +78,7 @@ const Header = () => {
 					) : (
 						<NavLink
 							to='/signin'
-							className='transition duration-300 rounded-lg hover:bg-indigo-500 p-1'
+							className='transition duration-200 rounded-lg hover:bg-indigo-500 p-1'
 						>
 							Sign In
 						</NavLink>
