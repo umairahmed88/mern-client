@@ -23,21 +23,20 @@ const schema = yup.object().shape({
 	email: yup.string().email("Invalid email").required("Email is required"),
 	password: yup
 		.string()
+		.required(passwordRequirementsMessage)
 		.min(8, passwordRequirementsMessage)
 		.matches(/[A-Z]/, passwordRequirementsMessage)
 		.matches(/[a-z]/, passwordRequirementsMessage)
 		.matches(/[0-9]/, passwordRequirementsMessage)
-		.matches(/[!@#$%^&*(),.?":{}|<>]/, passwordRequirementsMessage)
-		.optional(),
+		.matches(/[!@#$%^&*(),.?":{}|<>]/, passwordRequirementsMessage),
+	confirmPassword: yup
+		.string()
+		.oneOf([yup.ref("password"), null], "Passwords must match")
+		.required("Confirm password is required"),
 });
 
 const Profile = () => {
-	const {
-		currentUser,
-		loading,
-		message: authMessage,
-		error: authError,
-	} = useSelector((state) => state.auth);
+	const { currentUser, loading } = useSelector((state) => state.auth);
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -54,7 +53,6 @@ const Profile = () => {
 	const {
 		register,
 		handleSubmit,
-		setValue,
 		formState: { errors },
 	} = useForm({
 		resolver: yupResolver(schema),
@@ -126,6 +124,8 @@ const Profile = () => {
 			).unwrap();
 
 			if (res) {
+				setFormData({});
+
 				if (isEmailUpdated) {
 					await dispatch(signout()).unwrap();
 					navigate("/signin");
@@ -212,6 +212,10 @@ const Profile = () => {
 								onClick={() => fileRef.current.click()}
 							/>
 						</div>
+						{fileUploadError && (
+							<p className='text-red-600'>Image must be less than 2MB.</p>
+						)}
+
 						<input
 							type='text'
 							id='username'
@@ -243,6 +247,15 @@ const Profile = () => {
 							{...register("password")}
 						/>
 						<p className='text-red-600'>{errors.password?.message}</p>
+
+						<input
+							type='password'
+							id='confirmPassword'
+							placeholder='Confirm Password'
+							className='border-2 border-gray-300 rounded-lg p-3 w-full text-gray-700 focus:border-indigo-500 focus:outline-none'
+							{...register("confirmPassword")}
+						/>
+						<p className='text-red-600'>{errors.confirmPassword?.message}</p>
 
 						<div className='flex justify-between'>
 							<button
