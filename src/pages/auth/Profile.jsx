@@ -156,7 +156,7 @@ const Profile = () => {
 		return <div className='text-center text-xl py-10'>Loading...</div>;
 
 	return (
-		<div className='max-w-3xl mx-auto px-4 py-8'>
+		<div className='max-w-2xl mx-auto px-4 py-8'>
 			<h1 className='text-3xl font-bold mb-6 text-center'>Profile</h1>
 
 			{!showUpdateForm ? (
@@ -194,7 +194,7 @@ const Profile = () => {
 						Update Profile
 					</h2>
 					<form
-						className='flex flex-col gap-6'
+						className='flex flex-col gap-3'
 						onSubmit={handleSubmit(onSubmit)}
 					>
 						<div className='flex justify-center'>
@@ -279,7 +279,7 @@ const Profile = () => {
 			<div className='flex justify-end'>
 				<button
 					onClick={toggleModal}
-					className='bg-red-600 text-white py-3 px-6 rounded-lg hover:bg-red-500 transition-all disabled:opacity-80'
+					className='bg-red-700 text-white py-3 px-6 rounded-lg hover:bg-red-500 transition-all disabled:opacity-80'
 				>
 					Signout
 				</button>
