@@ -18,22 +18,20 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 // Define Yup schema for form validation
+const passwordRequirementsMessage =
+	"Password is required and it must contain at least 8 characters, an uppercase letter, a lowercase letter, and a number";
+
 const schema = yup.object().shape({
 	username: yup.string().required("Username is required"),
 	email: yup.string().email("Invalid email").required("Email is required"),
 	password: yup
 		.string()
-		.required(
-			"Password is required and it must contains at least 8 characters, an uppercase letter, a lowercase letter and a number"
-		)
-		.min(8, "Password must be at least 8 characters")
-		.matches(/[A-Z]/, "Password must contain an uppercase letter")
-		.matches(/[a-z]/, "Password must contain a lowercase letter")
-		.matches(/[0-9]/, "Password must contain a number")
-		.matches(
-			/[!@#$%^&*(),.?":{}|<>]/,
-			"Password must contain a special character"
-		),
+		.required(passwordRequirementsMessage)
+		.min(8, passwordRequirementsMessage)
+		.matches(/[A-Z]/, passwordRequirementsMessage)
+		.matches(/[a-z]/, passwordRequirementsMessage)
+		.matches(/[0-9]/, passwordRequirementsMessage)
+		.matches(/[!@#$%^&*(),.?":{}|<>]/, passwordRequirementsMessage),
 	confirmPassword: yup
 		.string()
 		.oneOf([yup.ref("password"), null], "Passwords must match")
