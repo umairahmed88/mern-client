@@ -17,7 +17,6 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-// Define Yup schema for form validation
 const passwordRequirementsMessage =
 	"Password is required and it must contain at least 8 characters, an uppercase letter, a lowercase letter, and a number";
 
@@ -46,7 +45,7 @@ const Signup = () => {
 	} = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
 
-	const [formData, setFormData] = useState({}); // State to manage form data, especially for image URL
+	const [formData, setFormData] = useState({ avatar: "" });
 	const [file, setFile] = useState(null);
 	const [uploading, setUploading] = useState(false);
 	const [fileUploadError, setFileUploadError] = useState(false);
@@ -69,7 +68,13 @@ const Signup = () => {
 	}, [file]);
 
 	const handleUploadFile = (file) => {
+		if (file.size > 2 * 1024 * 1024) {
+			setFileUploadError(true);
+			toast.error("Image must be less than 2MB.");
+			return;
+		}
 		setUploading(true);
+
 		const storage = getStorage(app);
 		const fileName = new Date().getTime() + file.name;
 		const storageRef = ref(storage, fileName);
@@ -89,8 +94,8 @@ const Signup = () => {
 			},
 			async () => {
 				const downloadUrl = await getDownloadURL(uploadTask.snapshot.ref);
-				setFormData((prevData) => ({ ...prevData, avatar: downloadUrl })); // Store image URL in formData
-				setValue("avatar", downloadUrl); // Update React Hook Form with image URL
+				setFormData((prevData) => ({ ...prevData, avatar: downloadUrl }));
+				setValue("avatar", downloadUrl);
 				setUploading(false);
 				toast.success("Image uploaded.");
 			}
@@ -104,7 +109,6 @@ const Signup = () => {
 	};
 
 	const handleChange = (e) => {
-		// Update formData for non-React Hook Form controlled fields
 		const { id, value } = e.target;
 		setFormData((prevData) => ({
 			...prevData,
@@ -113,7 +117,7 @@ const Signup = () => {
 	};
 
 	const onSubmit = async (data) => {
-		const completeData = { ...data, ...formData }; // Merge React Hook Form data with formData state
+		const completeData = { ...data, ...formData };
 		try {
 			const res = await dispatch(signup(completeData)).unwrap();
 			if (res) {
@@ -196,7 +200,7 @@ const Signup = () => {
 					<p className='text-sm text-gray-600'>
 						{fileUploadError ? (
 							<span className='text-red-600'>
-								Error uploading image (must be less than 2MB)
+								Error uploading image. Image must be less than 2MB.
 							</span>
 						) : filePerc > 0 && filePerc < 100 ? (
 							<span>Uploading {filePerc}%</span>
